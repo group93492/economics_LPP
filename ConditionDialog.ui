@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="generalLayout" stretch="0,0,0,0">
      <item>
-      <layout class="QHBoxLayout" name="varLayout">
+      <layout class="QHBoxLayout" name="varLayout" stretch="1,0">
        <item>
         <widget class="QLabel" name="varLabel">
          <property name="text">
@@ -26,12 +26,19 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="varSpinBox"/>
+        <widget class="QSpinBox" name="varSpinBox">
+         <property name="minimum">
+          <number>2</number>
+         </property>
+         <property name="maximum">
+          <number>10</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="exprHorizontalLayout">
+      <layout class="QHBoxLayout" name="exprHorizontalLayout" stretch="1,0">
        <item>
         <widget class="QLabel" name="exprLabel">
          <property name="text">
@@ -40,7 +47,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="exprSpinBox"/>
+        <widget class="QSpinBox" name="exprSpinBox">
+         <property name="minimum">
+          <number>2</number>
+         </property>
+         <property name="maximum">
+          <number>12</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>

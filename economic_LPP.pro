@@ -12,10 +12,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    ConditionDialog.cpp
+    ConditionDialog.cpp \
+    ExpressionsDialog.cpp
 
 HEADERS  += mainwindow.h \
-    ConditionDialog.h
+    ConditionDialog.h \
+    ExpressionsDialog.h
 
 FORMS    += mainwindow.ui \
-    ConditionDialog.ui
+    ConditionDialog.ui \
+    ExpressionsDialog.ui

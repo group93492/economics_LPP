@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "ConditionDialog.h"
+#include "ExpressionsDialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,6 +19,9 @@ public:
     
 private:
     Ui::MainWindow *ui;
+
+private slots:
+    void nextWidget();
 };
 
 #endif // MAINWINDOW_H
