@@ -12,7 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->addWidget(cdialog);
     ui->stackedWidget->addWidget(edialog);
     connect(cdialog, SIGNAL(next()), this, SLOT(nextWidget()));
-    connect(cdialog, SIGNAL(result(int,int)), edialog, SLOT(setCondtion(int,int)));
+    connect(cdialog, SIGNAL(result(int,int)), edialog, SLOT(setCondition(int,int)));
 }
 
 MainWindow::~MainWindow()

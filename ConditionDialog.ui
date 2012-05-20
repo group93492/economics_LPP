@@ -87,7 +87,7 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="nextButton">
          <property name="text">
           <string>Далее</string>
          </property>

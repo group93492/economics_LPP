@@ -25,10 +25,19 @@ private:
     Ui::ExpressionsDialog *ui;
     QComboBox* signComboBox(); // + - * /
     QComboBox* signComboBox2(); // = > < >= <=
-
+    QVBoxLayout *m_exprLayout; //layout for expressions
+    qint8 **m_varArray; //coefficients array
+    QLineEdit **m_wArray; //widgets of coefficients array
+    qint8 *m_constArray; //constants array
+    QLineEdit *m_wConstArray; //widgets of constants array
+    QIntValidator *m_intValidator;
+    qint8 m_row; // m_varArray rows
+    qint8 m_col; // m_varArray columns
 public slots:
-    void setCondtion(int var, int expr);
+    void setCondition(int var, int expr);
 
+private slots:
+    void on_nextButton_clicked();
 };
 
 #endif // EXPRESSIONSDIALOG_H
