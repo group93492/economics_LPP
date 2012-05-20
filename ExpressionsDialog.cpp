@@ -133,4 +133,11 @@ void ExpressionsDialog::on_nextButton_clicked()
         }
         m_constArray[j] = m_wConstArray[j].text().toInt();
     }
+    emit result(m_varArray, m_constArray, m_row, m_col);
+    emit next();
+}
+
+void ExpressionsDialog::on_backButton_clicked()
+{
+    emit back();
 }

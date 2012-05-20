@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->addWidget(edialog);
     connect(cdialog, SIGNAL(next()), this, SLOT(nextWidget()));
     connect(cdialog, SIGNAL(result(int,int)), edialog, SLOT(setCondition(int,int)));
+    connect(edialog, SIGNAL(back()), this, SLOT(previousWidget()));
 }
 
 MainWindow::~MainWindow()
@@ -22,6 +23,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::nextWidget()
 {
-    if(ui->stackedWidget->currentIndex() + 1 <= ui->stackedWidget->count())
-        ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() + 1);
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() + 1);
+}
+
+void MainWindow::previousWidget()
+{
+    ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() - 1);
 }

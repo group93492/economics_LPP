@@ -22,6 +22,7 @@ private:
 
 private slots:
     void nextWidget();
+    void previousWidget();
 };
 
 #endif // MAINWINDOW_H
