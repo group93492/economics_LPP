@@ -23,8 +23,7 @@ public:
     
 private:
     Ui::ExpressionsDialog *ui;
-    QComboBox* signComboBox(); // + - * /
-    QComboBox* signComboBox2(); // = > < >= <=
+    QComboBox* signComboBox(); // = > < >= <=
     QVBoxLayout *m_exprLayout; //layout for expressions
     qint8 **m_varArray; //coefficients array
     QLineEdit **m_wArray; //widgets of coefficients array
@@ -32,6 +31,8 @@ private:
     QLineEdit *m_wConstArray; //widgets of constants array
     QIntValidator *m_intValidator;
     qint8 m_row; // m_varArray rows
+    QVector<QLabel*> m_labels;
+    QVector<QComboBox*> m_signs;
     qint8 m_col; // m_varArray columns
 public slots:
     void setCondition(int var, int expr);

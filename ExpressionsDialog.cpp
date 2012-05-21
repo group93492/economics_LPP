@@ -34,27 +34,15 @@ QComboBox *ExpressionsDialog::signComboBox()
 {
     QComboBox *comboBox = new QComboBox();
     QStringList list;
-    list << "+" << "-" << "*" << "/";
-    comboBox->addItems(list);
-    comboBox->setMaximumWidth(35);
-    return comboBox;
-}
-
-QComboBox *ExpressionsDialog::signComboBox2()
-{
-    QComboBox *comboBox = new QComboBox();
-    QStringList list;
     list << "=" << "<" << "<=" << ">" << ">=";
     comboBox->addItems(list);
     comboBox->setMaximumWidth(35);
+    m_signs.append(comboBox);
     return comboBox;
 }
 
 void ExpressionsDialog::setCondition(int var, int expr)
 {
-    //size
-    m_col = var;
-    m_row = expr;
     //free memory
     if(m_wArray != NULL)
     {
@@ -64,10 +52,28 @@ void ExpressionsDialog::setCondition(int var, int expr)
         }
         delete [] m_wArray;
     }
-    if(m_exprLayout != NULL)
-        delete m_exprLayout;
     if(m_wConstArray != NULL)
         delete [] m_wConstArray;
+    for(quint8 i = 0; i < m_labels.size(); i++)
+    {
+        delete m_labels.value(i);
+    }
+    m_labels.clear();
+    for(quint8 i = 0; i < m_signs.size(); i++)
+    {
+        delete m_signs.value(i);
+    }
+    m_signs.clear();
+    QLayoutItem *item;
+    if(m_exprLayout != NULL)
+    {
+        while((item = m_exprLayout->takeAt(0)) != 0)
+            delete item;
+        delete m_exprLayout;
+    }
+    //size
+    m_col = var;
+    m_row = expr;
     //allocate memory
     m_wConstArray = new QLineEdit[m_row];
     m_wArray = new QLineEdit*[m_row];
@@ -95,12 +101,11 @@ void ExpressionsDialog::setCondition(int var, int expr)
         {
             layout->addWidget(&m_wArray[i][j]);
             label = new QLabel("X" + QString::number(j + 1));
-            label->setMaximumWidth(15);
+            label->setMaximumWidth(22);
             layout->addWidget(label);
-            if(j != var - 1)
-                layout->addWidget(signComboBox());
+            m_labels.append(label);
         }
-        layout->addWidget(signComboBox2());
+        layout->addWidget(signComboBox());
         layout->addWidget(&m_wConstArray[i]);
         m_exprLayout->addLayout(layout);
     }
