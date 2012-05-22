@@ -129,23 +129,55 @@ void ExpressionsDialog::on_nextButton_clicked()
     if(m_constArray != NULL)
         delete [] m_constArray;
     //allocate memory
-    m_varArray = new qint8*[m_row];
+    quint8 extVars = 0;
     for(quint8 i = 0; i < m_row; i++)
+        if(m_signs.value(i)->currentText() != "=")
+            extVars++;
+    m_varArray = new qint8*[m_row + extVars];
+    for(quint8 i = 0; i < m_row; i++)
+    {
         m_varArray[i] = new qint8[m_col];
+    }
     m_constArray = new qint8[m_row];
     //obtaining values from widgets
+    quint8 extVarsCounter = 0;
     for(quint8 j = 0; j < m_row; j++)
     {
         for(quint8 k = 0; k < m_col; k++)
         {
             m_varArray[j][k] = m_wArray[j][k].text().toInt();
-            qDebug() << m_varArray[j][k];
+        }
+        if(m_signs.value(j)->currentText() == ">" || m_signs.value(j)->currentText() == ">=")
+        {
+            for(quint8 i = 0; i < m_row; i++)
+                if(i == j)
+                    m_varArray[i][m_col + extVarsCounter] = -1;
+                else
+                    m_varArray[i][m_col + extVarsCounter] = 0;
+            extVarsCounter++;
+        }
+        if(m_signs.value(j)->currentText() == "<" || m_signs.value(j)->currentText() == "<=")
+        {
+            for(quint8 i = 0; i < m_row; i++)
+            {
+                if(i == j)
+                    m_varArray[i][m_col + extVarsCounter] = 1;
+                else
+                    m_varArray[i][m_col + extVarsCounter] = 0;
+
+            }
+            extVarsCounter++;
         }
         m_constArray[j] = m_wConstArray[j].text().toInt();
-        qDebug() << m_constArray[j];
     }
     emit result(m_varArray, m_constArray, m_row, m_col);
     emit next();
+    for(quint8 i = 0; i < m_row; i++)
+    {
+        qDebug() << "endline";
+        for(quint8 j = 0; j < m_col + extVars; j++)
+            qDebug() << m_varArray[i][j];
+    }
 }
 
 void ExpressionsDialog::on_backButton_clicked()
