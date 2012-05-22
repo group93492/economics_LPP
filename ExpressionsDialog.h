@@ -30,10 +30,12 @@ private:
     qint8 *m_constArray; //constants array
     QLineEdit *m_wConstArray; //widgets of constants array
     QIntValidator *m_intValidator;
-    qint8 m_row; // m_varArray rows
     QVector<QLabel*> m_labels;
     QVector<QComboBox*> m_signs;
     qint8 m_col; // m_varArray columns
+    qint8 m_row; // m_varArray rows
+    qint8 m_colOld; // m_varArray columns, old
+    qint8 m_rowOld; // m_varArray rows, old
 public slots:
     void setCondition(int var, int expr);
 

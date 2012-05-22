@@ -43,10 +43,15 @@ QComboBox *ExpressionsDialog::signComboBox()
 
 void ExpressionsDialog::setCondition(int var, int expr)
 {
+    //size
+    m_colOld = m_col;
+    m_rowOld = m_row;
+    m_col = var;
+    m_row = expr;
     //free memory
     if(m_wArray != NULL)
     {
-        for(quint8 i = 0; i < m_row; i++)
+        for(quint8 i = 0; i < m_rowOld; i++)
         {
             delete [] m_wArray[i];
         }
@@ -71,9 +76,6 @@ void ExpressionsDialog::setCondition(int var, int expr)
             delete item;
         delete m_exprLayout;
     }
-    //size
-    m_col = var;
-    m_row = expr;
     //allocate memory
     m_wConstArray = new QLineEdit[m_row];
     m_wArray = new QLineEdit*[m_row];
@@ -93,6 +95,8 @@ void ExpressionsDialog::setCondition(int var, int expr)
     m_exprLayout = new QVBoxLayout();
     ui->verticalLayout->insertLayout(0, m_exprLayout);
     QHBoxLayout *layout;
+    //create general expression
+
     //show widgets
     for(quint8 i = 0; i < m_row; i++)
     {
@@ -116,7 +120,7 @@ void ExpressionsDialog::on_nextButton_clicked()
     //free memory
     if(m_varArray != NULL)
     {
-        for(quint8 i = 0; i < m_row; i++)
+        for(quint8 i = 0; i < m_rowOld; i++)
         {
             delete [] m_varArray[i];
         }
@@ -135,8 +139,10 @@ void ExpressionsDialog::on_nextButton_clicked()
         for(quint8 k = 0; k < m_col; k++)
         {
             m_varArray[j][k] = m_wArray[j][k].text().toInt();
+            qDebug() << m_varArray[j][k];
         }
         m_constArray[j] = m_wConstArray[j].text().toInt();
+        qDebug() << m_constArray[j];
     }
     emit result(m_varArray, m_constArray, m_row, m_col);
     emit next();
