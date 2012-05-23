@@ -114,7 +114,7 @@ void ExpressionsDialog::setCondition(int var, int expr)
     for(quint8 i = 0; i < m_col; i++)
     {
         lineEdit = new QLineEdit;
-        label = new QLabel("X" + QString::number(i + 1));
+        label = new QLabel("X<span style=\" vertical-align:sub;\">" + QString::number(i + 1)+ "</span>");
         lineEdit->setAlignment(Qt::AlignRight);
         lineEdit->setValidator(m_intValidator);
         label->setMaximumWidth(22);
@@ -130,7 +130,7 @@ void ExpressionsDialog::setCondition(int var, int expr)
         for(quint8 j = 0; j < m_col; j++)
         {
             layout->addWidget(&m_wArray[i][j]);
-            label = new QLabel("X" + QString::number(j + 1));
+            label = new QLabel("X<span style=\" vertical-align:sub;\">" + QString::number(j + 1)+ "</span>");
             label->setMaximumWidth(22);
             layout->addWidget(label);
             m_labels.append(label);
