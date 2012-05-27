@@ -22,7 +22,7 @@ signals:
     void next();
     void result(int var, int expr);
 private slots:
-    void on_nextButton_clicked();
+    void on_yesButton_clicked();
 };
 
 #endif // CONDITIONDIALOG_H
