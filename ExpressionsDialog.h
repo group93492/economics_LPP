@@ -24,20 +24,14 @@ public:
 private:
     Ui::ExpressionsDialog *ui;
     QComboBox* signComboBox(); // = > < >= <=
-    QVBoxLayout *m_exprLayout; //layout for expressions
-    QHBoxLayout *m_genExprLayout; //layout for "Z = ..." expression
+    QVector<QLineEdit*> m_wConstArray; //widgets of constants array
     QVector<QLineEdit*> m_genExprArray; // vector with coefficients for "Z = ..." expression
-    qint8 **m_varArray; //coefficients array
-    QLineEdit **m_wArray; //widgets of coefficients array
-    qint8 *m_constArray; //constants array
-    QLineEdit *m_wConstArray; //widgets of constants array
-    QIntValidator *m_intValidator;
-    QVector<QLabel*> m_labels; //vector with QLabels
+    QVector< QVector<QLineEdit*>* > m_wVarArray; // array with coefficentes for X
     QVector<QComboBox*> m_signs; //vector with QComboBoxes
+    QVector<QHBoxLayout*> m_layouts;
+    QIntValidator *m_intValidator;
     qint8 m_col; // m_varArray columns
     qint8 m_row; // m_varArray rows
-    qint8 m_colOld; // m_varArray columns, old
-    qint8 m_rowOld; // m_varArray rows, old
 public slots:
     void setCondition(int var, int expr);
 

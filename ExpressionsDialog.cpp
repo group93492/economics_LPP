@@ -7,27 +7,11 @@ ExpressionsDialog::ExpressionsDialog(QWidget *parent) :
     ui(new Ui::ExpressionsDialog)
 {
     ui->setupUi(this);
-    m_exprLayout = NULL;
-    m_varArray = NULL;
-    m_wArray = NULL;
-    m_constArray = NULL;
-    m_wConstArray = NULL;
     m_intValidator = new QIntValidator();
-    m_genExprLayout = NULL;
 }
 
 ExpressionsDialog::~ExpressionsDialog()
 {
-    if(m_wArray != NULL)
-    {
-        for(quint8 i = 0; i < m_row; i++)
-        {
-            delete [] m_wArray[i];
-        }
-        delete [] m_wArray;
-    }
-    if(m_wConstArray != NULL)
-        delete [] m_wConstArray;
     delete ui;
 }
 
@@ -45,176 +29,150 @@ QComboBox *ExpressionsDialog::signComboBox()
 void ExpressionsDialog::setCondition(int var, int expr)
 {
     //size
-    m_colOld = m_col;
-    m_rowOld = m_row;
     m_col = var;
     m_row = expr;
+    QLineEdit *lineEdit;
+    QLabel *label;
+
     //free memory
-    if(m_wArray != NULL)
-    {
-        for(quint8 i = 0; i < m_rowOld; i++)
-        {
-            delete [] m_wArray[i];
-        }
-        delete [] m_wArray;
-    }
-    if(m_wConstArray != NULL)
-        delete [] m_wConstArray;
-    for(quint8 i = 0; i < m_labels.size(); i++)
-    {
-        delete m_labels.value(i);
-    }
-    m_labels.clear();
-    for(quint8 i = 0; i < m_signs.size(); i++)
-    {
-        delete m_signs.value(i);
-    }
-    m_signs.clear();
+    //delete all widgets
     QLayoutItem *item;
-    if(m_exprLayout != NULL)
+    while((item = ui->functionLayout->takeAt(0)) != 0)
     {
-        while((item = m_exprLayout->takeAt(0)) != 0)
-            delete item;
-        delete m_exprLayout;
+        delete item->widget();
     }
-    for(quint8 i = 0; i < m_genExprArray.size(); i++)
-        delete m_genExprArray.value(i);
+    for(quint8 i = 0; i < m_layouts.size(); i++)
+    {
+        while((item = m_layouts.value(i)->takeAt(0)) != 0)
+            delete item->widget();
+    }
+    while((item = ui->exprLayout->takeAt(0)) != 0)
+        delete item->layout();
+    //clear vectors
+    m_wConstArray.clear();
     m_genExprArray.clear();
-    if(m_genExprLayout != NULL)
+    m_signs.clear();
+    m_layouts.clear();
+    for(quint8 i = 0; i < m_wVarArray.size(); i++)
     {
-        delete m_genExprLayout;
+        delete m_wVarArray.value(i);
     }
-    //allocate memory for QLineEdits
-    m_wConstArray = new QLineEdit[m_row];
-    m_wArray = new QLineEdit*[m_row];
+    m_wVarArray.clear();
+
+    //allocate memory
+    for(quint8 i = 0; i < m_row; i++)  //layouts
+    {
+        m_layouts.append(new QHBoxLayout());
+    }
+    for(quint8 i = 0; i < m_col; i++) //lineedits for "Z = ..." function
+    {
+        m_genExprArray.append(new QLineEdit);
+    }
     for(quint8 i = 0; i < m_row; i++)
     {
-        m_wArray[i] = new QLineEdit[m_col];
+        m_wVarArray.append(new QVector<QLineEdit*>); //lineedits for coefficents
         for(quint8 j = 0; j < m_col; j++)
         {
-            m_wArray[i][j].setAlignment(Qt::AlignRight);
-            m_wArray[i][j].setValidator(m_intValidator);
+            lineEdit = new QLineEdit();
+            lineEdit->setValidator(m_intValidator);
+            m_wVarArray[i]->append(lineEdit);
         }
-        m_wConstArray[i].setAlignment(Qt::AlignRight);
-        m_wConstArray[i].setValidator(m_intValidator);
+        lineEdit = new QLineEdit();
+        lineEdit->setValidator(m_intValidator);
+        m_wConstArray.append(lineEdit); //and constants
     }
-    //
-    QLabel *label;
-    QLineEdit *lineEdit;
-    m_exprLayout = new QVBoxLayout();
-    m_genExprLayout = new QHBoxLayout;
-    ui->verticalLayout->insertLayout(0, m_exprLayout);
-    ui->verticalLayout->insertLayout(0, m_genExprLayout);
-    QHBoxLayout *layout;
-    //create general expression
-    label = new QLabel("Z = ");
-    label->setMaximumWidth(22);
-    m_labels.append(label);
-    m_genExprLayout->addWidget(label);
+
+    //place widgets on layouts
+    ui->functionLayout->addWidget(new QLabel("Z = "));
     for(quint8 i = 0; i < m_col; i++)
     {
-        lineEdit = new QLineEdit;
         label = new QLabel("X<span style=\" vertical-align:sub;\">" + QString::number(i + 1)+ "</span>");
-        lineEdit->setAlignment(Qt::AlignRight);
-        lineEdit->setValidator(m_intValidator);
         label->setMaximumWidth(22);
-        m_genExprLayout->addWidget(lineEdit);
-        m_genExprLayout->addWidget(label);
-        m_genExprArray.append(lineEdit);
-        m_labels.append(label);
+        ui->functionLayout->addWidget(m_genExprArray[i]);
+        ui->functionLayout->addWidget(label);
     }
-    //create other expressions
     for(quint8 i = 0; i < m_row; i++)
     {
-        layout = new QHBoxLayout();
         for(quint8 j = 0; j < m_col; j++)
         {
-            layout->addWidget(&m_wArray[i][j]);
             label = new QLabel("X<span style=\" vertical-align:sub;\">" + QString::number(j + 1)+ "</span>");
             label->setMaximumWidth(22);
-            layout->addWidget(label);
-            m_labels.append(label);
+            m_layouts.value(i)->addWidget(m_wVarArray.value(i)->value(j));
+            m_layouts.value(i)->addWidget(label);
         }
-        layout->addWidget(signComboBox());
-        layout->addWidget(&m_wConstArray[i]);
-        m_exprLayout->addLayout(layout);
+        m_layouts.value(i)->addWidget(signComboBox());
+        m_layouts.value(i)->addWidget(m_wConstArray[i]);
+    }
+
+    //place layouts on exprLayout
+    for(quint8 i = 0; i < m_row; i++)
+    {
+        ui->exprLayout->addLayout(m_layouts.value(i));
     }
 }
 
 void ExpressionsDialog::on_nextButton_clicked()
 {
-    //free memory
-    if(m_varArray != NULL)
-    {
-        for(quint8 i = 0; i < m_rowOld; i++)
-        {
-            delete [] m_varArray[i];
-        }
-        delete [] m_varArray;
-    }
-    if(m_constArray != NULL)
-        delete [] m_constArray;
     //allocate memory
-    quint8 extVars = 0;
-    for(quint8 i = 0; i < m_row; i++)
+    qint8 extVars = 0;
+    for(quint8 i = 0; i < m_signs.size(); i++)
         if(m_signs.value(i)->currentText() != "=")
             extVars++;
-    m_varArray = new qint8*[m_row + extVars];
+    qint8 **varArray = new qint8*[m_row];
+    for(quint8 i = 0; i < m_row; i++)
+        varArray[i] = new qint8[m_col + extVars];
+    qint8 *genExprArray = new qint8[m_col];
+    qint8 *constArray = new qint8[m_row];
+
+    //obtaining values from widgets
+    qint8 extVarsCounter = 0;
     for(quint8 i = 0; i < m_row; i++)
     {
-        m_varArray[i] = new qint8[m_col];
+        for(quint8 j = 0; j < m_col; j++)
+        {
+            varArray[i][j] = m_wVarArray.value(i)->value(j)->text().toInt();
+        }
+        if(m_signs.value(i)->currentText() == ">" || m_signs.value(i)->currentText() == ">=")
+        {
+            for(quint8 k = 0; k < m_row; k++)
+                if(k != i)
+                    varArray[k][m_col + extVarsCounter] = 0;
+                else
+                    varArray[k][m_col + extVarsCounter] = -1;
+            extVarsCounter++;
+        }
+        if(m_signs.value(i)->currentText() == "<" || m_signs.value(i)->currentText() == "<=")
+        {
+            for(quint8 k = 0; k < m_row; k++)
+                if(k != i)
+                    varArray[k][m_col + extVarsCounter] = 0;
+                else
+                    varArray[k][m_col + extVarsCounter] = 1;
+            extVarsCounter++;
+        }
     }
-    m_constArray = new qint8[m_row];
-    //obtaining values from widgets
-    quint8 extVarsCounter = 0;
-    for(quint8 j = 0; j < m_row; j++)
+    for(quint8 i = 0; i < m_row; i++)
+        genExprArray[i] = m_genExprArray.value(i)->text().toInt();
+    for(quint8 i = 0; i < m_row; i++)
+        constArray[i] = m_wConstArray.value(i)->text().toInt();
+    emit next();
+    //void result(qint8 *genExprArray, qint8** varArray, qint8 *constArray, qint8 row, qint8 col);
+    //for debug
+    qDebug() << "Array:";
+    for(quint8 i = 0; i < m_row; i++)
     {
-        for(quint8 k = 0; k < m_col; k++)
-        {
-            m_varArray[j][k] = m_wArray[j][k].text().toInt();
-        }
-        if(m_signs.value(j)->currentText() == ">" || m_signs.value(j)->currentText() == ">=")
-        {
-            for(quint8 i = 0; i < m_row; i++)
-                if(i == j)
-                    m_varArray[i][m_col + extVarsCounter] = -1;
-                else
-                    m_varArray[i][m_col + extVarsCounter] = 0;
-            extVarsCounter++;
-        }
-        if(m_signs.value(j)->currentText() == "<" || m_signs.value(j)->currentText() == "<=")
-        {
-            for(quint8 i = 0; i < m_row; i++)
-            {
-                if(i == j)
-                    m_varArray[i][m_col + extVarsCounter] = 1;
-                else
-                    m_varArray[i][m_col + extVarsCounter] = 0;
-
-            }
-            extVarsCounter++;
-        }
-        m_constArray[j] = m_wConstArray[j].text().toInt();
+        for(quint8 j = 0; j < m_col + extVars; j++)
+            qDebug() << varArray[i][j];
+        qDebug() << "endline";
     }
-    qint8 *genExprVar = new qint8[m_genExprArray.size()];
+    qDebug() << "Function array:";
     for(quint8 i = 0; i < m_col; i++)
     {
-        genExprVar[i] = m_genExprArray.value(i)->text().toInt();
+        qDebug() << genExprArray[i];
     }
-    emit result(genExprVar, m_varArray, m_constArray, m_row, m_col);
-    emit next();
-    //for debug
-//    for(quint8 i = 0; i < m_row; i++)
-//    {
-//        for(quint8 j = 0; j < m_col + extVars; j++)
-//            qDebug() << m_varArray[i][j];
-//        qDebug() << "endline";
-//    }
-//    for(quint8 i = 0; i < m_col; i++)
-//    {
-//        qDebug() << genExprVar[i];
-//    }
-    delete genExprVar;
+    qDebug() << "Const array:";
+    for(quint8 i = 0; i < m_row; i++)
+        qDebug() << constArray[i];
 }
 
 void ExpressionsDialog::on_backButton_clicked()
