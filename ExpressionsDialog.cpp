@@ -124,7 +124,7 @@ void ExpressionsDialog::on_nextButton_clicked()
     double **varArray = new double*[m_row];
     for(quint8 i = 0; i < m_row; i++)
         varArray[i] = new double[m_col + extVars];
-    double *genExprArray = new double[m_col + 1];
+    double *genExprArray = new double[m_col + extVars  + 1];
     double *constArray = new double[m_row];
 
     //obtaining values from widgets
@@ -154,8 +154,15 @@ void ExpressionsDialog::on_nextButton_clicked()
             extVarsCounter++;
         }
     }
-    for(quint8 i = 0; i < m_col + 1; i++)
-        genExprArray[i] = m_genExprArray.value(i)->text().toInt();
+    for(quint8 i = 0; i < m_col + 1 + extVars; i++)
+    {
+        if(i < m_col)
+            genExprArray[i] = m_genExprArray.value(i)->text().toInt();
+        if(i == m_col)
+            genExprArray[m_col + extVars] = m_genExprArray.value(i)->text().toInt();
+        if(i >= m_col && i != m_col + extVars)
+            genExprArray[i] = 0;
+    }
     for(quint8 i = 0; i < m_row; i++)
         constArray[i] = m_wConstArray.value(i)->text().toInt();
     emit result(genExprArray, varArray, constArray, m_row, m_col + extVars);
@@ -170,7 +177,7 @@ void ExpressionsDialog::on_nextButton_clicked()
 //        qDebug() << "endline";
 //    }
 //    qDebug() << "Function array:";
-//    for(quint8 i = 0; i < m_col + 1; i++)
+//    for(quint8 i = 0; i < m_col + extVars + 1; i++)
 //    {
 //        qDebug() << genExprArray[i];
 //    }
