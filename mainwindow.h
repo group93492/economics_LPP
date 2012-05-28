@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "ConditionDialog.h"
 #include "ExpressionsDialog.h"
+#include "SolvedSystemDialog.h"
 
 namespace Ui {
 class MainWindow;

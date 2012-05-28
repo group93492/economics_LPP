@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "GaussJordano.h"
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -10,11 +9,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ConditionDialog *cdialog = new ConditionDialog();
     ExpressionsDialog *edialog = new ExpressionsDialog();
+    SolvedSystemDialog *sdialog = new SolvedSystemDialog();
     ui->stackedWidget->addWidget(cdialog);
     ui->stackedWidget->addWidget(edialog);
+    ui->stackedWidget->addWidget(sdialog);
     connect(cdialog, SIGNAL(next()), this, SLOT(nextWidget()));
     connect(cdialog, SIGNAL(result(int,int)), edialog, SLOT(setCondition(int,int)));
     connect(edialog, SIGNAL(back()), this, SLOT(previousWidget()));
+    connect(edialog, SIGNAL(result(double*,double**,double*,qint8,qint8)), sdialog, SLOT(setCondition(double*,double**,double*,qint8,qint8)));
+    connect(edialog, SIGNAL(next()), this, SLOT(nextWidget()));
 }
 
 MainWindow::~MainWindow()
