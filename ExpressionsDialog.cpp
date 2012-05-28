@@ -64,9 +64,11 @@ void ExpressionsDialog::setCondition(int var, int expr)
     {
         m_layouts.append(new QHBoxLayout());
     }
-    for(quint8 i = 0; i < m_col; i++) //lineedits for "Z = ..." function
+    for(quint8 i = 0; i <= m_col; i++) //lineedits for "Z = ..." function
     {
-        m_genExprArray.append(new QLineEdit);
+        lineEdit = new QLineEdit();
+        lineEdit->setValidator(m_intValidator);
+        m_genExprArray.append(lineEdit);
     }
     for(quint8 i = 0; i < m_row; i++)
     {
@@ -91,6 +93,7 @@ void ExpressionsDialog::setCondition(int var, int expr)
         ui->functionLayout->addWidget(m_genExprArray[i]);
         ui->functionLayout->addWidget(label);
     }
+    ui->functionLayout->addWidget(m_genExprArray[m_col]);
     for(quint8 i = 0; i < m_row; i++)
     {
         for(quint8 j = 0; j < m_col; j++)
@@ -118,11 +121,11 @@ void ExpressionsDialog::on_nextButton_clicked()
     for(quint8 i = 0; i < m_signs.size(); i++)
         if(m_signs.value(i)->currentText() != "=")
             extVars++;
-    qint8 **varArray = new qint8*[m_row];
+    double **varArray = new double*[m_row];
     for(quint8 i = 0; i < m_row; i++)
-        varArray[i] = new qint8[m_col + extVars];
-    qint8 *genExprArray = new qint8[m_col];
-    qint8 *constArray = new qint8[m_row];
+        varArray[i] = new double[m_col + extVars];
+    double *genExprArray = new double[m_col + 1];
+    double *constArray = new double[m_row];
 
     //obtaining values from widgets
     qint8 extVarsCounter = 0;
@@ -151,28 +154,29 @@ void ExpressionsDialog::on_nextButton_clicked()
             extVarsCounter++;
         }
     }
-    for(quint8 i = 0; i < m_row; i++)
+    for(quint8 i = 0; i < m_col + 1; i++)
         genExprArray[i] = m_genExprArray.value(i)->text().toInt();
     for(quint8 i = 0; i < m_row; i++)
         constArray[i] = m_wConstArray.value(i)->text().toInt();
+    emit result(genExprArray, varArray, constArray, m_row, m_col + extVars);
     emit next();
     //void result(qint8 *genExprArray, qint8** varArray, qint8 *constArray, qint8 row, qint8 col);
     //for debug
-    qDebug() << "Array:";
-    for(quint8 i = 0; i < m_row; i++)
-    {
-        for(quint8 j = 0; j < m_col + extVars; j++)
-            qDebug() << varArray[i][j];
-        qDebug() << "endline";
-    }
-    qDebug() << "Function array:";
-    for(quint8 i = 0; i < m_col; i++)
-    {
-        qDebug() << genExprArray[i];
-    }
-    qDebug() << "Const array:";
-    for(quint8 i = 0; i < m_row; i++)
-        qDebug() << constArray[i];
+//    qDebug() << "Array:";
+//    for(quint8 i = 0; i < m_row; i++)
+//    {
+//        for(quint8 j = 0; j < m_col + extVars; j++)
+//            qDebug() << varArray[i][j];
+//        qDebug() << "endline";
+//    }
+//    qDebug() << "Function array:";
+//    for(quint8 i = 0; i < m_col + 1; i++)
+//    {
+//        qDebug() << genExprArray[i];
+//    }
+//    qDebug() << "Const array:";
+//    for(quint8 i = 0; i < m_row; i++)
+//        qDebug() << constArray[i];
 }
 
 void ExpressionsDialog::on_backButton_clicked()

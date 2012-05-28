@@ -37,13 +37,12 @@ public slots:
 
 private slots:
     void on_nextButton_clicked();
-
     void on_backButton_clicked();
 
 signals:
     void next();
     void back();
-    void result(qint8 *genExprArray, qint8** varArray, qint8 *constArray, qint8 row, qint8 col);
+    void result(double *genExprArray, double** varArray, double *constArray, qint8 row, qint8 col);
 };
 
 #endif // EXPRESSIONSDIALOG_H
