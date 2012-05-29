@@ -26,16 +26,8 @@ QComboBox *ExpressionsDialog::signComboBox()
     return comboBox;
 }
 
-void ExpressionsDialog::setCondition(int var, int expr)
+void ExpressionsDialog::freeMemory()
 {
-    //size
-    m_col = var;
-    m_row = expr;
-    QLineEdit *lineEdit;
-    QLabel *label;
-
-    //free memory
-    //delete all widgets
     QLayoutItem *item;
     while((item = ui->functionLayout->takeAt(0)) != 0)
     {
@@ -58,8 +50,11 @@ void ExpressionsDialog::setCondition(int var, int expr)
         delete m_wVarArray.value(i);
     }
     m_wVarArray.clear();
+}
 
-    //allocate memory
+void ExpressionsDialog::allocateMemory()
+{
+    QLineEdit *lineEdit;
     for(quint8 i = 0; i < m_row; i++)  //layouts
     {
         m_layouts.append(new QHBoxLayout());
@@ -85,8 +80,11 @@ void ExpressionsDialog::setCondition(int var, int expr)
         lineEdit->setValidator(m_intValidator);
         m_wConstArray.append(lineEdit); //and constants
     }
+}
 
-    //place widgets on layouts
+void ExpressionsDialog::placeWidgets()
+{
+    QLabel *label;
     ui->functionLayout->addWidget(new QLabel("Z = "));
     for(quint8 i = 0; i < m_col; i++)
     {
@@ -117,7 +115,16 @@ void ExpressionsDialog::setCondition(int var, int expr)
         m_layouts.value(i)->addWidget(signComboBox());
         m_layouts.value(i)->addWidget(m_wConstArray[i]);
     }
+}
 
+void ExpressionsDialog::setCondition(int var, int expr)
+{
+    //size
+    m_col = var;
+    m_row = expr;
+    freeMemory();
+    allocateMemory();
+    placeWidgets();
     //place layouts on exprLayout
     for(quint8 i = 0; i < m_row; i++)
     {
@@ -128,7 +135,7 @@ void ExpressionsDialog::setCondition(int var, int expr)
 void ExpressionsDialog::on_nextButton_clicked()
 {
     //allocate memory
-    qint8 extVars = 0;
+    quint8 extVars = 0;
     for(quint8 i = 0; i < m_signs.size(); i++)
         if(m_signs.value(i)->currentText() != "=")
             extVars++;
@@ -139,7 +146,7 @@ void ExpressionsDialog::on_nextButton_clicked()
     double *constArray = new double[m_row];
 
     //obtaining values from widgets
-    qint8 extVarsCounter = 0;
+    quint8 extVarsCounter = 0;
     for(quint8 i = 0; i < m_row; i++)
     {
         for(quint8 j = 0; j < m_col; j++)

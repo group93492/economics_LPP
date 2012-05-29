@@ -16,8 +16,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(cdialog, SIGNAL(next()), this, SLOT(nextWidget()));
     connect(cdialog, SIGNAL(result(int,int)), edialog, SLOT(setCondition(int,int)));
     connect(edialog, SIGNAL(back()), this, SLOT(previousWidget()));
-    connect(edialog, SIGNAL(result(double*,double**,double*,qint8,qint8)), sdialog, SLOT(setCondition(double*,double**,double*,qint8,qint8)));
+    connect(edialog, SIGNAL(result(double*,double**,double*,quint8,quint8)), sdialog, SLOT(setCondition(double*,double**,double*,quint8,quint8)));
     connect(edialog, SIGNAL(next()), this, SLOT(nextWidget()));
+    connect(sdialog, SIGNAL(back()), this, SLOT(previousWidget()));
 }
 
 MainWindow::~MainWindow()

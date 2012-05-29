@@ -30,8 +30,13 @@ private:
     QVector<QComboBox*> m_signs; //vector with QComboBoxes
     QVector<QHBoxLayout*> m_layouts;
     QIntValidator *m_intValidator;
-    qint8 m_col; // m_varArray columns
-    qint8 m_row; // m_varArray rows
+    quint8 m_col; // m_varArray columns
+    quint8 m_row; // m_varArray rows
+    //methods:
+    void freeMemory();
+    void allocateMemory();
+    void placeWidgets();
+
 public slots:
     void setCondition(int var, int expr);
 
@@ -42,7 +47,7 @@ private slots:
 signals:
     void next();
     void back();
-    void result(double *genExprArray, double** varArray, double *constArray, qint8 row, qint8 col);
+    void result(double *genExprArray, double** varArray, double *constArray, quint8 row, quint8 col);
 };
 
 #endif // EXPRESSIONSDIALOG_H
