@@ -48,6 +48,7 @@ void SolvedSystemDialog::setCondition(double *genExprArray, double **varArray, d
         for(quint8 j = 0; j < 3; j++)
         {
             lineEdit = new QLineEdit();
+            lineEdit->setAlignment(Qt::AlignRight);
             //lineEdit->setValidator(m_intValidator); //for debug!
             lineEdit->setText(QString::number(result[i][j]));
             m_wArray[i]->append(lineEdit);
@@ -68,6 +69,9 @@ void SolvedSystemDialog::setCondition(double *genExprArray, double **varArray, d
         label->setMaximumWidth(22);
         ui->functionLayout->addWidget(m_wArray.value(m_col)->value(i));
         ui->functionLayout->addWidget(label);
+        label = new QLabel(" + ");
+        label->setMaximumWidth(22);
+        ui->functionLayout->addWidget(label);
     }
     ui->functionLayout->addWidget(m_wArray.value(m_col)->value(2));
     for(quint8 i = 0; i < m_col; i++)
@@ -80,6 +84,9 @@ void SolvedSystemDialog::setCondition(double *genExprArray, double **varArray, d
             label = new QLabel("X<span style=\" vertical-align:sub;\">" + QString::number(j + 1)+ "</span>");
             label->setMaximumWidth(22);
             m_layouts.value(i)->addWidget(m_wArray.value(i)->value(j));
+            m_layouts.value(i)->addWidget(label);
+            label = new QLabel(" + ");
+            label->setMaximumWidth(22);
             m_layouts.value(i)->addWidget(label);
         }
         m_layouts.value(i)->addWidget(m_wArray.value(i)->value(2));

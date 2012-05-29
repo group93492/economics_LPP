@@ -68,6 +68,7 @@ void ExpressionsDialog::setCondition(int var, int expr)
     {
         lineEdit = new QLineEdit();
         lineEdit->setValidator(m_intValidator);
+        lineEdit->setAlignment(Qt::AlignRight);
         m_genExprArray.append(lineEdit);
     }
     for(quint8 i = 0; i < m_row; i++)
@@ -77,6 +78,7 @@ void ExpressionsDialog::setCondition(int var, int expr)
         {
             lineEdit = new QLineEdit();
             lineEdit->setValidator(m_intValidator);
+            lineEdit->setAlignment(Qt::AlignRight);
             m_wVarArray[i]->append(lineEdit);
         }
         lineEdit = new QLineEdit();
@@ -88,9 +90,12 @@ void ExpressionsDialog::setCondition(int var, int expr)
     ui->functionLayout->addWidget(new QLabel("Z = "));
     for(quint8 i = 0; i < m_col; i++)
     {
+        ui->functionLayout->addWidget(m_genExprArray[i]);
         label = new QLabel("X<span style=\" vertical-align:sub;\">" + QString::number(i + 1)+ "</span>");
         label->setMaximumWidth(22);
-        ui->functionLayout->addWidget(m_genExprArray[i]);
+        ui->functionLayout->addWidget(label);
+        label = new QLabel(" + ");
+        label->setMaximumWidth(22);
         ui->functionLayout->addWidget(label);
     }
     ui->functionLayout->addWidget(m_genExprArray[m_col]);
@@ -98,10 +103,16 @@ void ExpressionsDialog::setCondition(int var, int expr)
     {
         for(quint8 j = 0; j < m_col; j++)
         {
+            m_layouts.value(i)->addWidget(m_wVarArray.value(i)->value(j));
             label = new QLabel("X<span style=\" vertical-align:sub;\">" + QString::number(j + 1)+ "</span>");
             label->setMaximumWidth(22);
-            m_layouts.value(i)->addWidget(m_wVarArray.value(i)->value(j));
             m_layouts.value(i)->addWidget(label);
+            if(j != m_col - 1)
+            {
+                label = new QLabel(" + ");
+                label->setMaximumWidth(22);
+                m_layouts.value(i)->addWidget(label);
+            }
         }
         m_layouts.value(i)->addWidget(signComboBox());
         m_layouts.value(i)->addWidget(m_wConstArray[i]);
