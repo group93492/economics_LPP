@@ -6,6 +6,7 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QIntValidator>
+#include <QMessageBox>
 #include "GaussJordano.h"
 
 namespace Ui {
@@ -33,6 +34,7 @@ private:
     void freeMemory();
     void allocateMemory();
     void placeWidgets();
+    void check();
 
 public slots:
     void setCondition(double *genExprArray, double** varArray, double *constArray, quint8 row, quint8 col);

@@ -123,6 +123,36 @@ void SolvedSystemDialog::placeWidgets()
     }
 }
 
+void SolvedSystemDialog::check()
+{
+    QString result;
+    for(quint8 i = 0; i < 3; i++)
+        if(m_wArray.value(m_col)->value(i)->text().toDouble() != m_solvedArray[m_col][i])
+        {
+            result += QString::fromLocal8Bit("Ошибка в %1, правильно: %2%3%4")
+                    .arg(QString::fromLocal8Bit("функции"))
+                    .arg(QString::number(m_solvedArray[m_col][i]))
+                    .arg("X")
+                    .arg("<span style=\" vertical-align:sub;\">" + QString::number(i + 1)+ "</span><br />");
+        }
+    for(quint8 i = 0; i < m_col; i++)
+        for(quint8 j = 0; j < 3; j++)
+        {
+            if(m_wArray.value(i)->value(j)->text().toDouble() != m_solvedArray[i][j])
+            {
+                result += QString::fromLocal8Bit("Ошибка в %1, правильно: %2%3%4 \n")
+                        .arg(QString::fromLocal8Bit("уравнении ") + QString::number(i + 1))
+                        .arg(QString::number(m_solvedArray[i][j]))
+                        .arg("X")
+                        .arg("<span style=\" vertical-align:sub;\">" + QString::number(j + 1)+ "</span><br />");
+            }
+        }
+    if(result.isNull())
+        return;
+    if(QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"), result, QMessageBox::Ok) == QMessageBox::Ok)
+        return;
+}
+
 void SolvedSystemDialog::on_backButton_clicked()
 {
     emit back();
@@ -130,5 +160,6 @@ void SolvedSystemDialog::on_backButton_clicked()
 
 void SolvedSystemDialog::on_nextButton_clicked()
 {
+    check();
     emit next();
 }
