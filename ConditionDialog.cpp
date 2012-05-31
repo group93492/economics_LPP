@@ -13,7 +13,7 @@ ConditionDialog::~ConditionDialog()
     delete ui;
 }
 
-void ConditionDialog::on_yesButton_clicked()
+void ConditionDialog::on_nextButton_clicked()
 {
     emit result(ui->varSpinBox->value(), ui->exprSpinBox->value());
     emit next();

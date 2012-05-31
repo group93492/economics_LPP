@@ -117,6 +117,40 @@ void ExpressionsDialog::placeWidgets()
     }
 }
 
+qint8 ExpressionsDialog::Rank(double **a, quint8 m, quint8 n)
+{
+        const double EPS = 1E-9;
+        quint8 rank = std::max(m, n);
+        QVector<char> line_used(m);
+        for (quint8 i = 0; i < n; i++)
+        {
+            qint8 j;
+            for (j = 0; j < m; j++)
+                if (!line_used[j] && abs(a[j][i]) > EPS)
+                    break;
+            if (j == m)
+                --rank;
+            else
+            {
+                line_used[j] = true;
+                for (quint8 p = i + 1; p < n; p++)
+                    a[j][p] /= a[j][i];
+                for (quint8 k = 0; k < m; k++)
+                    if (k != j && abs (a[k][i]) > EPS)
+                        for (quint8 p = i + 1; p < n; p++)
+                            a[k][p] -= a[j][p] * a[k][i];
+            }
+        }
+        return rank;
+}
+
+bool ExpressionsDialog::Check(double **a, quint8 m, quint8 n)
+{
+    if ((n - Rank(a, m, n)) <= 2)
+        return true;
+    return false;
+}
+
 void ExpressionsDialog::setCondition(int var, int expr)
 {
     //size
@@ -183,8 +217,24 @@ void ExpressionsDialog::on_nextButton_clicked()
     }
     for(quint8 i = 0; i < m_row; i++)
         constArray[i] = m_wConstArray.value(i)->text().toInt();
-    emit result(genExprArray, varArray, constArray, m_row, m_col + extVars);
-    emit next();
+    bool flag = Check(varArray, m_row, m_col + extVars);
+    if(ui->checkBox->checkState() == Qt::Unchecked) //temporary
+        return;
+    if((ui->checkBox->checkState() == Qt::Checked && flag))
+    {
+        emit result(genExprArray, varArray, constArray, m_row, m_col + extVars);
+        emit next();
+    }
+    else
+    {
+        QString str;
+        if(flag)
+            str = QString::fromLocal8Bit("Эту систему можно решить!");
+        else
+            str = QString::fromLocal8Bit("Эту систему нельзя решить");
+        if(QMessageBox::information(this, QString::fromLocal8Bit("Ошибка!"), str, QMessageBox::Ok) == QMessageBox::Ok)
+            return;
+    }
     //void result(qint8 *genExprArray, qint8** varArray, qint8 *constArray, qint8 row, qint8 col);
     //for debug
 //    qDebug() << "Array:";
@@ -208,3 +258,4 @@ void ExpressionsDialog::on_backButton_clicked()
 {
     emit back();
 }
+

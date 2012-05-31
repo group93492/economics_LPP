@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QSpacerItem>
+#include <QMessageBox>
 
 namespace Ui {
 class ExpressionsDialog;
@@ -36,7 +37,8 @@ private:
     void freeMemory();
     void allocateMemory();
     void placeWidgets();
-
+    qint8 Rank(double **a, quint8 m, quint8 n);
+    bool Check(double **a, quint8 m, quint8 n);
 public slots:
     void setCondition(int var, int expr);
 
