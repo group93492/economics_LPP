@@ -5,6 +5,7 @@
 #include "ConditionDialog.h"
 #include "ExpressionsDialog.h"
 #include "SolvedSystemDialog.h"
+#include "FinishDialog.h"
 
 namespace Ui {
 class MainWindow;
@@ -24,6 +25,8 @@ private:
 private slots:
     void nextWidget();
     void previousWidget();
+    void on_quitButton_clicked();
+    void on_resetButton_clicked();
 };
 
 #endif // MAINWINDOW_H

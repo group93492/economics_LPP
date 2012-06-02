@@ -42,6 +42,8 @@ public slots:
 signals:
     void next();
     void back();
+    void userError();
+
 private slots:
     void on_backButton_clicked();
     void on_nextButton_clicked();

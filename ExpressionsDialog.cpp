@@ -218,12 +218,17 @@ void ExpressionsDialog::on_nextButton_clicked()
     for(quint8 i = 0; i < m_row; i++)
         constArray[i] = m_wConstArray.value(i)->text().toInt();
     bool flag = Check(varArray, m_row, m_col + extVars);
-    if(ui->checkBox->checkState() == Qt::Unchecked) //temporary
-        return;
-    if((ui->checkBox->checkState() == Qt::Checked && flag))
+    if((ui->checkBox->checkState() == Qt::Unchecked && !flag) || (ui->checkBox->checkState() == Qt::Checked && flag))
     {
-        emit result(genExprArray, varArray, constArray, m_row, m_col + extVars);
-        emit next();
+        if(flag)
+        {
+            emit result(genExprArray, varArray, constArray, m_row, m_col + extVars);
+            emit next();
+        }
+        else
+        {
+            emit back();
+        }
     }
     else
     {
@@ -232,6 +237,7 @@ void ExpressionsDialog::on_nextButton_clicked()
             str = QString::fromLocal8Bit("Эту систему можно решить!");
         else
             str = QString::fromLocal8Bit("Эту систему нельзя решить");
+        emit userError();
         if(QMessageBox::information(this, QString::fromLocal8Bit("Ошибка!"), str, QMessageBox::Ok) == QMessageBox::Ok)
             return;
     }

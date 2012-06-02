@@ -15,15 +15,18 @@ SOURCES += main.cpp\
     ConditionDialog.cpp \
     ExpressionsDialog.cpp \
     GaussJordano.cpp \
-    SolvedSystemDialog.cpp
+    SolvedSystemDialog.cpp \
+    FinishDialog.cpp
 
 HEADERS  += mainwindow.h \
     ConditionDialog.h \
     ExpressionsDialog.h \
     GaussJordano.h \
-    SolvedSystemDialog.h
+    SolvedSystemDialog.h \
+    FinishDialog.h
 
 FORMS    += mainwindow.ui \
     ConditionDialog.ui \
     ExpressionsDialog.ui \
-    SolvedSystemDialog.ui
+    SolvedSystemDialog.ui \
+    FinishDialog.ui

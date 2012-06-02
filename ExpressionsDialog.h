@@ -49,6 +49,7 @@ private slots:
 signals:
     void next();
     void back();
+    void userError();
     void result(double *genExprArray, double** varArray, double *constArray, quint8 row, quint8 col);
 };
 

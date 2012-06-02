@@ -7,18 +7,30 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ConditionDialog *cdialog = new ConditionDialog();
-    ExpressionsDialog *edialog = new ExpressionsDialog();
-    SolvedSystemDialog *sdialog = new SolvedSystemDialog();
+    //create widgets
+    ConditionDialog *adialog = new ConditionDialog();
+    ExpressionsDialog *bdialog = new ExpressionsDialog();
+    SolvedSystemDialog *cdialog = new SolvedSystemDialog();
+    FinishDialog *zdialog = new FinishDialog();
+    //add widgets
+    ui->stackedWidget->addWidget(adialog);
+    ui->stackedWidget->addWidget(bdialog);
     ui->stackedWidget->addWidget(cdialog);
-    ui->stackedWidget->addWidget(edialog);
-    ui->stackedWidget->addWidget(sdialog);
+    ui->stackedWidget->addWidget(zdialog);
+    //connect
+    connect(adialog, SIGNAL(next()), this, SLOT(nextWidget()));
+    connect(adialog, SIGNAL(result(int,int)), bdialog, SLOT(setCondition(int,int)));
+
+    connect(bdialog, SIGNAL(back()), this, SLOT(previousWidget()));
+    connect(bdialog, SIGNAL(result(double*,double**,double*,quint8,quint8)), cdialog, SLOT(setCondition(double*,double**,double*,quint8,quint8)));
+    connect(bdialog, SIGNAL(next()), this, SLOT(nextWidget()));
+    connect(bdialog, SIGNAL(userError()), zdialog, SLOT(addUserError()));
+
+    connect(cdialog, SIGNAL(back()), this, SLOT(previousWidget()));
     connect(cdialog, SIGNAL(next()), this, SLOT(nextWidget()));
-    connect(cdialog, SIGNAL(result(int,int)), edialog, SLOT(setCondition(int,int)));
-    connect(edialog, SIGNAL(back()), this, SLOT(previousWidget()));
-    connect(edialog, SIGNAL(result(double*,double**,double*,quint8,quint8)), sdialog, SLOT(setCondition(double*,double**,double*,quint8,quint8)));
-    connect(edialog, SIGNAL(next()), this, SLOT(nextWidget()));
-    connect(sdialog, SIGNAL(back()), this, SLOT(previousWidget()));
+    connect(cdialog, SIGNAL(userError()), zdialog, SLOT(addUserError()));
+
+    connect(ui->resetButton, SIGNAL(clicked()), zdialog, SLOT(reset()));
 }
 
 MainWindow::~MainWindow()
@@ -34,4 +46,14 @@ void MainWindow::nextWidget()
 void MainWindow::previousWidget()
 {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() - 1);
+}
+
+void MainWindow::on_quitButton_clicked()
+{
+    QApplication::quit();
+}
+
+void MainWindow::on_resetButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
 }
