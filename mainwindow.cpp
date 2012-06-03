@@ -9,11 +9,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ConditionDialog *cdialog = new ConditionDialog();
     ExpressionsDialog *edialog = new ExpressionsDialog();
-    ui->stackedWidget->addWidget(cdialog);
-    ui->stackedWidget->addWidget(edialog);
+    DrawDialog *paintDialog = new DrawDialog(ui->stackedWidget);
+//    ui->stackedWidget->addWidget(cdialog);
+//    ui->stackedWidget->addWidget(edialog);
+    ui->stackedWidget->addWidget(paintDialog);
     connect(cdialog, SIGNAL(next()), this, SLOT(nextWidget()));
     connect(cdialog, SIGNAL(result(int,int)), edialog, SLOT(setCondition(int,int)));
     connect(edialog, SIGNAL(back()), this, SLOT(previousWidget()));
+    connect(edialog, SIGNAL(next()), this, SLOT(nextWidget()));
+    //draw dialog
 }
 
 MainWindow::~MainWindow()
