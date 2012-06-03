@@ -7,7 +7,7 @@ ExpressionsDialog::ExpressionsDialog(QWidget *parent) :
     ui(new Ui::ExpressionsDialog)
 {
     ui->setupUi(this);
-    m_intValidator = new QIntValidator();
+    m_doubleValidator = new QDoubleValidator();
 }
 
 ExpressionsDialog::~ExpressionsDialog()
@@ -62,7 +62,7 @@ void ExpressionsDialog::allocateMemory()
     for(quint8 i = 0; i <= m_col; i++) //lineedits for "Z = ..." function
     {
         lineEdit = new QLineEdit();
-        lineEdit->setValidator(m_intValidator);
+        lineEdit->setValidator(m_doubleValidator);
         lineEdit->setAlignment(Qt::AlignRight);
         m_genExprArray.append(lineEdit);
     }
@@ -72,12 +72,12 @@ void ExpressionsDialog::allocateMemory()
         for(quint8 j = 0; j < m_col; j++)
         {
             lineEdit = new QLineEdit();
-            lineEdit->setValidator(m_intValidator);
+            lineEdit->setValidator(m_doubleValidator);
             lineEdit->setAlignment(Qt::AlignRight);
             m_wVarArray[i]->append(lineEdit);
         }
         lineEdit = new QLineEdit();
-        lineEdit->setValidator(m_intValidator);
+        lineEdit->setValidator(m_doubleValidator);
         m_wConstArray.append(lineEdit); //and constants
     }
 }

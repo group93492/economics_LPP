@@ -30,7 +30,7 @@ private:
     QVector< QVector<QLineEdit*>* > m_wVarArray; // array with coefficentes for X
     QVector<QComboBox*> m_signs; //vector with QComboBoxes
     QVector<QHBoxLayout*> m_layouts;
-    QIntValidator *m_intValidator;
+    QDoubleValidator *m_doubleValidator;
     quint8 m_col; // m_varArray columns
     quint8 m_row; // m_varArray rows
     //methods:

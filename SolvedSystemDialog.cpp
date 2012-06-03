@@ -7,7 +7,7 @@ SolvedSystemDialog::SolvedSystemDialog(QWidget *parent) :
     ui(new Ui::SolvedSystemDialog)
 {
     ui->setupUi(this);
-    m_intValidator = new QIntValidator;
+    m_doubleValidator = new QDoubleValidator;
 }
 
 SolvedSystemDialog::~SolvedSystemDialog()
@@ -75,12 +75,10 @@ void SolvedSystemDialog::allocateMemory()
         {
             lineEdit = new QLineEdit();
             lineEdit->setAlignment(Qt::AlignRight);
-            //lineEdit->setValidator(m_intValidator); //for debug!
+            lineEdit->setValidator(m_doubleValidator);
             lineEdit->setText(QString::number(m_solvedArray[i][j])); //temporary, for debug
             m_wArray[i]->append(lineEdit);
         }
-        //lineEdit = new QLineEdit();
-        //lineEdit->setValidator(m_intValidator);
     }
     for(quint8 i = 0; i < m_row; i++)  //layouts
     {

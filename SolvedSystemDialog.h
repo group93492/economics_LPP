@@ -5,7 +5,7 @@
 #include <QLineEdit>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QIntValidator>
+#include <QDoubleValidator>
 #include <QMessageBox>
 #include "GaussJordano.h"
 
@@ -28,7 +28,7 @@ private:
     quint8 **m_array;
     QVector< QVector<QLineEdit*>* > m_wArray;
     QVector<QHBoxLayout*> m_layouts;
-    QIntValidator *m_intValidator;
+    QDoubleValidator *m_doubleValidator;
     double **m_solvedArray;
     //methods
     void freeMemory();
