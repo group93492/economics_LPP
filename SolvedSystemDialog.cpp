@@ -39,6 +39,12 @@ void SolvedSystemDialog::setCondition(double *genExprArray, double **varArray, d
     freeMemory();
     SystemLinearEquations solve(genExprArray, varArray, constArray, col, row);
     m_solvedArray = solve.Solve();
+    for(quint8 i = 0; i < m_row + 1; i++)
+    {
+        for(quint8 j = 0; j < 3; j++)
+            qDebug() << m_solvedArray[i][j];
+        qDebug() << "endline";
+    }
     allocateMemory();
     placeWidgets();
 }
@@ -68,7 +74,7 @@ void SolvedSystemDialog::freeMemory()
 void SolvedSystemDialog::allocateMemory()
 {
     QLineEdit *lineEdit;
-    for(quint8 i = 0; i < m_col + 1; i++)
+    for(quint8 i = 0; i < m_row + 1; i++)
     {
         m_wArray.append(new QVector<QLineEdit*>); //lineedits for coefficents
         for(quint8 j = 0; j < 3; j++)
@@ -82,7 +88,7 @@ void SolvedSystemDialog::allocateMemory()
         //lineEdit = new QLineEdit();
         //lineEdit->setValidator(m_intValidator);
     }
-    for(quint8 i = 0; i < m_col; i++)  //layouts
+    for(quint8 i = 0; i < m_row; i++)  //layouts
     {
         m_layouts.append(new QHBoxLayout());
     }
@@ -96,14 +102,14 @@ void SolvedSystemDialog::placeWidgets()
     {
         label = new QLabel("X<span style=\" vertical-align:sub;\">" + QString::number(i + 1)+ "</span>");
         label->setMaximumWidth(22);
-        ui->functionLayout->addWidget(m_wArray.value(m_col)->value(i));
+        ui->functionLayout->addWidget(m_wArray.value(m_row)->value(i));
         ui->functionLayout->addWidget(label);
         label = new QLabel(" + ");
         label->setMaximumWidth(22);
         ui->functionLayout->addWidget(label);
     }
-    ui->functionLayout->addWidget(m_wArray.value(m_col)->value(2));
-    for(quint8 i = 0; i < m_col; i++)
+    ui->functionLayout->addWidget(m_wArray.value(m_row)->value(2));
+    for(quint8 i = 0; i < m_row; i++)
     {
         label = new QLabel("X<span style=\" vertical-align:sub;\">" + QString::number(i + 3)+ "</span> = ");
         label->setMaximumWidth(22);
@@ -127,15 +133,15 @@ void SolvedSystemDialog::check()
 {
     QString result;
     for(quint8 i = 0; i < 3; i++)
-        if(m_wArray.value(m_col)->value(i)->text().toDouble() != m_solvedArray[m_col][i])
+        if(m_wArray.value(m_row)->value(i)->text().toDouble() != m_solvedArray[m_row][i])
         {
             result += QString::fromLocal8Bit("Ошибка в %1, правильно: %2%3%4")
                     .arg(QString::fromLocal8Bit("функции"))
-                    .arg(QString::number(m_solvedArray[m_col][i]))
+                    .arg(QString::number(m_solvedArray[m_row][i]))
                     .arg("X")
                     .arg("<span style=\" vertical-align:sub;\">" + QString::number(i + 1)+ "</span><br />");
         }
-    for(quint8 i = 0; i < m_col; i++)
+    for(quint8 i = 0; i < m_row + 1; i++)
         for(quint8 j = 0; j < 3; j++)
         {
             if(m_wArray.value(i)->value(j)->text().toDouble() != m_solvedArray[i][j])
