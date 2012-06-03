@@ -6,7 +6,7 @@ FinishDialog::FinishDialog(QWidget *parent) :
     ui(new Ui::FinishDialog)
 {
     ui->setupUi(this);
-    m_error = 0;
+    reset();
 }
 
 FinishDialog::~FinishDialog()
