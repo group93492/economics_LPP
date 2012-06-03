@@ -217,7 +217,18 @@ void ExpressionsDialog::on_nextButton_clicked()
     }
     for(quint8 i = 0; i < m_row; i++)
         constArray[i] = m_wConstArray.value(i)->text().toInt();
-    bool flag = Check(varArray, m_row, m_col + extVars);
+    //copy array for Check function
+    double **a = new double*[m_row];
+    for(quint8 i = 0; i < m_row; i++)
+        a[i] = new double[m_col + extVars];
+    for(quint8 i = 0; i < m_row; i++)
+        for(quint8 j = 0; j < m_col + extVars; j++)
+            a[i][j] = varArray[i][j];
+    //check
+    bool flag = Check(a, m_row, m_col + extVars);
+    for(quint8 i = 0; i < m_row; i++)
+        delete [] a[i];
+    delete [] a;
     if((ui->checkBox->checkState() == Qt::Unchecked && !flag) || (ui->checkBox->checkState() == Qt::Checked && flag))
     {
         if(flag)
