@@ -11,11 +11,13 @@ MainWindow::MainWindow(QWidget *parent) :
     ConditionDialog *adialog = new ConditionDialog();
     ExpressionsDialog *bdialog = new ExpressionsDialog();
     SolvedSystemDialog *cdialog = new SolvedSystemDialog();
+    TwoDimensionalProblem *ddialog = new TwoDimensionalProblem();
     FinishDialog *zdialog = new FinishDialog();
     //add widgets
     ui->stackedWidget->addWidget(adialog);
     ui->stackedWidget->addWidget(bdialog);
     ui->stackedWidget->addWidget(cdialog);
+    ui->stackedWidget->addWidget(ddialog);
     ui->stackedWidget->addWidget(zdialog);
     //connect
     connect(adialog, SIGNAL(next()), this, SLOT(nextWidget()));
@@ -29,6 +31,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(cdialog, SIGNAL(back()), this, SLOT(previousWidget()));
     connect(cdialog, SIGNAL(next()), this, SLOT(nextWidget()));
     connect(cdialog, SIGNAL(userError()), zdialog, SLOT(addUserError()));
+    connect(cdialog, SIGNAL(result(double**,quint8)), ddialog, SLOT(setCondition(double**,quint8)));
+
+    connect(ddialog, SIGNAL(back()), this, SLOT(previousWidget()));
+    connect(ddialog, SIGNAL(next()), this, SLOT(nextWidget()));
 
     connect(ui->resetButton, SIGNAL(clicked()), zdialog, SLOT(reset()));
 }

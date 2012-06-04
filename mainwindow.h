@@ -6,6 +6,7 @@
 #include "ExpressionsDialog.h"
 #include "SolvedSystemDialog.h"
 #include "FinishDialog.h"
+#include "TwoDimensionalProblem.h"
 
 namespace Ui {
 class MainWindow;

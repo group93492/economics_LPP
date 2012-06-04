@@ -25,7 +25,6 @@ private:
     Ui::SolvedSystemDialog *ui;
     quint8 m_row;
     quint8 m_col;
-    quint8 **m_array;
     QVector< QVector<QLineEdit*>* > m_wArray;
     QVector<QHBoxLayout*> m_layouts;
     QDoubleValidator *m_doubleValidator;
@@ -42,6 +41,7 @@ public slots:
 signals:
     void next();
     void back();
+    void result(double **array, quint8 row);
     void userError();
 
 private slots:

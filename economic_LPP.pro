@@ -16,17 +16,20 @@ SOURCES += main.cpp\
     ExpressionsDialog.cpp \
     GaussJordano.cpp \
     SolvedSystemDialog.cpp \
-    FinishDialog.cpp
+    FinishDialog.cpp \
+    TwoDimensionalProblem.cpp
 
 HEADERS  += mainwindow.h \
     ConditionDialog.h \
     ExpressionsDialog.h \
     GaussJordano.h \
     SolvedSystemDialog.h \
-    FinishDialog.h
+    FinishDialog.h \
+    TwoDimensionalProblem.h
 
 FORMS    += mainwindow.ui \
     ConditionDialog.ui \
     ExpressionsDialog.ui \
     SolvedSystemDialog.ui \
-    FinishDialog.ui
+    FinishDialog.ui \
+    TwoDimensionalProblem.ui

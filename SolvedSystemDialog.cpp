@@ -175,5 +175,6 @@ void SolvedSystemDialog::on_backButton_clicked()
 void SolvedSystemDialog::on_nextButton_clicked()
 {
     check();
+    emit result(m_solvedArray, m_row + 1);
     emit next();
 }
