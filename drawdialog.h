@@ -21,13 +21,11 @@ private:
     QSize m_size;//size of coordinate plain
     QSize m_windowSize;//size of paint window
     qreal m_scale;//size multiplayer for scaling
-    QLinkedList<GraphicElement *> m_whatToDrawVector;
-    const QPoint m_shift;//отступы от краев для обозначения точек
-    enum {
-        shiftX = 50,
-        shiftY = 15
-    };
+    QLinkedList<GraphicElement *> m_whatToDrawList;
     static int toQtY(int Y);
+    enum{
+        indent = 20 //отступ от краев окна для надписей и т.д.
+    };
     void drawLine(const double x, const double y, const double c);
 
 public:
@@ -40,9 +38,11 @@ public:
 protected:
     void paintEvent(QPaintEvent *e);
 
+public slots:
+    void drawTheProblem(double **array, quint8 row);
+
 private slots:
     void on_checkPushButton_clicked();
-    void on_pushButton_clicked();
 };
 
 class GraphicElement
