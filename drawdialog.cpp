@@ -115,10 +115,21 @@ void DrawDialog::paintEvent(QPaintEvent *e)
 //                                   toQtY(m_size.height() /** m_scale*/));
 //                qDebug() << QPointF((-1) * (Line->c + Line->a * -m_size.height()) / Line->b * m_scale,
 //                                   toQtY(-m_size.height() /** m_scale*/));
-                painter.drawLine(QPointF((-1) * (Line->c + Line->b * m_size.height()) / Line->a * m_scale,
-                                        toQtY(m_size.height())),
-                                 QPointF((-1) * (Line->c + Line->a * -m_size.height()) / Line->b / m_scale,
-                                        toQtY(-m_size.height())));
+                float fuckin_diff = 0.0;
+                if(m_scale < 1.0)
+                    fuckin_diff = m_size.height() - m_size.height() * m_scale;
+                else
+                    fuckin_diff = 0.0;
+                painter.drawLine(QPointF((-1) * (Line->c + Line->b * m_size.height()) / Line->a * m_scale +
+                                         (-1) * (Line->c + Line->b * m_size.height()) / Line->a / m_size.height() * fuckin_diff,
+                                         toQtY(m_size.height() * m_scale + fuckin_diff)),
+                                 QPointF((-1) * (Line->c + Line->b * -m_size.height()) / Line->a * m_scale -
+                                         (-1) * (Line->c + Line->b * m_size.height()) / Line->a / m_size.height() * fuckin_diff,
+                                         toQtY(-m_size.height() * m_scale - fuckin_diff)));
+//                painter.drawLine(QPointF(-Line->c / Line->a - Line->b / Line->a * m_size.height(),
+//                                         m_size.height()),
+//                                 QPointF(-Line->c / Line->a - Line->b / Line->a * -m_size.height(),
+//                                         -m_size.height()));
 //                painter.drawStaticText(QPointF(0 * m_scale - 20,
 //                                              toQtY((-1) * Line->c / Line->b * m_scale + 9)),
 //                                       QStaticText(QString::number(((-1) * Line->c / Line->b), 'f', 1)));
@@ -154,8 +165,11 @@ DrawLine::DrawLine(double _a, double _b, double _c)  :
 
 void DrawDialog::on_checkPushButton_clicked()
 {
-    drawLine(ui->doubleSpinBox->value(),
-             ui->doubleSpinBox_2->value(),
-             ui->doubleSpinBox_3->value());
+//    drawLine(ui->doubleSpinBox->value(),
+//             ui->doubleSpinBox_2->value(),
+//             ui->doubleSpinBox_3->value());
+    drawLine(7, -2 ,14);
+    drawLine(7, 4 ,14);
+    drawLine(-4, 4 ,14);
     setScale(ui->doubleSpinBox_4->value());
 }
