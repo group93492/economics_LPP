@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QVBoxLayout" name="generalLayout" stretch="0,0,0,0,0">
+    <layout class="QVBoxLayout" name="generalLayout" stretch="0,0,0,0">
      <item>
       <layout class="QHBoxLayout" name="paintLayout"/>
      </item>
@@ -60,10 +60,10 @@
           <double>0.100000000000000</double>
          </property>
          <property name="maximum">
-          <double>20.000000000000000</double>
+          <double>20.100000000000001</double>
          </property>
          <property name="singleStep">
-          <double>0.100000000000000</double>
+          <double>0.200000000000000</double>
          </property>
          <property name="value">
           <double>1.000000000000000</double>
@@ -71,13 +71,6 @@
         </widget>
        </item>
       </layout>
-     </item>
-     <item>
-      <widget class="Line" name="line">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-      </widget>
      </item>
      <item>
       <layout class="QHBoxLayout" name="buttonLayout">

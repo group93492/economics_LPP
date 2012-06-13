@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) :
     SolvedSystemDialog *cdialog = new SolvedSystemDialog();
     TwoDimensionalProblem *ddialog = new TwoDimensionalProblem();
     GraphDialog1 *edialog = new GraphDialog1();
+    GraphDialog2 *gdialog = new GraphDialog2();
     FinishDialog *zdialog = new FinishDialog();
     //add widgets
     ui->stackedWidget->addWidget(adialog);
@@ -20,6 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->addWidget(cdialog);
     ui->stackedWidget->addWidget(ddialog);
     ui->stackedWidget->addWidget(edialog);
+    ui->stackedWidget->addWidget(gdialog);
     ui->stackedWidget->addWidget(zdialog);
     //connect
     connect(adialog, SIGNAL(next()), this, SLOT(nextWidget()));
@@ -41,7 +43,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(edialog, SIGNAL(next()), this, SLOT(nextWidget()));
     connect(edialog, SIGNAL(back()), this, SLOT(previousWidget()));
+    connect(edialog, SIGNAL(result(double**,quint8)), gdialog, SLOT(setCondition(double**,quint8)));
     connect(edialog, SIGNAL(userError()), zdialog, SLOT(addUserError()));
+
+    connect(gdialog, SIGNAL(next()), this, SLOT(nextWidget()));
+    connect(gdialog, SIGNAL(back()), this, SLOT(previousWidget()));
+    connect(gdialog, SIGNAL(userError()), zdialog, SLOT(addUserError()));
 
     connect(ui->resetButton, SIGNAL(clicked()), zdialog, SLOT(reset()));
 }

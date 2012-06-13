@@ -21,6 +21,7 @@ private:
     DrawDialog *m_drawDialog;
     double **m_array;
     quint8 m_rows;
+
 private slots:
     void replyUserError();
 

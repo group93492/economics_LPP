@@ -8,6 +8,7 @@
 #include "FinishDialog.h"
 #include "TwoDimensionalProblem.h"
 #include "GraphDialog1.h"
+#include "GraphDialog2.h"
 
 namespace Ui {
 class MainWindow;
