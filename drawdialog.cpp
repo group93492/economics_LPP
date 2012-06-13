@@ -61,6 +61,100 @@ QSize DrawDialog::sizeHint() const
 
 void DrawDialog::paintEvent(QPaintEvent *e)
 {
+//    QPainter painter(this);
+//    painter.translate(indent, indent);
+//    painter.translate(m_size.width(), m_size.height());
+//    painter.setRenderHint(QPainter::Antialiasing);
+//    //coordinate plain painting and set ordinary coordinate plain except of toQtY()
+//    painter.setPen(Qt::red);//oY
+//    painter.drawLine(QPoint(0, toQtY(-m_size.height())), QPoint(0, toQtY(m_size.height())));//axis
+//    painter.drawLine(QPoint(0, toQtY(m_size.height())), QPoint(-3, toQtY(m_size.height() - 5)));//arrow
+//    painter.drawLine(QPoint(0, toQtY(m_size.height())), QPoint(3, toQtY(m_size.height() - 5)));//arrow
+//    painter.drawStaticText(QPoint(-5, toQtY(m_size.height() + 20)), QStaticText("Y"));
+//    painter.setPen(Qt::blue);//oX
+//    painter.drawLine(QPoint(-m_size.width(), toQtY(0)), QPoint(m_size.width(), toQtY(0)));//axis
+//    painter.drawLine(QPoint(m_size.width(), toQtY(0)), QPoint(m_size.width() - 5, toQtY(-3)));//arrow
+//    painter.drawLine(QPoint(m_size.width(), toQtY(0)), QPoint(m_size.width() - 5, toQtY(3)));//arrow
+//    painter.drawStaticText(QPoint(m_size.width() + 5, toQtY(10)), QStaticText("X"));
+//    painter.setClipRect(QRect(QPoint(-m_size.width(), toQtY(m_size.height())),
+//                              QPoint(m_size.width(), toQtY(-m_size.height()))));
+//    //grid
+//    painter.setPen(Qt::lightGray);
+//    quint16 gridStep = 10 * m_scale;
+//    for(quint16 itr = 1; gridStep * itr < m_size.width(); itr++)//vertical
+//    {
+//        painter.drawLine(QPoint(itr * gridStep, toQtY(-m_size.height())),
+//                         QPoint(itr * gridStep, toQtY(m_size.height())));
+//        painter.drawLine(QPoint(-itr * gridStep, toQtY(-m_size.height())),
+//                         QPoint(-itr * gridStep, toQtY(m_size.height())));
+//    }
+//    for(quint16 itr = 1; gridStep * itr < m_size.height(); itr++)//horizontal
+//    {
+//        painter.drawLine(QPoint(-m_size.width(), toQtY(itr * gridStep)),
+//                         QPoint(m_size.width(), toQtY(itr * gridStep)));
+//        painter.drawLine(QPoint(-m_size.width(), toQtY(-itr * gridStep)),
+//                         QPoint(m_size.width(), toQtY(-itr * gridStep)));
+//    }
+//    //end of coordinate plain painting
+//    painter.setPen(m_linesColor);
+
+//    //text font
+//    painter.setFont(QFont(QApplication::font().family(), 7));
+//    foreach(const GraphicElement *itr, m_whatToDrawList)
+//        switch(itr->m_ElementType)
+//        {
+//        case GraphicElement::Line:
+//            const DrawLine *Line = dynamic_cast<const DrawLine *>(itr);
+//            if(Line->a == 0 && Line->b == 0)
+//            {
+//                qDebug() << "a == 0 and b == 0 wtf?? it will be deleted now";
+//                m_whatToDrawList.removeOne(const_cast<GraphicElement *>(itr));
+//                //такого не может быть
+//            }
+//            else if(Line->a == 0)
+//            {
+//                painter.setPen(m_linesColor);
+//                painter.drawLine(QPointF(-m_size.width(),
+//                                        toQtY((-1) * Line->c / Line->b * m_scale)),
+//                                 QPointF(m_size.width(),
+//                                        toQtY((-1) * Line->c / Line->b * m_scale)));
+//                painter.setPen(m_textColor);
+//                painter.drawStaticText(QPointF(0 - 20,
+//                                              toQtY((-1) * Line->c / Line->b * m_scale + 9)),
+//                                       QStaticText(QString::number(((-1) * Line->c / Line->b), 'f', 1)));
+//            }
+//            else if(Line->b == 0)
+//            {
+//                painter.setPen(m_linesColor);
+//                painter.drawLine(QPointF((-1) * Line->c / Line->a * m_scale,
+//                                        toQtY(-m_size.height())),
+//                                 QPointF((-1) * Line->c / Line->a * m_scale,
+//                                        toQtY(m_size.height())));
+//                painter.setPen(m_textColor);
+//                painter.drawStaticText(QPointF((-1) * Line->c / Line->a * m_scale - 20,
+//                                              toQtY(0 + 11)),
+//                                       QStaticText(QString::number(((-1) * Line->c / Line->a), 'f', 1)));
+//            }
+//            else
+//            {
+//                painter.setPen(m_linesColor);
+////                painter.drawLine(QPointF((-1) * (Line->c + Line->b * m_size.height()) / Line->a,
+////                                         toQtY(m_size.height())),
+////                                 QPointF((-1) * (Line->c * (2 * m_scale - 1) + Line->b * -m_size.height()) / Line->a,
+////                                         toQtY(-m_size.height()))); //the same but in abbreaviated form
+//                painter.drawLine(QPointF((-1) * (Line->c + Line->b * m_size.height()) / Line->a,
+//                                         toQtY(m_size.height())),
+//                                 QPointF((-1) * (Line->c + Line->b * -m_size.height()) / Line->a * m_scale-
+//                                         (-1) * (Line->c + Line->b * m_size.height()) / Line->a * (1 - m_scale),
+//                                         toQtY(-m_size.height())));
+//                painter.setPen(m_textColor);
+//                painter.drawText(QPointF(0, toQtY((-1) * Line->c / Line->b * m_scale)),
+//                                 QString::number((-1) * Line->c / Line->b, 'f', 1));
+//                painter.drawText(QPointF((-1) * Line->c / Line->a * m_scale, toQtY(0)),
+//                                 QString::number((-1) * Line->c / Line->a, 'f', 1));
+//            }
+//            break;
+//        }
     QPainter painter(this);
     painter.translate(indent, indent);
     painter.translate(m_size.width(), m_size.height());
@@ -78,28 +172,31 @@ void DrawDialog::paintEvent(QPaintEvent *e)
     painter.drawStaticText(QPoint(m_size.width() + 5, toQtY(10)), QStaticText("X"));
     painter.setClipRect(QRect(QPoint(-m_size.width(), toQtY(m_size.height())),
                               QPoint(m_size.width(), toQtY(-m_size.height()))));
-    //grid
-    painter.setPen(Qt::lightGray);
-    quint16 gridStep = 10 * m_scale;
-    for(quint16 itr = 1; gridStep * itr < m_size.width(); itr++)//vertical
-    {
-        painter.drawLine(QPoint(itr * gridStep, toQtY(-m_size.height())),
-                         QPoint(itr * gridStep, toQtY(m_size.height())));
-        painter.drawLine(QPoint(-itr * gridStep, toQtY(-m_size.height())),
-                         QPoint(-itr * gridStep, toQtY(m_size.height())));
-    }
-    for(quint16 itr = 1; gridStep * itr < m_size.height(); itr++)//horizontal
-    {
-        painter.drawLine(QPoint(-m_size.width(), toQtY(itr * gridStep)),
-                         QPoint(m_size.width(), toQtY(itr * gridStep)));
-        painter.drawLine(QPoint(-m_size.width(), toQtY(-itr * gridStep)),
-                         QPoint(m_size.width(), toQtY(-itr * gridStep)));
-    }
-    //end of coordinate plain painting
-    painter.setPen(m_linesColor);
 
     //text font
     painter.setFont(QFont(QApplication::font().family(), 7));
+    painter.save();
+    painter.scale(m_scale, m_scale);
+    painter.setPen(Qt::lightGray);
+    //grid
+    qreal scale_diff = 1 / m_scale;
+    quint16 gridStep = 10;
+    for(quint16 itr = 1; gridStep * itr < m_size.width() * scale_diff; itr++)//vertical
+    {
+        painter.drawLine(QPoint(itr * gridStep, toQtY(-m_size.height() * scale_diff)),
+                         QPoint(itr * gridStep, toQtY(m_size.height() * scale_diff)));
+        painter.drawLine(QPoint(-itr * gridStep, toQtY(-m_size.height() * scale_diff)),
+                         QPoint(-itr * gridStep, toQtY(m_size.height() * scale_diff)));
+    }
+    for(quint16 itr = 1; gridStep * itr < m_size.height() * scale_diff; itr++)//horizontal
+    {
+        painter.drawLine(QPoint(-m_size.width() * scale_diff, toQtY(itr * gridStep)),
+                         QPoint(m_size.width() * scale_diff, toQtY(itr * gridStep)));
+        painter.drawLine(QPoint(-m_size.width() * scale_diff, toQtY(-itr * gridStep)),
+                         QPoint(m_size.width() * scale_diff, toQtY(-itr * gridStep)));
+    }
+    //end of coordinate plain painting
+    painter.setPen(m_linesColor);
     foreach(const GraphicElement *itr, m_whatToDrawList)
         switch(itr->m_ElementType)
         {
@@ -114,44 +211,48 @@ void DrawDialog::paintEvent(QPaintEvent *e)
             else if(Line->a == 0)
             {
                 painter.setPen(m_linesColor);
-                painter.drawLine(QPointF(-m_size.width(),
-                                        toQtY((-1) * Line->c / Line->b * m_scale)),
-                                 QPointF(m_size.width(),
-                                        toQtY((-1) * Line->c / Line->b * m_scale)));
+                painter.drawLine(QPointF(-m_size.width() * scale_diff,
+                                         toQtY((-1) * Line->c / Line->b)),
+                                 QPointF(m_size.width() * scale_diff,
+                                         toQtY((-1) * Line->c / Line->b)));
+                painter.restore();
+                painter.save();
                 painter.setPen(m_textColor);
-                painter.drawStaticText(QPointF(0 - 20,
-                                              toQtY((-1) * Line->c / Line->b * m_scale + 9)),
+                painter.drawStaticText(QPointF(0,
+                                               toQtY((-1) * Line->c / Line->b * m_scale)),
                                        QStaticText(QString::number(((-1) * Line->c / Line->b), 'f', 1)));
+                painter.scale(m_scale, m_scale);
             }
             else if(Line->b == 0)
             {
                 painter.setPen(m_linesColor);
-                painter.drawLine(QPointF((-1) * Line->c / Line->a * m_scale,
-                                        toQtY(-m_size.height())),
-                                 QPointF((-1) * Line->c / Line->a * m_scale,
-                                        toQtY(m_size.height())));
+                painter.drawLine(QPointF((-1) * Line->c / Line->a,
+                                         toQtY(-m_size.height()) * scale_diff),
+                                 QPointF((-1) * Line->c / Line->a,
+                                         toQtY(m_size.height()) * scale_diff));
+                painter.restore();
+                painter.save();
                 painter.setPen(m_textColor);
-                painter.drawStaticText(QPointF((-1) * Line->c / Line->a * m_scale - 20,
-                                              toQtY(0 + 11)),
+                painter.drawStaticText(QPointF((-1) * Line->c / Line->a * m_scale,
+                                               toQtY(0)),
                                        QStaticText(QString::number(((-1) * Line->c / Line->a), 'f', 1)));
+                painter.scale(m_scale, m_scale);
             }
             else
             {
                 painter.setPen(m_linesColor);
-//                painter.drawLine(QPointF((-1) * (Line->c + Line->b * m_size.height()) / Line->a,
-//                                         toQtY(m_size.height())),
-//                                 QPointF((-1) * (Line->c * (2 * m_scale - 1) + Line->b * -m_size.height()) / Line->a,
-//                                         toQtY(-m_size.height()))); //the same but in abbreaviated form
-                painter.drawLine(QPointF((-1) * (Line->c + Line->b * m_size.height()) / Line->a,
-                                         toQtY(m_size.height())),
-                                 QPointF((-1) * (Line->c + Line->b * -m_size.height()) / Line->a * m_scale-
-                                         (-1) * (Line->c + Line->b * m_size.height()) / Line->a * (1 - m_scale),
-                                         toQtY(-m_size.height())));
+                painter.drawLine(QPointF((-1) * (Line->c + Line->b * m_size.height() * scale_diff) / Line->a,
+                                         toQtY(m_size.height() * scale_diff)),
+                                 QPointF((-1) * (Line->c + Line->b * -m_size.height() * scale_diff) / Line->a,
+                                         toQtY(-m_size.height() * scale_diff)));
+                painter.restore();
+                painter.save();
                 painter.setPen(m_textColor);
                 painter.drawText(QPointF(0, toQtY((-1) * Line->c / Line->b * m_scale)),
                                  QString::number((-1) * Line->c / Line->b, 'f', 1));
                 painter.drawText(QPointF((-1) * Line->c / Line->a * m_scale, toQtY(0)),
                                  QString::number((-1) * Line->c / Line->a, 'f', 1));
+                painter.scale(m_scale, m_scale);
             }
             break;
         }
