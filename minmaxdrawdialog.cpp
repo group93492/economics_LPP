@@ -171,25 +171,18 @@ void MinMaxDrawDialog::paintEvent(QPaintEvent *e)
                                  toQtY(m_size.height() * scale_diff)),
                          QPointF((-1) * (c + Zfunction.b * -m_size.height() * scale_diff) / Zfunction.a,
                                  toQtY(-m_size.height() * scale_diff)));
-//        painter.drawLine(QPointF((-1) * (c + Zfunction.b * m_size.height()) / Zfunction.a,
-//                                 toQtY(m_size.height())),
-//                         QPointF((-1) * (c + Zfunction.b * -m_size.height()) / Zfunction.a * m_scale -
-//                                 (-1) * (c + Zfunction.b * m_size.height()) / Zfunction.a * (1 - m_scale),
-//                                 toQtY(-m_size.height())));
+
         c = (-1) * Zfunction.a * m_maxLineUserAnswer.first.x() -
                 Zfunction.b * toQtY(m_maxLineUserAnswer.first.y());
         painter.setPen(Qt::darkCyan);
         painter.drawEllipse(m_minLineUserAnswer.first, 1, 1);
-//        painter.drawLine(QPointF((-1) * (c + Zfunction.b * m_size.height()) / Zfunction.a,
-//                                 toQtY(m_size.height())),
-//                         QPointF((-1) * (c + Zfunction.b * -m_size.height()) / Zfunction.a -
-//                                 (-1) * (c + Zfunction.b * m_size.height()) / Zfunction.a * (1 - m_scale),
-//                                 toQtY(-m_size.height())));
         painter.drawLine(QPointF((-1) * (c + Zfunction.b * m_size.height() * scale_diff) / Zfunction.a,
                                  toQtY(m_size.height() * scale_diff)),
                          QPointF((-1) * (c + Zfunction.b * -m_size.height() * scale_diff) / Zfunction.a,
                                  toQtY(-m_size.height() * scale_diff)));
     }
+
+    painter.restore();//it generaly hasn't any sense but it needs to avoid multiply warnings about not restored painter save
 }
 
 QLineF MinMaxDrawDialog::getQLine(DrawLine Line)

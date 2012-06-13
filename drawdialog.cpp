@@ -162,6 +162,8 @@ void DrawDialog::paintEvent(QPaintEvent *e)
         painter.drawEllipse(m_userClickPoint, 3, 3);
         painter.setBrush(previousBrush);
     }
+
+    painter.restore();//it generaly hasn't any sense but it needs to avoid multiply warnings about not restored painter save
 }
 
 void DrawDialog::mousePressEvent(QMouseEvent *e)
@@ -183,7 +185,6 @@ void DrawDialog::mousePressEvent(QMouseEvent *e)
     m_userClickPoint = translatedDot;//because we use it for drawing, we need it in Qt coordinate system
     translatedDot.ry() *= fromQtY(1);
     m_userAnswer = ifDotIsSolution(translatedDot);
-    qDebug() << m_userAnswer;
     update();
 }
 
