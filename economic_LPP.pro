@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     FinishDialog.cpp \
     TwoDimensionalProblem.cpp \
     drawdialog.cpp \
-    minmaxdrawdialog.cpp
+    minmaxdrawdialog.cpp \
+    GraphDialog2.cpp \
+    GraphDialog1.cpp
 
 HEADERS  += mainwindow.h \
     ConditionDialog.h \
@@ -29,7 +31,9 @@ HEADERS  += mainwindow.h \
     FinishDialog.h \
     TwoDimensionalProblem.h \
     drawdialog.h \
-    minmaxdrawdialog.h
+    minmaxdrawdialog.h \
+    GraphDialog2.h \
+    GraphDialog1.h
 
 FORMS    += mainwindow.ui \
     ConditionDialog.ui \
@@ -38,4 +42,6 @@ FORMS    += mainwindow.ui \
     FinishDialog.ui \
     TwoDimensionalProblem.ui \
     drawdialog.ui \
-    minmaxdrawdialog.ui
+    minmaxdrawdialog.ui \
+    GraphDialog2.ui \
+    GraphDialog1.ui

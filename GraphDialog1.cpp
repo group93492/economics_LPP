@@ -7,7 +7,7 @@ GraphDialog1::GraphDialog1(QWidget *parent) :
 {
     ui->setupUi(this);
     m_drawDialog = new DrawDialog();
-    ui->generalLayout->addWidget(m_drawDialog);
+    ui->paintLayout->addWidget(m_drawDialog);
     connect(m_drawDialog, SIGNAL(userAnswerFalse()), this, SLOT(replyUserError()));
 }
 

@@ -12,12 +12,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ExpressionsDialog *bdialog = new ExpressionsDialog();
     SolvedSystemDialog *cdialog = new SolvedSystemDialog();
     TwoDimensionalProblem *ddialog = new TwoDimensionalProblem();
+    GraphDialog1 *edialog = new GraphDialog1();
     FinishDialog *zdialog = new FinishDialog();
     //add widgets
     ui->stackedWidget->addWidget(adialog);
     ui->stackedWidget->addWidget(bdialog);
     ui->stackedWidget->addWidget(cdialog);
     ui->stackedWidget->addWidget(ddialog);
+    ui->stackedWidget->addWidget(edialog);
     ui->stackedWidget->addWidget(zdialog);
     //connect
     connect(adialog, SIGNAL(next()), this, SLOT(nextWidget()));
@@ -35,6 +37,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ddialog, SIGNAL(back()), this, SLOT(previousWidget()));
     connect(ddialog, SIGNAL(next()), this, SLOT(nextWidget()));
+    connect(ddialog, SIGNAL(result(double**,quint8)), edialog, SLOT(setCondition(double**,quint8)));
+
+    connect(edialog, SIGNAL(next()), this, SLOT(nextWidget()));
+    connect(edialog, SIGNAL(back()), this, SLOT(previousWidget()));
+    connect(edialog, SIGNAL(userError()), zdialog, SLOT(addUserError()));
 
     connect(ui->resetButton, SIGNAL(clicked()), zdialog, SLOT(reset()));
 }
