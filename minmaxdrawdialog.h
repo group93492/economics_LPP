@@ -65,10 +65,7 @@ signals:
     void userAnswerFalse();
 
 private slots:
-    void on_pushButton_clicked();
-    void on_nextMin_clicked();
-    void on_nextMax_clicked();
-    void on_pushButton_2_clicked();
+
 };
 
 #endif // MINMAXDRAWDIALOG_H
