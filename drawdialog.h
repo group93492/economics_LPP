@@ -25,19 +25,19 @@ private:
     QLinkedList<GraphicElement *> m_whatToDrawList;
     QColor m_textColor;
     QColor m_linesColor;
-    QPolygonF *m_solutionPolygon;
-    static int toQtY(int Y);
-    static int fromQtY(int Y);
+    static qreal toQtY(qreal Y);
+    static qreal fromQtY(qreal Y);
+    bool m_userAnswer;
+    bool m_firstClickOccured;
+    QPointF m_userClickPoint;
     enum{
         indent = 20 //отступ в пикселях от краев окна для надписей и т.д.
     };
     void drawLine(const double x, const double y, const double c);
     QLineF getQLine(DrawLine Line);
     QLineF getOrdinaryLine(DrawLine Line);
+    bool ifDotIsSolution(QPointF clickedDot);
     QPolygonF *findSolutionPolygon(QLinkedList<GraphicElement *> *drawList);
-    QPolygonF *sortPolygonPointsClockwise(QPolygonF *poly);
-    bool drawpoly;
-    void drawPoly();
 
 public:
     explicit DrawDialog(QWidget *parent = 0);
@@ -50,12 +50,15 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *e);
+    void mousePressEvent(QMouseEvent *e);
 
 public slots:
     void drawTheProblem(double **array, quint8 rowsCount);
+    void next();
 
-private slots:
-    void on_checkPushButton_clicked();
+signals:
+    void firstClick(); //emited after first click on widget
+    void userAnswerFalse();//emited if user answer is wrong
 };
 
 class GraphicElement
@@ -73,6 +76,7 @@ class DrawLine : public GraphicElement
 {
 public:
     DrawLine(double _a, double _b, double _c);
+    DrawLine() : GraphicElement(Line) {}
     ~DrawLine() {}
     double a;
     double b;

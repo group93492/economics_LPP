@@ -14,14 +14,17 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     ConditionDialog.cpp \
     ExpressionsDialog.cpp \
-    drawdialog.cpp
+    drawdialog.cpp \
+    minmaxdrawdialog.cpp
 
 HEADERS  += mainwindow.h \
     ConditionDialog.h \
     ExpressionsDialog.h \
-    drawdialog.h
+    drawdialog.h \
+    minmaxdrawdialog.h
 
 FORMS    += mainwindow.ui \
     ConditionDialog.ui \
     ExpressionsDialog.ui \
-    drawdialog.ui
+    drawdialog.ui \
+    minmaxdrawdialog.ui

@@ -3,6 +3,7 @@
 #include <QStaticText>
 #include <QLineF>
 #include <qmath.h>
+#include <QMouseEvent>
 
 DrawDialog::DrawDialog(const QSize size, QWidget *parent) :
     QWidget(parent),
@@ -11,11 +12,10 @@ DrawDialog::DrawDialog(const QSize size, QWidget *parent) :
     m_scale(1.0),
     m_textColor(Qt::red),
     m_linesColor(Qt::black),
-    m_solutionPolygon(NULL),
-    drawpoly(false)
+    m_firstClickOccured(false)
 {
     ui->setupUi(this);
-     m_size = m_windowSize / 2 - QSize(indent, indent);
+    m_size = m_windowSize / 2 - QSize(indent, indent);
 }
 
 DrawDialog::DrawDialog(QWidget *parent) :
@@ -24,8 +24,7 @@ DrawDialog::DrawDialog(QWidget *parent) :
     m_scale(1.0),
     m_textColor(Qt::red),
     m_linesColor(Qt::black),
-    m_solutionPolygon(NULL),
-    drawpoly(false)
+    m_firstClickOccured(false)
 {
     ui->setupUi(this);
     m_windowSize = QSize(this->geometry().bottomRight().x() - 1, this->geometry().bottomRight().y() - 1);
@@ -34,7 +33,6 @@ DrawDialog::DrawDialog(QWidget *parent) :
 
 DrawDialog::~DrawDialog()
 {
-    delete m_solutionPolygon;
     delete ui;
 }
 
@@ -157,11 +155,36 @@ void DrawDialog::paintEvent(QPaintEvent *e)
             }
             break;
         }
-    if(drawpoly)
+    if(m_firstClickOccured)
     {
-        painter.setPen(Qt::green);
-        painter.drawPolygon(*findSolutionPolygon(&m_whatToDrawList));
+        QBrush previousBrush = painter.brush();
+        painter.setBrush(QBrush(Qt::yellow));
+        painter.drawEllipse(m_userClickPoint, 3, 3);
+        painter.setBrush(previousBrush);
     }
+}
+
+void DrawDialog::mousePressEvent(QMouseEvent *e)
+{
+    if(e->button() != Qt::LeftButton)
+    {
+        e->accept();
+        return;
+    }
+    if(!m_firstClickOccured)
+    {
+        m_firstClickOccured = true;
+        emit firstClick();
+    }
+    QPointF translatedDot = e->posF();
+    translatedDot -= QPointF(indent, indent);
+    translatedDot -= QPointF(m_size.width(), m_size.height());
+    translatedDot /= m_scale;
+    m_userClickPoint = translatedDot;//because we use it for drawing, we need it in Qt coordinate system
+    translatedDot.ry() *= fromQtY(1);
+    m_userAnswer = ifDotIsSolution(translatedDot);
+    qDebug() << m_userAnswer;
+    update();
 }
 
 QLineF DrawDialog::getQLine(DrawLine Line)
@@ -228,12 +251,18 @@ void DrawDialog::drawTheProblem(double **array, quint8 rowsCount)
     }
 }
 
-int DrawDialog::toQtY(int Y)
+void DrawDialog::next()
+{
+    if(!m_userAnswer)
+        emit userAnswerFalse();
+}
+
+qreal DrawDialog::toQtY(qreal Y)
 {
     return -Y;
 }
 
-int DrawDialog::fromQtY(int Y)
+qreal DrawDialog::fromQtY(qreal Y)
 {
     return -Y;
 }
@@ -245,123 +274,16 @@ void DrawDialog::drawLine(const double a, const double b, const double c)
     update();
 }
 
-QPolygonF *DrawDialog::findSolutionPolygon(QLinkedList<GraphicElement *> *drawList)
+bool DrawDialog::ifDotIsSolution(QPointF clickedDot)
 {
-    Q_ASSERT(drawList->size() >= 2);
-    QLinkedList<DrawLine> allLines;
-    //oX and oY axes
-    allLines << DrawLine(1, 0, 0);
-    allLines << DrawLine(0, 1, 0);
-    //collect all lines
-    foreach(GraphicElement *itr, *drawList)
-    {
-        switch(itr->m_ElementType)
+    foreach(GraphicElement *itr, m_whatToDrawList)
+        if(itr->m_ElementType == GraphicElement::Line)
         {
-        case GraphicElement::Line:
-            const DrawLine *Line = dynamic_cast<const DrawLine *>(itr);
-            if(Line->a == 0 && Line->b == 0)
-            {
-                qDebug() << "a == 0 and b == 0 wtf??";
-                drawList->removeOne(const_cast<GraphicElement *>(itr));
-                //такого не может быть
-            }
-            else
-                allLines << DrawLine(Line->a, Line->b, Line->c);
-            break;
+            DrawLine *Line = dynamic_cast<DrawLine *>(itr);
+            if(Line->a * clickedDot.x() + Line->b * clickedDot.y() + Line->c < 0)
+                return false;
         }
-    }
-    QLinkedList<QPair<QPointF, QPointF> > pointList;//one is scaled point for drawing and another is original for checking
-    //collect all intersect points
-    for(QLinkedList<DrawLine>::const_iterator itr = allLines.begin(); itr != (allLines.end() - 1); ++itr)
-        for(QLinkedList<DrawLine>::const_iterator itr2 = itr + 1; itr2 != allLines.end(); ++itr2)
-        {
-            QPair<QPointF, QPointF> currentInterceptPoints;
-            if(getQLine(*itr).intersect(getQLine(*itr2), &currentInterceptPoints.first) !=
-                    QLineF::NoIntersection &&
-                    getOrdinaryLine(*itr).intersect(getOrdinaryLine(*itr2), &currentInterceptPoints.second) !=
-                    QLineF::NoIntersection)
-                pointList << currentInterceptPoints;
-        }
-    QPolygonF *resultPolygon = new QPolygonF();
-    //substitude all points to each equation and exclude point if equaction will NOT be >= 0
-    for(QLinkedList<QPair<QPointF, QPointF> >::iterator itrPoint = pointList.begin(); itrPoint != pointList.end(); ++itrPoint)
-    {
-        bool isNeedToAdd = true;
-        foreach(const DrawLine Line, allLines)
-            if(Line.a * (*itrPoint).second.x() + Line.b * (*itrPoint).second.y() + Line.c < 0 ||
-                    (*itrPoint).second.x() < 0 || (*itrPoint).second.y() < 0)
-            {
-                isNeedToAdd = false;
-                break;
-            }
-        if(isNeedToAdd)
-        {
-//            qDebug() << *itrPoint;
-            (*resultPolygon) << (*itrPoint).first;
-        }
-    }
-    qDebug() << *resultPolygon;
-    qDebug() << *sortPolygonPointsClockwise(resultPolygon);
-    Q_ASSERT(false);
-    return resultPolygon;
-}
-
-//Находим самую нижнюю (минимальную по Y) точку, если таковых несколько - берём ту, что имеет большую координату по X, то есть, правую точку. Записываем эту точку как A[1].
-//    Все остальные точки сортируем по возрастанию угла относительно A[1], если у каких-то точек есть одинаковый угол - то по расстоянию от A[1] (убыванию).
-//    Получившиеся точки образуют ломаную без самопересечений, давая нам тот самый "естественный порядок обхода".
-QPolygonF *DrawDialog::sortPolygonPointsClockwise(QPolygonF *poly)
-{
-    QPointF lesser = poly->first();
-    for(QVector<QPointF>::iterator point = poly->begin() + 1; point != poly->end(); ++point)
-    {
-        if(fromQtY(lesser.y()) > fromQtY((*point).y()))
-            lesser = (*point);
-        else if(fromQtY(lesser.y()) == fromQtY((*point).y()))
-            if(lesser.x() < (*point).x())
-                lesser = (*point);
-    }
-    QPolygonF resultPoly;
-    resultPoly << lesser;
-    qDebug() << "lesser" << lesser;
-    QMap<qreal, QPointF> sortedPoints;
-    foreach(QPointF point, *poly)
-    {
-        if(point == lesser)
-            continue;
-        sortedPoints.insertMulti((lesser.x() * point.x() + fromQtY(lesser.y()) * fromQtY(point.y())) /
-                        (qSqrt(qPow(lesser.x(), 2.0) + qPow(fromQtY(lesser.y()), 2.0)) *
-                         qSqrt(qPow(point.x(), 2.0) + qPow(fromQtY(point.y()), 2.0))), point);
-    }
-    for(QMap<qreal, QPointF>::iterator itr = sortedPoints.begin();
-        itr != sortedPoints.end();
-        ++itr)
-    {
-        if(sortedPoints.count(itr.key()) > 1)
-        {
-            QMap<qreal, QPointF> similarAnglePoints;
-            //sort by distance from lesser point
-            foreach(QPointF point, sortedPoints.values(itr.key()))
-                similarAnglePoints.insert(qSqrt(qPow(point.x() - lesser.x(), 2.0) +
-                                            qPow(fromQtY(point.y()) - fromQtY(lesser.y()), 2.0)),
-                        point);
-//            QMap<qreal, QPointF>::iterator itrForReverseCopy = similarAnglePoints.end();
-//            while(itrForReverseCopy != similarAnglePoints.begin())
-//                    resultPoly << *(--itrForReverseCopy);
-            foreach(QPointF point, similarAnglePoints)
-                resultPoly << point;
-            BUG: extra points
-        }
-        else
-            resultPoly << itr.value();
-    }
-    (*poly) = resultPoly;
-    return poly;
-}
-
-void DrawDialog::drawPoly()
-{
-    drawpoly = true;
-    update();
+    return true;
 }
 
 DrawLine::DrawLine(double _a, double _b, double _c)  :
@@ -370,17 +292,4 @@ DrawLine::DrawLine(double _a, double _b, double _c)  :
     b(_b),
     c(_c)
 {
-}
-
-void DrawDialog::on_checkPushButton_clicked()
-{
-//    drawLine(ui->doubleSpinBox->value(),
-//             ui->doubleSpinBox_2->value(),
-//             ui->doubleSpinBox_3->value());
-    drawLine(-0.8,  0, 8.4);
-    drawLine(0, -1.5, 9.75);
-    drawLine(-1, -1, 12);
-    drawLine(0.8, 1.5, -6.15);
-    drawPoly();
-    setScale(ui->doubleSpinBox_4->value());
 }

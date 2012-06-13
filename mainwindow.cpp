@@ -9,7 +9,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ConditionDialog *cdialog = new ConditionDialog();
     ExpressionsDialog *edialog = new ExpressionsDialog();
-    DrawDialog *paintDialog = new DrawDialog(ui->stackedWidget);
+//    DrawDialog *paintDialog = new DrawDialog(ui->stackedWidget);
+    MinMaxDrawDialog *paintDialog = new MinMaxDrawDialog(ui->stackedWidget);
 //    ui->stackedWidget->addWidget(cdialog);
 //    ui->stackedWidget->addWidget(edialog);
     ui->stackedWidget->addWidget(paintDialog);

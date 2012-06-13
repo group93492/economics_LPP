@@ -5,6 +5,7 @@
 #include "ConditionDialog.h"
 #include "ExpressionsDialog.h"
 #include "drawdialog.h"
+#include "minmaxdrawdialog.h"
 
 namespace Ui {
 class MainWindow;
