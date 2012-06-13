@@ -7,6 +7,8 @@
 #include "SolvedSystemDialog.h"
 #include "FinishDialog.h"
 #include "TwoDimensionalProblem.h"
+#include "drawdialog.h"
+#include "minmaxdrawdialog.h"
 
 namespace Ui {
 class MainWindow;

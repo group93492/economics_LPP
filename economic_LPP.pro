@@ -17,7 +17,9 @@ SOURCES += main.cpp\
     GaussJordano.cpp \
     SolvedSystemDialog.cpp \
     FinishDialog.cpp \
-    TwoDimensionalProblem.cpp
+    TwoDimensionalProblem.cpp \
+    drawdialog.cpp \
+    minmaxdrawdialog.cpp
 
 HEADERS  += mainwindow.h \
     ConditionDialog.h \
@@ -25,11 +27,15 @@ HEADERS  += mainwindow.h \
     GaussJordano.h \
     SolvedSystemDialog.h \
     FinishDialog.h \
-    TwoDimensionalProblem.h
+    TwoDimensionalProblem.h \
+    drawdialog.h \
+    minmaxdrawdialog.h
 
 FORMS    += mainwindow.ui \
     ConditionDialog.ui \
     ExpressionsDialog.ui \
     SolvedSystemDialog.ui \
     FinishDialog.ui \
-    TwoDimensionalProblem.ui
+    TwoDimensionalProblem.ui \
+    drawdialog.ui \
+    minmaxdrawdialog.ui
