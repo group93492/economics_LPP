@@ -168,7 +168,7 @@ void DrawDialog::paintEvent(QPaintEvent *e)
         painter.save();
         QBrush previousBrush = painter.brush();
         painter.setBrush(QBrush(Qt::yellow));
-        painter.drawEllipse(m_userClickPoint, 3, 3);
+        painter.drawEllipse(m_userClickPoint * m_scale, 3, 3);
         painter.setBrush(previousBrush);
         painter.scale(m_scale, m_scale);
     }
@@ -256,10 +256,9 @@ QLineF DrawDialog::getOrdinaryLine(DrawLine Line)
 
 void DrawDialog::drawTheProblem(double **array, quint8 rowsCount)
 {
+    resetAllChanges();
     for(quint8 currentRow = 0; currentRow < rowsCount - 1; ++currentRow)
-    {
         drawLine(array[currentRow][0], array[currentRow][1], array[currentRow][2]);
-    }
 }
 
 void DrawDialog::next()
@@ -303,4 +302,13 @@ DrawLine::DrawLine(double _a, double _b, double _c)  :
     b(_b),
     c(_c)
 {
+}
+
+void DrawDialog::resetAllChanges()
+{
+    foreach(GraphicElement *itr, m_whatToDrawList)
+        itr->~GraphicElement();
+    m_whatToDrawList.clear();
+    m_scale = 1.0;
+    m_firstClickOccured = false;
 }

@@ -11,7 +11,8 @@ MinMaxDrawDialog::MinMaxDrawDialog(const QSize size, QWidget *parent) :
     m_scale(1.0),
     m_textColor(Qt::red),
     m_linesColor(Qt::black),
-    m_drawMinMax(false)
+    m_drawMinMax(false),
+    m_resetAllChanges(false)
 {
     ui->setupUi(this);
     m_size = m_windowSize / 2 - QSize(indent, indent);
@@ -23,7 +24,8 @@ MinMaxDrawDialog::MinMaxDrawDialog(QWidget *parent) :
     m_scale(1.0),
     m_textColor(Qt::red),
     m_linesColor(Qt::black),
-    m_drawMinMax(false)
+    m_drawMinMax(false),
+    m_resetAllChanges(false)
 {
     ui->setupUi(this);
     m_windowSize = QSize(this->geometry().bottomRight().x() - 1, this->geometry().bottomRight().y() - 1);
@@ -165,8 +167,11 @@ void MinMaxDrawDialog::paintEvent(QPaintEvent *e)
     {
         qreal c = (-1) * Zfunction.a * m_minLineUserAnswer.first.x() -
                 Zfunction.b * toQtY(m_minLineUserAnswer.first.y());
+        painter.restore();
+        painter.save();
         painter.setPen(Qt::magenta);
-        painter.drawEllipse(m_maxLineUserAnswer.first, 1, 1);
+        painter.drawEllipse(m_minLineUserAnswer.first * m_scale, 5, 5);
+        painter.scale(m_scale, m_scale);
         painter.drawLine(QPointF((-1) * (c + Zfunction.b * m_size.height() * scale_diff) / Zfunction.a,
                                  toQtY(m_size.height() * scale_diff)),
                          QPointF((-1) * (c + Zfunction.b * -m_size.height() * scale_diff) / Zfunction.a,
@@ -174,8 +179,11 @@ void MinMaxDrawDialog::paintEvent(QPaintEvent *e)
 
         c = (-1) * Zfunction.a * m_maxLineUserAnswer.first.x() -
                 Zfunction.b * toQtY(m_maxLineUserAnswer.first.y());
+        painter.restore();
+        painter.save();
         painter.setPen(Qt::darkCyan);
-        painter.drawEllipse(m_minLineUserAnswer.first, 1, 1);
+        painter.drawEllipse(m_maxLineUserAnswer.first * m_scale, 5, 5);
+        painter.scale(m_scale, m_scale);
         painter.drawLine(QPointF((-1) * (c + Zfunction.b * m_size.height() * scale_diff) / Zfunction.a,
                                  toQtY(m_size.height() * scale_diff)),
                          QPointF((-1) * (c + Zfunction.b * -m_size.height() * scale_diff) / Zfunction.a,
@@ -211,8 +219,7 @@ QLineF MinMaxDrawDialog::getQLine(DrawLine Line)
     {
         return QLineF(QPointF((-1) * (Line.c + Line.b * m_size.height()) / Line.a,
                                  toQtY(m_size.height())),
-                         QPointF((-1) * (Line.c + Line.b * -m_size.height()) / Line.a * m_scale-
-                                 (-1) * (Line.c + Line.b * m_size.height()) / Line.a * (1 - m_scale),
+                         QPointF((-1) * (Line.c + Line.b * -m_size.height()) / Line.a,
                                  toQtY(-m_size.height())));
     }
 }
@@ -272,21 +279,29 @@ QLinkedList<QPair<QPointF, QPointF> > MinMaxDrawDialog::findSolutionPolygon(QLin
         for(QLinkedList<DrawLine>::const_iterator itr2 = itr + 1; itr2 != allLines.end(); ++itr2)
         {
             QPair<QPointF, QPointF> currentInterceptPoints;
-            if(getQLine(*itr).intersect(getQLine(*itr2), &currentInterceptPoints.first) !=
-                    QLineF::NoIntersection &&
-                    getOrdinaryLine(*itr).intersect(getOrdinaryLine(*itr2), &currentInterceptPoints.second) !=
-                    QLineF::NoIntersection)
-                pointList << currentInterceptPoints;
+            if(getQLine(*itr).intersect(getQLine(*itr2), &currentInterceptPoints.first) != QLineF::NoIntersection &&
+                    getOrdinaryLine(*itr).intersect(getOrdinaryLine(*itr2), &currentInterceptPoints.second) != QLineF::NoIntersection)
+            {
+                    pointList << currentInterceptPoints;
+//                    qDebug() << currentInterceptPoints.first << " || " << currentInterceptPoints.second;
+            }
         }
     QLinkedList<QPair<QPointF, QPointF> > result;
     //substitude all points to each equation and exclude point if equaction will NOT be >= 0
+    //pop out axes which we used early
+    allLines.removeFirst();
+    allLines.removeFirst();
     for(QLinkedList<QPair<QPointF, QPointF> >::iterator itrPoint = pointList.begin(); itrPoint != pointList.end(); ++itrPoint)
     {
         bool isNeedToAdd = true;
         foreach(const DrawLine Line, allLines)
-            if(Line.a * (*itrPoint).second.x() + Line.b * (*itrPoint).second.y() + Line.c < 0 ||
-                    (*itrPoint).second.x() < 0 || (*itrPoint).second.y() < 0)
+            if(qRound((Line.a * (*itrPoint).second.x() + Line.b * (*itrPoint).second.y() + Line.c) * 1000000) / 1000000 < 0 ||
+                    (*itrPoint).second.x() < 0 ||
+                    (*itrPoint).second.y() < 0)
             {
+//                qDebug() << "break" << Line.a << Line.b << Line.c << " = " <<
+//                            (Line.a * qRound((*itrPoint).second.x() + Line.b * (*itrPoint).second.y() + Line.c) * 1000) / 1000 <<
+//                            " ||| " << (*itrPoint).first << " || " << (*itrPoint).second;
                 isNeedToAdd = false;
                 break;
             }
@@ -324,8 +339,19 @@ void MinMaxDrawDialog::findMax()
         }
 }
 
+void MinMaxDrawDialog::resetAllChanges()
+{
+    m_resetAllChanges = true;
+    foreach(GraphicElement *itr, m_whatToDrawList)
+        itr->~GraphicElement();
+    m_whatToDrawList.clear();
+    m_scale = 1.0;
+    m_drawMinMax = false;
+}
+
 void MinMaxDrawDialog::drawTheProblem(double **array, quint8 rowsCount)
 {
+    resetAllChanges();
     for(quint8 currentRow = 0; currentRow < rowsCount - 1; ++currentRow)
     {
         drawLine(array[currentRow][0], array[currentRow][1], array[currentRow][2]);
@@ -337,16 +363,19 @@ void MinMaxDrawDialog::drawTheProblem(double **array, quint8 rowsCount)
     nextMin();
     nextMax();
     m_drawMinMax = true;
-//    update();
+    update();
+    m_resetAllChanges = false;
 }
 
 void MinMaxDrawDialog::nextMin()
 {
     static QLinkedList<QPair<QPointF, QPointF> >::iterator itr = m_solutionPoints.begin();
+    if(m_resetAllChanges)
+        itr = m_solutionPoints.begin();
     if(itr == m_solutionPoints.end())
         itr = m_solutionPoints.begin();
     m_minLineUserAnswer = *itr;
-    qDebug() << "nextMin: " << *itr;
+//    qDebug() << "nextMin: " << *itr;
     itr++;
     update();
 }
@@ -354,10 +383,12 @@ void MinMaxDrawDialog::nextMin()
 void MinMaxDrawDialog::nextMax()
 {
     static QLinkedList<QPair<QPointF, QPointF> >::iterator itr = m_solutionPoints.begin();
+    if(m_resetAllChanges)
+        itr = m_solutionPoints.begin();
     if(itr == m_solutionPoints.end())
         itr = m_solutionPoints.begin();
     m_maxLineUserAnswer = *itr;
-    qDebug() << "nextMax: " << *itr;
+//    qDebug() << "nextMax: " << *itr;
     itr++;
     update();
 }

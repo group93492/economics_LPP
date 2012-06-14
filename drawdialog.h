@@ -38,6 +38,7 @@ private:
     QLineF getOrdinaryLine(DrawLine Line);
     bool ifDotIsSolution(QPointF clickedDot);
     QPolygonF *findSolutionPolygon(QLinkedList<GraphicElement *> *drawList);
+    void resetAllChanges();
 
 public:
     explicit DrawDialog(QWidget *parent = 0);

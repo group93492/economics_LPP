@@ -26,7 +26,7 @@ private:
     QColor m_linesColor;
     static qreal toQtY(qreal Y);
     static qreal fromQtY(qreal Y);
-    bool m_drawMinMax;//if allready draw min and max line
+    bool m_drawMinMax;//if we allready ready to draw min and max line
     QPair<QPointF, QPointF> m_minLineAnswer;
     QPair<QPointF, QPointF> m_maxLineAnswer;
     QPair<QPointF, QPointF> m_minLineUserAnswer;
@@ -42,6 +42,8 @@ private:
     void findMax();
     DrawLine Zfunction;
     QLinkedList<QPair<QPointF, QPointF> > findSolutionPolygon(QLinkedList<GraphicElement *> *drawList);
+    void resetAllChanges();
+    bool m_resetAllChanges;
 
 public:
     explicit MinMaxDrawDialog(QWidget *parent = 0);
