@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <drawdialog.h>
+#include <QMessageBox>
 
 namespace Ui {
 class GraphDialog1;
@@ -21,9 +22,6 @@ private:
     DrawDialog *m_drawDialog;
     double **m_array;
     quint8 m_rows;
-
-private slots:
-    void replyUserError();
 
 public slots:
     void setCondition(double **array, quint8 rows);

@@ -55,11 +55,10 @@ protected:
 
 public slots:
     void drawTheProblem(double **array, quint8 rowsCount);
-    void next();
+    bool check();
 
 signals:
     void firstClick(); //emited after first click on widget
-    void userAnswerFalse();//emited if user answer is wrong
 };
 
 class GraphicElement

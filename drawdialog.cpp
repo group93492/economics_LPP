@@ -261,10 +261,9 @@ void DrawDialog::drawTheProblem(double **array, quint8 rowsCount)
         drawLine(array[currentRow][0], array[currentRow][1], array[currentRow][2]);
 }
 
-void DrawDialog::next()
+bool DrawDialog::check()
 {
-    if(!m_userAnswer)
-        emit userAnswerFalse();
+    return m_userAnswer;
 }
 
 qreal DrawDialog::toQtY(qreal Y)

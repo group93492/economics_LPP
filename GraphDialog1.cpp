@@ -8,17 +8,11 @@ GraphDialog1::GraphDialog1(QWidget *parent) :
     ui->setupUi(this);
     m_drawDialog = new DrawDialog();
     ui->paintLayout->addWidget(m_drawDialog);
-    connect(m_drawDialog, SIGNAL(userAnswerFalse()), this, SLOT(replyUserError()));
 }
 
 GraphDialog1::~GraphDialog1()
 {
     delete ui;
-}
-
-void GraphDialog1::replyUserError()
-{
-    emit userError();
 }
 
 void GraphDialog1::setCondition(double **array, quint8 rows)
@@ -30,8 +24,18 @@ void GraphDialog1::setCondition(double **array, quint8 rows)
 
 void GraphDialog1::on_nextButton_clicked()
 {
-    emit result(m_array, m_rows);
-    emit next();
+    if(!m_drawDialog->check())
+    {
+        emit userError();
+        QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"),
+                                    QString::fromLocal8Bit("Неверно выбрана область!"),
+                                    QMessageBox::Ok);
+    }
+    else
+    {
+        emit result(m_array, m_rows);
+        emit next();
+    }
 }
 
 void GraphDialog1::on_backButton_clicked()
