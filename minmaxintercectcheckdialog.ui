@@ -125,7 +125,7 @@
      </layout>
     </item>
     <item>
-     <spacer name="minMax_ButtonsVerticalSpacer">
+     <spacer name="minMaxButtonsVerticalSpacer">
       <property name="orientation">
        <enum>Qt::Vertical</enum>
       </property>
@@ -170,8 +170,6 @@
     </item>
    </layout>
   </widget>
-  <zorder>verticalLayoutWidget_3</zorder>
-  <zorder>verticalSpacer</zorder>
  </widget>
  <resources/>
  <connections/>

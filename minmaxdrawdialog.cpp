@@ -399,8 +399,7 @@ void MinMaxDrawDialog::next()
         emit userAnswerFalse();
     if(m_minLineUserAnswer.second != m_minLineAnswer.second)
         emit userAnswerFalse();
-    emit minCorrectAnswer(m_minLineAnswer.second);
-    emit maxCorrectAnswer(m_maxLineAnswer.second);
+    emit result(m_minLineAnswer.second, m_maxLineAnswer.second);
 }
 
 qreal MinMaxDrawDialog::toQtY(qreal Y)

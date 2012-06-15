@@ -16,12 +16,18 @@ public:
     explicit MinMaxIntercectCheckDialog(QWidget *parent = 0);
     ~MinMaxIntercectCheckDialog();
     QValidator *m_intValidator;
+    QPoint m_correctMinPoint;
+    QPoint m_correctMaxPoint;
     
 private:
     Ui::MinMaxIntercectCheckDialog *ui;
 
-public slots:
+signals:
+    void userAnswerFalse();
 
+private slots:
+    void getResult(QPointF minPoint, QPointF maxPoint);
+    void next();
 
 };
 

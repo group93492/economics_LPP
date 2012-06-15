@@ -65,8 +65,7 @@ public slots:
 
 signals:
     void userAnswerFalse();
-    void minCorrectAnswer(QPointF);
-    void maxCorrectAnswer(QPointF);
+    void result(QPointF, QPointF);
 
 private slots:
 
