@@ -1,6 +1,5 @@
 #include "TwoDimensionalProblem.h"
 #include "ui_TwoDimensionalProblem.h"
-#include <QDebug>
 
 TwoDimensionalProblem::TwoDimensionalProblem(QWidget *parent) :
     QWidget(parent),
@@ -35,14 +34,10 @@ void TwoDimensionalProblem::setCondition(double **array, quint8 row)
     //function
     label = new QLabel();
     str += "Z = ";
-    if(m_array[m_row - 1][0] == 1)
-        str += "X<span style=\" vertical-align:sub;\">1</span>";
-    if(m_array[m_row - 1][0] != 0 && m_array[m_row - 1][0] != 1)
+    if(m_array[m_row - 1][0] != 0)
         str += QString::number(m_array[m_row - 1][0]) + "X<span style=\" vertical-align:sub;\">1</span>";
-    if(m_array[m_row - 1][1] == 1)
-        str += " + X<span style=\" vertical-align:sub;\">2</span>";
     if(m_array[m_row - 1][1] < 0)
-        str += " - " + QString::number(m_array[m_row - 1][1]) + "X<span style=\" vertical-align:sub;\">2</span>";
+        str += " - " + QString::number(m_array[m_row - 1][1] * -1) + "X<span style=\" vertical-align:sub;\">2</span>";
     if(m_array[m_row - 1][1] > 0)
         str += " + " + QString::number(m_array[m_row - 1][1]) + "X<span style=\" vertical-align:sub;\">2</span>";
     if(m_array[m_row - 1][2] != 0)
@@ -55,13 +50,9 @@ void TwoDimensionalProblem::setCondition(double **array, quint8 row)
         label = new QLabel();
         str.clear();
         //X1
-        if(m_array[i][0] == 1)
-            str += "X<span style=\" vertical-align:sub;\">1</span>";
-        if(m_array[i][0] != 1 && m_array[i][0] != 0)
+        if(m_array[i][0] != 0)
             str += QString::number(m_array[i][0]) + "X<span style=\" vertical-align:sub;\">1</span>";
         //X2
-        if(m_array[i][1] == 1)
-            str += " + X<span style=\" vertical-align:sub;\">1</span>";
         if(m_array[i][1] < 0)
             str += " - " + QString::number(m_array[i][1] * -1) + "X<span style=\" vertical-align:sub;\">2</span>";
         if(m_array[i][1] > 0)

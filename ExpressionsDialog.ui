@@ -15,7 +15,14 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,0,0,0">
+     <item>
+      <widget class="QLabel" name="infLabel">
+       <property name="text">
+        <string>Введите коэффициенты(пустое поле - 0):</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <layout class="QHBoxLayout" name="functionLayout"/>
      </item>

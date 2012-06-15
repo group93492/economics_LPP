@@ -7,7 +7,7 @@ GraphDialog1::GraphDialog1(QWidget *parent) :
 {
     ui->setupUi(this);
     m_drawDialog = new DrawDialog();
-    ui->paintLayout->addWidget(m_drawDialog);
+    ui->paintLayout->insertWidget(1,m_drawDialog);
 }
 
 GraphDialog1::~GraphDialog1()

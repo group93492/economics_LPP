@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <QMessageBox>
-#include <QValidator>
+#include <QDoubleValidator>
 
 namespace Ui {
 class MinMaxIntercectCheckDialog;
@@ -16,7 +16,7 @@ class MinMaxIntercectCheckDialog : public QWidget
 public:
     explicit MinMaxIntercectCheckDialog(QWidget *parent = 0);
     ~MinMaxIntercectCheckDialog();
-    QValidator *m_intValidator;
+    QDoubleValidator *m_validator;
     QPoint m_correctMinPoint;
     QPoint m_correctMaxPoint;
     void check();

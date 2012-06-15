@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QWidget>
 #include <QPainter>
-#include <QDebug>
 #include <QLinkedList>
 #include <drawdialog.h>
 

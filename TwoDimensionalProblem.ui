@@ -17,7 +17,7 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
-      <widget class="QLabel" name="label">
+      <widget class="QLabel" name="infLabel">
        <property name="text">
         <string>Двумерная задача, записанная в симметричной форме:</string>
        </property>

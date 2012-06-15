@@ -1,5 +1,4 @@
 #include "GaussJordano.h"
-#include <QDebug>
 
 Subset::Subset(qint8 n, qint8 k)
 {
@@ -84,13 +83,6 @@ qint8 *Permutations::GetVector()
 {
     return v;
 }
-
-//void Permutations::OutConsole()
-//{
-//    for (qint8 i = 0; i < n; i++)
-//        cout << v[i] << " ";
-//    cout << endl;
-//}
 
 Permutations::~Permutations()
 {
@@ -178,18 +170,6 @@ void GaussJordano::Reduction(quint8 k)
             return;
         }
     }
-    /*for (qint8 i = k; i < n; i++)
-    {
-        if (a[i][k] != 0)
-        {
-            for (qint8 j = 0; j < n; j++)
-            {
-                a[k][j] += a[i][j];
-            }
-            b[k] = b[k] + b[i];
-            return;
-        }
-    }*/
 }
 
 void GaussJordano::DeleteAB()
@@ -199,26 +179,6 @@ void GaussJordano::DeleteAB()
         delete []m_arrayOfXCoef[i];
     delete []m_arrayOfXCoef;
 }
-
-//void GaussJordano::OutMatr()
-//{
-//    for (qint8 i = 0; i < n; i++)
-//    {
-//        for (qint8 j = 0; j < n; j++)
-//        {
-//            prqint8f("%8.5f", a[i][j]);
-//            cout << " ";
-//        }
-//        cout << "| ";
-//        prqint8f("%8.5f x1", b[i].x1);
-//        cout << " ";
-//        prqint8f("%8.5f x2", b[i].x2);
-//        cout << " ";
-//        prqint8f("%8.5f", b[i].c);
-//        cout << endl;
-//    }
-//    cout << "\n\n";
-//}
 
 double **GaussJordano::Sample()
 {
@@ -499,27 +459,6 @@ double **SystemLinearEquations::Solve()
     }
     return Result;
 }
-
-//void SystemLinearEquations::OutSolve()
-//{
-//    double **Result = Solve();
-//    if (Result == NULL)
-//    {
-//        cout << "error";
-//        return;
-//    }
-//    for (qint8 i = 0; i < m + 1; i++)
-//    {
-//        if (i == n - 2 || i == m)
-//            cout << "------------------------\n\n";
-//        for (qint8 j = 0; j < 3; j++)
-//        {
-//            prqint8f("%6.2f ", Result[i][j]);
-//        }
-//        cout << "\n\n";
-//    }
-//    cout << "\n\n";
-//}
 
 SystemLinearEquations::~SystemLinearEquations()
 {

@@ -6,11 +6,11 @@ MinMaxIntercectCheckDialog::MinMaxIntercectCheckDialog(QWidget *parent) :
     ui(new Ui::MinMaxIntercectCheckDialog)
 {
     ui->setupUi(this);
-    m_intValidator = new QIntValidator();
-    ui->minXLineEdit->setValidator(m_intValidator);
-    ui->minYLineEdit->setValidator(m_intValidator);
-    ui->maxXLineEdit->setValidator(m_intValidator);
-    ui->maxYLineEdit->setValidator(m_intValidator);
+    m_validator = new QDoubleValidator();
+    ui->minXLineEdit->setValidator(m_validator);
+    ui->minYLineEdit->setValidator(m_validator);
+    ui->maxXLineEdit->setValidator(m_validator);
+    ui->maxYLineEdit->setValidator(m_validator);
 }
 
 MinMaxIntercectCheckDialog::~MinMaxIntercectCheckDialog()

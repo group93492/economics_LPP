@@ -110,7 +110,6 @@ void DrawDialog::paintEvent(QPaintEvent *e)
             const DrawLine *Line = dynamic_cast<const DrawLine *>(itr);
             if(Line->a == 0 && Line->b == 0)
             {
-                qDebug() << "a == 0 and b == 0 wtf?? it will be deleted now";
                 m_whatToDrawList.removeOne(const_cast<GraphicElement *>(itr));
                 //такого не может быть
             }
@@ -202,7 +201,6 @@ QLineF DrawDialog::getQLine(DrawLine Line)
 {
     if(Line.a == 0 && Line.b == 0)
     {
-        qDebug() << "a == 0 and b == 0 wtf??";
         return QLineF(QPointF(0, 0),
                       QPointF(0, 0));
     }

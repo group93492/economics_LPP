@@ -1,6 +1,5 @@
 #include "ExpressionsDialog.h"
 #include "ui_ExpressionsDialog.h"
-#include <QDebug>
 
 ExpressionsDialog::ExpressionsDialog(QWidget *parent) :
     QWidget(parent),
@@ -21,7 +20,7 @@ QComboBox *ExpressionsDialog::signComboBox()
     QStringList list;
     list << "=" << "<" << "<=" << ">" << ">=";
     comboBox->addItems(list);
-    comboBox->setMaximumWidth(35);
+    comboBox->setMaximumWidth(40);
     m_signs.append(comboBox);
     return comboBox;
 }
@@ -80,13 +79,6 @@ void ExpressionsDialog::allocateMemory()
         lineEdit->setValidator(m_doubleValidator);
         m_wConstArray.append(lineEdit); //and constants
     }
-    //delete before pushing!!!
-//    m_genExprArray[0]->setText("3"); m_genExprArray[1]->setText("3"); m_genExprArray[2]->setText("2"); m_genExprArray[3]->setText("1");
-//    m_wVarArray[0]->value(0)->setText("1"); m_wVarArray[0]->value(1)->setText("1");
-//    m_wVarArray[1]->value(2)->setText("1"); m_wVarArray[1]->value(3)->setText("1");
-//    m_wVarArray[2]->value(0)->setText("4"); m_wVarArray[2]->value(2)->setText("5");
-//    m_wVarArray[3]->value(1)->setText("6"); m_wVarArray[3]->value(3)->setText("4");
-//    m_wConstArray[0]->setText("12"); m_wConstArray[1]->setText("12"); m_wConstArray[2]->setText("42"); m_wConstArray[3]->setText("39");
 }
 
 void ExpressionsDialog::placeWidgets()
@@ -263,23 +255,6 @@ void ExpressionsDialog::on_nextButton_clicked()
         if(QMessageBox::information(this, QString::fromLocal8Bit("Ошибка!"), str, QMessageBox::Ok) == QMessageBox::Ok)
             return;
     }
-    //void result(qint8 *genExprArray, qint8** varArray, qint8 *constArray, qint8 row, qint8 col);
-    //for debug
-//    qDebug() << "Array:";
-//    for(quint8 i = 0; i < m_row; i++)
-//    {
-//        for(quint8 j = 0; j < m_col + extVars; j++)
-//            qDebug() << varArray[i][j];
-//        qDebug() << "endline";
-//    }
-//    qDebug() << "Function array:";
-//    for(quint8 i = 0; i < m_col + extVars + 1; i++)
-//    {
-//        qDebug() << genExprArray[i];
-//    }
-//    qDebug() << "Const array:";
-//    for(quint8 i = 0; i < m_row; i++)
-//        qDebug() << constArray[i];
 }
 
 void ExpressionsDialog::on_backButton_clicked()

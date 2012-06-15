@@ -15,7 +15,14 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout" stretch="1,3">
+    <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1,3">
+     <item>
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Результат:</string>
+       </property>
+      </widget>
+     </item>
      <item>
       <widget class="QLabel" name="infLabel">
        <property name="text">

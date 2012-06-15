@@ -7,7 +7,6 @@
 #include <QComboBox>
 #include <QLabel>
 #include <QLineEdit>
-#include <QSpacerItem>
 #include <QMessageBox>
 
 namespace Ui {
@@ -24,7 +23,6 @@ public:
     
 private:
     Ui::ExpressionsDialog *ui;
-    QComboBox* signComboBox(); // = > < >= <=
     QVector<QLineEdit*> m_wConstArray; //widgets of constants array
     QVector<QLineEdit*> m_genExprArray; // vector with coefficients for "Z = ..." expression
     QVector< QVector<QLineEdit*>* > m_wVarArray; // array with coefficentes for X
@@ -34,6 +32,7 @@ private:
     quint8 m_col; // m_varArray columns
     quint8 m_row; // m_varArray rows
     //methods:
+    QComboBox* signComboBox(); // = > < >= <=
     void freeMemory();
     void allocateMemory();
     void placeWidgets();

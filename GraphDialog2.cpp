@@ -7,7 +7,7 @@ GraphDialog2::GraphDialog2(QWidget *parent) :
 {
     ui->setupUi(this);
     m_drawDialog = new MinMaxDrawDialog();
-    ui->paintLayout->addWidget(m_drawDialog);
+    ui->paintLayout->insertWidget(1, m_drawDialog);
     connect(m_drawDialog, SIGNAL(userAnswerFalse()), SLOT(replyUserError()));
     connect(m_drawDialog, SIGNAL(result(QPointF,QPointF)), this, SLOT(replyResult(QPointF,QPointF)));
 }

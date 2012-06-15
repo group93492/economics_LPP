@@ -3,7 +3,6 @@
 
 #include <QWidget>
 #include <QPainter>
-#include <QDebug>
 #include <QLinkedList>
 
 namespace Ui {

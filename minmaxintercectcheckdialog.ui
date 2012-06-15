@@ -17,6 +17,13 @@
    <item>
     <layout class="QVBoxLayout" name="mainVerticalLayout">
      <item>
+      <widget class="QLabel" name="infLabel">
+       <property name="text">
+        <string>Введите координаты точек минимума и максимума:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <layout class="QHBoxLayout" name="minMaxHorizontalLayout">
        <item>
         <layout class="QVBoxLayout" name="minVerticalLayout">
