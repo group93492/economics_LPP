@@ -81,12 +81,12 @@ void ExpressionsDialog::allocateMemory()
         m_wConstArray.append(lineEdit); //and constants
     }
     //delete before pushing!!!
-    m_genExprArray[0]->setText("3"); m_genExprArray[1]->setText("3"); m_genExprArray[2]->setText("2"); m_genExprArray[3]->setText("1");
-    m_wVarArray[0]->value(0)->setText("1"); m_wVarArray[0]->value(1)->setText("1");
-    m_wVarArray[1]->value(2)->setText("1"); m_wVarArray[1]->value(3)->setText("1");
-    m_wVarArray[2]->value(0)->setText("4"); m_wVarArray[2]->value(2)->setText("5");
-    m_wVarArray[3]->value(1)->setText("6"); m_wVarArray[3]->value(3)->setText("4");
-    m_wConstArray[0]->setText("12"); m_wConstArray[1]->setText("12"); m_wConstArray[2]->setText("42"); m_wConstArray[3]->setText("39");
+//    m_genExprArray[0]->setText("3"); m_genExprArray[1]->setText("3"); m_genExprArray[2]->setText("2"); m_genExprArray[3]->setText("1");
+//    m_wVarArray[0]->value(0)->setText("1"); m_wVarArray[0]->value(1)->setText("1");
+//    m_wVarArray[1]->value(2)->setText("1"); m_wVarArray[1]->value(3)->setText("1");
+//    m_wVarArray[2]->value(0)->setText("4"); m_wVarArray[2]->value(2)->setText("5");
+//    m_wVarArray[3]->value(1)->setText("6"); m_wVarArray[3]->value(3)->setText("4");
+//    m_wConstArray[0]->setText("12"); m_wConstArray[1]->setText("12"); m_wConstArray[2]->setText("42"); m_wConstArray[3]->setText("39");
 }
 
 void ExpressionsDialog::placeWidgets()

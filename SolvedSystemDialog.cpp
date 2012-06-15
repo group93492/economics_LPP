@@ -39,6 +39,9 @@ void SolvedSystemDialog::setCondition(double *genExprArray, double **varArray, d
     freeMemory();
     SystemLinearEquations solve(genExprArray, varArray, constArray, col, row);
     m_solvedArray = solve.Solve();
+    for(quint8 i = 0; i <= m_row; i++)
+        for(quint8 j = 0; j < 3; j++)
+            m_solvedArray[i][j] = _round(m_solvedArray[i][j]);
     if(!m_solvedArray)
     {
         QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"),
@@ -173,6 +176,15 @@ void SolvedSystemDialog::check()
         return;
     if(QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"), result, QMessageBox::Ok) == QMessageBox::Ok)
         return;
+}
+
+double SolvedSystemDialog::_round(double n)
+{
+    n = n * 100;
+    if(fmod(n, 1) * 10 > 4)
+        return ceil(n) / 100;
+    else
+        return floor(n) / 100;
 }
 
 void SolvedSystemDialog::on_backButton_clicked()

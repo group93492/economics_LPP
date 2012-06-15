@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QDoubleValidator>
 #include <QMessageBox>
+#include <math.h>
 #include "GaussJordano.h"
 
 namespace Ui {
@@ -34,6 +35,7 @@ private:
     void allocateMemory();
     void placeWidgets();
     void check();
+    double _round(double n);
 
 public slots:
     void setCondition(double *genExprArray, double** varArray, double *constArray, quint8 row, quint8 col);

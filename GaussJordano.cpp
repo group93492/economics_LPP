@@ -1,4 +1,5 @@
 #include "GaussJordano.h"
+#include <QDebug>
 
 Subset::Subset(qint8 n, qint8 k)
 {
