@@ -39,6 +39,14 @@ void SolvedSystemDialog::setCondition(double *genExprArray, double **varArray, d
     freeMemory();
     SystemLinearEquations solve(genExprArray, varArray, constArray, col, row);
     m_solvedArray = solve.Solve();
+    if(!m_solvedArray)
+    {
+        QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"),
+                                 QString::fromLocal8Bit("Эту задачу нельзя решить!"),
+                                    QMessageBox::Ok);
+        emit back();
+        return;
+    }
     allocateMemory();
     placeWidgets();
 }

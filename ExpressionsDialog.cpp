@@ -153,7 +153,15 @@ qint8 ExpressionsDialog::Rank(double **a, quint8 m, quint8 n)
 
 bool ExpressionsDialog::Check(double **a, quint8 m, quint8 n)
 {
-    if ((n - Rank(a, m, n)) <= 2)
+    bool flag1 = false;
+    for(quint8 i = 0; i < m; i++)
+        if(a[0][0] != 0)
+            flag1 = true;
+    bool flag2 = false;
+    for(quint8 i = 0; i < m; i++)
+        if(a[0][1] != 0)
+            flag2 = true;
+    if((n - Rank(a, m, n)) <= 2 && flag1 && flag2)
         return true;
     return false;
 }
@@ -242,10 +250,6 @@ void ExpressionsDialog::on_nextButton_clicked()
         {
             emit result(genExprArray, varArray, constArray, m_row, m_col + extVars);
             emit next();
-        }
-        else
-        {
-            emit back();
         }
     }
     else
