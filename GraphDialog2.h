@@ -2,6 +2,7 @@
 #define GRAPHDIALOG2_H
 
 #include <QWidget>
+#include <QMessageBox>
 #include "minmaxdrawdialog.h"
 
 namespace Ui {

@@ -34,8 +34,12 @@ void GraphDialog2::replyResult(QPointF min, QPointF max)
 
 void GraphDialog2::on_nextButton_clicked()
 {
-    m_drawDialog->next();
-    emit next();
+    if(!m_drawDialog->check())
+        QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"),
+                                    QString::fromLocal8Bit("Неверно выбран минимум или максимум!"),
+                                    QMessageBox::Ok);
+    else
+        emit next();
 }
 
 void GraphDialog2::on_backButton_clicked()

@@ -393,13 +393,22 @@ void MinMaxDrawDialog::nextMax()
     update();
 }
 
-void MinMaxDrawDialog::next()
+bool MinMaxDrawDialog::check()
 {
+    bool flag = true;
     if(m_minLineUserAnswer.second != m_minLineAnswer.second)
+    {
+        flag = false;
         emit userAnswerFalse();
+    }
     if(m_minLineUserAnswer.second != m_minLineAnswer.second)
+    {
+        flag = false;
         emit userAnswerFalse();
-    emit result(m_minLineAnswer.second, m_maxLineAnswer.second);
+    }
+    if(flag)
+        emit result(m_minLineAnswer.second, m_maxLineAnswer.second);
+    return flag;
 }
 
 qreal MinMaxDrawDialog::toQtY(qreal Y)

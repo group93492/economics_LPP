@@ -53,6 +53,7 @@ public:
     void setTextColor(QColor color);
     void setLinesColor(QColor color);
     QSize sizeHint() const;
+    bool check();
 
 protected:
     void paintEvent(QPaintEvent *e);
@@ -61,7 +62,6 @@ public slots:
     void drawTheProblem(double **array, quint8 rowsCount);
     void nextMin();
     void nextMax();
-    void next();
 
 signals:
     void userAnswerFalse();
