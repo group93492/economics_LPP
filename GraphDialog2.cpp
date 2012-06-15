@@ -9,6 +9,7 @@ GraphDialog2::GraphDialog2(QWidget *parent) :
     m_drawDialog = new MinMaxDrawDialog();
     ui->paintLayout->addWidget(m_drawDialog);
     connect(m_drawDialog, SIGNAL(userAnswerFalse()), SLOT(replyUserError()));
+    connect(m_drawDialog, SIGNAL(result(QPointF,QPointF)), this, SLOT(replyResult(QPointF,QPointF)));
 }
 
 GraphDialog2::~GraphDialog2()
@@ -26,8 +27,14 @@ void GraphDialog2::replyUserError()
     emit userError();
 }
 
+void GraphDialog2::replyResult(QPointF min, QPointF max)
+{
+    emit result(min, max);
+}
+
 void GraphDialog2::on_nextButton_clicked()
 {
+    m_drawDialog->next();
     emit next();
 }
 

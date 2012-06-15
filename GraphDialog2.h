@@ -22,11 +22,11 @@ private:
 
 public slots:
     void setCondition(double **array, quint8 rows);
-    void replyUserError();
 
 signals:
     void next();
     void back();
+    void result(QPointF, QPointF);
     void userError();
 
 private slots:
@@ -35,6 +35,8 @@ private slots:
     void on_skaleSpinBox_valueChanged(double arg1);
     void on_nextMinButton_clicked();
     void on_nextMaxButton_clicked();
+    void replyUserError();
+    void replyResult(QPointF min, QPointF max);
 };
 
 #endif // GRAPHDIALOG2_H

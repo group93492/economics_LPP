@@ -9,6 +9,7 @@
 #include "TwoDimensionalProblem.h"
 #include "GraphDialog1.h"
 #include "GraphDialog2.h"
+#include "minmaxintercectcheckdialog.h"
 
 namespace Ui {
 class MainWindow;
