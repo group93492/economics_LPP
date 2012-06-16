@@ -9,7 +9,7 @@ GraphDialog2::GraphDialog2(QWidget *parent) :
     m_drawDialog = new MinMaxDrawDialog();
     ui->paintLayout->insertWidget(1, m_drawDialog);
     connect(m_drawDialog, SIGNAL(userAnswerFalse()), SLOT(replyUserError()));
-    connect(m_drawDialog, SIGNAL(result(QPointF,QPointF)), this, SLOT(replyResult(QPointF,QPointF)));
+    connect(m_drawDialog, SIGNAL(result(QPointF,QPointF,qreal,qreal)), this, SLOT(replyResult(QPointF,QPointF,qreal,qreal)));
 //    ui->scaleSpinBox->setFocus();
 }
 
@@ -29,9 +29,9 @@ void GraphDialog2::replyUserError()
     emit userError();
 }
 
-void GraphDialog2::replyResult(QPointF min, QPointF max)
+void GraphDialog2::replyResult(QPointF min, QPointF max, qreal minZ, qreal maxZ)
 {
-    emit result(min, max);
+    emit result(min, max, minZ, maxZ);
 }
 
 void GraphDialog2::on_nextButton_clicked()

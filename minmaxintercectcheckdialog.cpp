@@ -1,6 +1,7 @@
 #include "minmaxintercectcheckdialog.h"
 #include "ui_minmaxintercectcheckdialog.h"
 #include "SolvedSystemDialog.h"
+#include <QDebug>
 
 MinMaxIntercectCheckDialog::MinMaxIntercectCheckDialog(QWidget *parent) :
     QWidget(parent),
@@ -23,15 +24,17 @@ MinMaxIntercectCheckDialog::~MinMaxIntercectCheckDialog()
 bool MinMaxIntercectCheckDialog::check()
 {
     QString result;
-    if(ui->minXLineEdit->text().toFloat() != m_correctMinPoint.x() ||
-            ui->minYLineEdit->text().toFloat() != m_correctMinPoint.y())
+    if(ui->minXLineEdit->text().toDouble() != m_correctMinPoint.x() ||
+            ui->minYLineEdit->text().toDouble() != m_correctMinPoint.y())
     {
+        qDebug() << m_correctMinPoint.x() << m_correctMinPoint.y();
+        qDebug() << m_correctMaxPoint.x() << m_correctMaxPoint.y();
         emit userError();
         result += QString::fromLocal8Bit("Неверные координаты %1 точки!")
                 .arg("min");
     }
-    if(ui->maxXLineEdit->text().toFloat() != m_correctMaxPoint.x() ||
-            ui->maxYLineEdit->text().toFloat() != m_correctMaxPoint.y())
+    if(ui->maxXLineEdit->text().toDouble() != m_correctMaxPoint.x() ||
+            ui->maxYLineEdit->text().toDouble() != m_correctMaxPoint.y())
     {
         emit userError();
         result += "\n";
@@ -44,8 +47,10 @@ bool MinMaxIntercectCheckDialog::check()
     return false;
 }
 
-void MinMaxIntercectCheckDialog::getResult(QPointF minPoint, QPointF maxPoint)
+void MinMaxIntercectCheckDialog::getResult(QPointF minPoint, QPointF maxPoint, qreal minZ, qreal maxZ)
 {
+    m_minZ = minZ;
+    m_maxZ = maxZ;
     m_correctMinPoint = minPoint;
     m_correctMaxPoint = maxPoint;
     m_correctMinPoint.rx() = SolvedSystemDialog::_round(m_correctMinPoint.x());
@@ -57,7 +62,11 @@ void MinMaxIntercectCheckDialog::getResult(QPointF minPoint, QPointF maxPoint)
 void MinMaxIntercectCheckDialog::on_nextPushButton_clicked()
 {
     if(check())
+    {
         emit next();
+        emit result(m_correctMinPoint.x(), m_correctMinPoint.y(), m_correctMaxPoint.x(), m_correctMaxPoint.y(),
+                    m_minZ, m_maxZ);
+    }
 }
 
 void MinMaxIntercectCheckDialog::on_previousPushButton_clicked()

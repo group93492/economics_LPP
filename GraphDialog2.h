@@ -27,7 +27,7 @@ public slots:
 signals:
     void next();
     void back();
-    void result(QPointF, QPointF);
+    void result(QPointF, QPointF, qreal, qreal);
     void userError();
 
 private slots:
@@ -37,7 +37,7 @@ private slots:
     void on_nextMinButton_clicked();
     void on_nextMaxButton_clicked();
     void replyUserError();
-    void replyResult(QPointF min, QPointF max);
+    void replyResult(QPointF min, QPointF max, qreal minZ, qreal maxZ);
 };
 
 #endif // GRAPHDIALOG2_H

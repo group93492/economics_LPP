@@ -22,6 +22,7 @@ private:
 public slots:
     void addUserError();
     void reset();
+    void setAnswer(qreal x1, qreal y1, qreal x2, qreal y2, qreal minZ, qreal maxZ);
 };
 
 #endif // FINISHDIALOG_H

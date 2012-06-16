@@ -64,11 +64,12 @@ MainWindow::MainWindow(QWidget *parent) :
     //GraphDialog2
     connect(fdialog, SIGNAL(next()), this, SLOT(nextWidget()));
     connect(fdialog, SIGNAL(back()), this, SLOT(previousWidget()));
-    connect(fdialog, SIGNAL(result(QPointF,QPointF)), gdialog, SLOT(getResult(QPointF,QPointF)));
+    connect(fdialog, SIGNAL(result(QPointF,QPointF,qreal,qreal)), gdialog, SLOT(getResult(QPointF,QPointF,qreal,qreal)));
     connect(fdialog, SIGNAL(userError()), zdialog, SLOT(addUserError()));
     //MinMaxIntercectCheckDialog
     connect(gdialog, SIGNAL(next()), this, SLOT(nextWidget()));
     connect(gdialog, SIGNAL(back()), this, SLOT(previousWidget()));
+    connect(gdialog, SIGNAL(result(qreal,qreal,qreal,qreal,qreal,qreal)), zdialog, SLOT(setAnswer(qreal,qreal,qreal,qreal,qreal,qreal)));
     connect(gdialog, SIGNAL(userError()), zdialog, SLOT(addUserError()));
 
     connect(ui->resetButton, SIGNAL(clicked()), zdialog, SLOT(reset()));
