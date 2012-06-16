@@ -64,7 +64,7 @@ public slots:
 
 signals:
     void userAnswerFalse();
-    void result(QPointF, QPointF);
+    void result(QPointF, QPointF, qreal minZ, qreal maxZ);
 
 private slots:
 

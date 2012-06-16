@@ -385,7 +385,6 @@ void MinMaxDrawDialog::nextMax()
     if(itr == m_solutionPoints.end())
         itr = m_solutionPoints.begin();
     m_maxLineUserAnswer = *itr;
-//    qDebug() << "nextMax: " << *itr;
     itr++;
     update();
 }
@@ -404,7 +403,11 @@ bool MinMaxDrawDialog::check()
         emit userAnswerFalse();
     }
     if(flag)
-        emit result(m_minLineAnswer.second, m_maxLineAnswer.second);
+        emit result(m_minLineAnswer.second, m_maxLineAnswer.second,
+                    m_minLineAnswer.second.x() * Zfunction.a +
+                    m_minLineAnswer.second.y() * Zfunction.b + Zfunction.c,
+                    m_maxLineAnswer.second.x() * Zfunction.a +
+                    m_maxLineAnswer.second.y() * Zfunction.b + Zfunction.c);
     return flag;
 }
 
