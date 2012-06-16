@@ -67,6 +67,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(gdialog, SIGNAL(userError()), zdialog, SLOT(addUserError()));
 
     connect(ui->resetButton, SIGNAL(clicked()), zdialog, SLOT(reset()));
+    connect(ui->quitButton, SIGNAL(clicked()), qApp, SLOT(quit()));
 }
 
 MainWindow::~MainWindow()
@@ -82,11 +83,6 @@ void MainWindow::nextWidget()
 void MainWindow::previousWidget()
 {
     ui->stackedWidget->setCurrentIndex(ui->stackedWidget->currentIndex() - 1);
-}
-
-void MainWindow::on_quitButton_clicked()
-{
-    QApplication::quit();
 }
 
 void MainWindow::on_resetButton_clicked()

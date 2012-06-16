@@ -20,32 +20,28 @@ MinMaxIntercectCheckDialog::~MinMaxIntercectCheckDialog()
     delete ui;
 }
 
-void MinMaxIntercectCheckDialog::check()
+bool MinMaxIntercectCheckDialog::check()
 {
     QString result;
     if(ui->minXLineEdit->text().toFloat() != m_correctMinPoint.x() ||
             ui->minYLineEdit->text().toFloat() != m_correctMinPoint.y())
     {
         emit userError();
-        result += QString::fromLocal8Bit("Неверные координаты %1 точки! Правильно: (%2:%3)")
-                .arg("min")
-                .arg(QString::number(m_correctMinPoint.x()))
-                .arg(QString::number(m_correctMinPoint.y()));
+        result += QString::fromLocal8Bit("Неверные координаты %1 точки!")
+                .arg("min");
     }
     if(ui->maxXLineEdit->text().toFloat() != m_correctMaxPoint.x() ||
             ui->maxYLineEdit->text().toFloat() != m_correctMaxPoint.y())
     {
         emit userError();
         result += "\n";
-        result += QString::fromLocal8Bit("Неверные координаты %1 точки! Правильно: (%2:%3)")
-                .arg("max")
-                .arg(QString::number(m_correctMaxPoint.x()))
-                .arg(QString::number(m_correctMaxPoint.y()));
+        result += QString::fromLocal8Bit("Неверные координаты %1 точки!")
+                .arg("max");
     }
     if(result.isNull())
-        return;
-    if(QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"), result, QMessageBox::Ok) == QMessageBox::Ok)
-        return;
+        return true;
+    QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"), result, QMessageBox::Ok);
+    return false;
 }
 
 void MinMaxIntercectCheckDialog::getResult(QPointF minPoint, QPointF maxPoint)
@@ -60,8 +56,8 @@ void MinMaxIntercectCheckDialog::getResult(QPointF minPoint, QPointF maxPoint)
 
 void MinMaxIntercectCheckDialog::on_nextPushButton_clicked()
 {
-    check();
-    emit next();
+    if(check())
+        emit next();
 }
 
 void MinMaxIntercectCheckDialog::on_previousPushButton_clicked()

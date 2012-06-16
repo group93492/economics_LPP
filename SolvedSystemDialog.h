@@ -35,7 +35,7 @@ private:
     void freeMemory();
     void allocateMemory();
     void placeWidgets();
-    void check();
+    bool check();
 
 public slots:
     void setCondition(double *genExprArray, double** varArray, double *constArray, quint8 row, quint8 col);

@@ -19,7 +19,7 @@ public:
     QDoubleValidator *m_validator;
     QPointF m_correctMinPoint;
     QPointF m_correctMaxPoint;
-    void check();
+    bool check();
     
 private:
     Ui::MinMaxIntercectCheckDialog *ui;

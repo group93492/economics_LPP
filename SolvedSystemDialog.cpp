@@ -26,8 +26,8 @@ void SolvedSystemDialog::setCondition(double *genExprArray, double **varArray, d
             m_solvedArray[i][j] = _round(m_solvedArray[i][j]);
     if(!m_solvedArray)
     {
-        QMessageBox::information(this, QString::fromLocal8Bit("Îøèáêè!"),
-                                 QString::fromLocal8Bit("Ýòó ñèñòåìó íåëüçÿ ðåøèòü!"),
+        QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"),
+                                 QString::fromLocal8Bit("Эту систему нельзя решить!"),
                                     QMessageBox::Ok);
         emit back();
         return;
@@ -113,23 +113,21 @@ void SolvedSystemDialog::placeWidgets()
     }
 }
 
-void SolvedSystemDialog::check()
+bool SolvedSystemDialog::check()
 {
     QString result;
     for(quint8 i = 0; i < 3; i++)
         if(m_wArray.value(m_row)->value(i)->text().toDouble() != m_solvedArray[m_row][i])
         {
             if(i != 2)
-                result += QString::fromLocal8Bit("Îøèáêà â %1, ïðàâèëüíî: %2%3%4")
-                        .arg(QString::fromLocal8Bit("ôóíêöèè"))
-                        .arg(QString::number(m_solvedArray[m_row][i]))
+                result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
+                        .arg(QString::fromLocal8Bit("функции"))
                         .arg("X")
                         .arg("<span style=\" vertical-align:sub;\">" + QString::number(i + 1)+ "</span><br />");
             else
-                result += QString::fromLocal8Bit("Îøèáêà â %1, ïðàâèëüíî: %2%3%4")
-                        .arg(QString::fromLocal8Bit("ôóíêöèè"))
-                        .arg(QString::fromLocal8Bit("ñâîáîäíûé ÷ëåí = "))
-                        .arg(QString::number(m_solvedArray[m_row][i]))
+                result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
+                        .arg(QString::fromLocal8Bit("функции"))
+                        .arg(QString::fromLocal8Bit("свободном члене"))
                         .arg("<br />");
             emit userError();
         }
@@ -139,24 +137,22 @@ void SolvedSystemDialog::check()
             if(m_wArray.value(i)->value(j)->text().toDouble() != m_solvedArray[i][j])
             {
                 if(j != 2)
-                    result += QString::fromLocal8Bit("Îøèáêà â %1, ïðàâèëüíî: %2%3%4 \n")
-                            .arg(QString::fromLocal8Bit("óðàâíåíèè ") + QString::number(i + 1))
-                            .arg(QString::number(m_solvedArray[i][j]))
+                    result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
+                            .arg(QString::fromLocal8Bit("уравнении ") + QString::number(i + 1))
                             .arg("X")
                             .arg("<span style=\" vertical-align:sub;\">" + QString::number(j + 1)+ "</span><br />");
                 else
-                    result += QString::fromLocal8Bit("Îøèáêà â %1,ïðàâèëüíî: %2%3%4 \n")
-                            .arg(QString::fromLocal8Bit("óðàâíåíèè ") + QString::number(i + 1))
-                            .arg(QString::fromLocal8Bit("ñâîáîäíûé ÷ëåí = "))
-                            .arg(QString::number(m_solvedArray[i][j]))
+                    result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
+                            .arg(QString::fromLocal8Bit("уравнении") + QString::number(i + 1))
+                            .arg(QString::fromLocal8Bit("свободном члене"))
                             .arg("<br />");
                 emit userError();
             }
         }
     if(result.isNull())
-        return;
-    if(QMessageBox::information(this, QString::fromLocal8Bit("Îøèáêè!"), result, QMessageBox::Ok) == QMessageBox::Ok)
-        return;
+        return true;
+    QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"), result, QMessageBox::Ok);
+    return false;
 }
 
 double SolvedSystemDialog::_round(double n)
@@ -175,7 +171,9 @@ void SolvedSystemDialog::on_backButton_clicked()
 
 void SolvedSystemDialog::on_nextButton_clicked()
 {
-    check();
-    emit result(m_solvedArray, m_row + 1);
-    emit next();
+    if(check())
+    {
+        emit result(m_solvedArray, m_row + 1);
+        emit next();
+    }
 }
