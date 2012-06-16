@@ -143,7 +143,7 @@ bool SolvedSystemDialog::check()
                             .arg("<span style=\" vertical-align:sub;\">" + QString::number(j + 1)+ "</span><br />");
                 else
                     result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
-                            .arg(QString::fromLocal8Bit("уравнении") + QString::number(i + 1))
+                            .arg(QString::fromLocal8Bit("уравнении ") + QString::number(i + 1))
                             .arg(QString::fromLocal8Bit("свободном члене"))
                             .arg("<br />");
                 emit userError();
@@ -162,6 +162,33 @@ double SolvedSystemDialog::_round(double n)
         return ceil(n) / 100;
     else
         return floor(n) / 100;
+}
+
+void SolvedSystemDialog::showHint()
+{
+    QString str;
+    str += QString::fromLocal8Bit("Функция:<br />");
+    for(quint8 j = 0; j < 3; j++)
+        if(j != 2)
+            str += QString("%1X<span style=\" vertical-align:sub;\">%2</span>   ")
+                .arg(QString::number(m_solvedArray[m_row][j]))
+                .arg(QString::number(j + 1));
+        else
+            str += QString::number(m_solvedArray[m_row][j]) + "C";
+    str += "<br />";
+    str += QString::fromLocal8Bit("Уравнения:<br />");
+    for(quint8 i = 0; i < m_row; i++)
+    {
+        for(quint8 j = 0; j < 3; j++)
+            if(j != 2)
+                str += QString("%1X<span style=\" vertical-align:sub;\">%2</span>   ")
+                    .arg(QString::number(m_solvedArray[i][j]))
+                    .arg(QString::number(j + 1));
+            else
+                str += QString::number(m_solvedArray[i][j]) + "C";
+        str += "<br />";
+    }
+    QMessageBox::information(this, QString::fromLocal8Bit("Правильный ответ"), str, QMessageBox::Ok);
 }
 
 void SolvedSystemDialog::on_backButton_clicked()

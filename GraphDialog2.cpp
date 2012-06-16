@@ -18,6 +18,11 @@ GraphDialog2::~GraphDialog2()
     delete ui;
 }
 
+void GraphDialog2::showHint()
+{
+
+}
+
 void GraphDialog2::setCondition(double **array, quint8 rows)
 {
     ui->scaleSpinBox->setValue(1);

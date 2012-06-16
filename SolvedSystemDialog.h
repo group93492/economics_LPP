@@ -22,6 +22,7 @@ public:
     explicit SolvedSystemDialog(QWidget *parent = 0);
     ~SolvedSystemDialog();
     static double _round(double n);
+    void showHint();
 
 private:
     Ui::SolvedSystemDialog *ui;

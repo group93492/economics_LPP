@@ -47,6 +47,18 @@ bool MinMaxIntercectCheckDialog::check()
     return false;
 }
 
+void MinMaxIntercectCheckDialog::showHint()
+{
+    QString str = QString("%1 - (%2:%3)\n%4 - (%5:%6)")
+            .arg(QString::fromLocal8Bit("Минимум"))
+            .arg(QString::number(m_correctMinPoint.x()))
+            .arg(QString::number(m_correctMinPoint.y()))
+            .arg(QString::fromLocal8Bit("Максимум"))
+            .arg(QString::number(m_correctMaxPoint.x()))
+            .arg(QString::number(m_correctMaxPoint.y()));
+    QMessageBox::information(this, QString::fromLocal8Bit("Правильный ответ!"), str, QMessageBox::Ok);
+}
+
 void MinMaxIntercectCheckDialog::getResult(QPointF minPoint, QPointF maxPoint, qreal minZ, qreal maxZ)
 {
     m_minZ = minZ;

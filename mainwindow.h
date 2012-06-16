@@ -34,6 +34,7 @@ private slots:
     void previousWidget();
     void on_resetButton_clicked();
     void on_toolButton_clicked();
+    void showHint();
 };
 
 #endif // MAINWINDOW_H

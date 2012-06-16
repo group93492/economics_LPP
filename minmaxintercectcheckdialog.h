@@ -22,6 +22,7 @@ public:
     qreal m_minZ;
     qreal m_maxZ;
     bool check();
+    void showHint();
     
 private:
     Ui::MinMaxIntercectCheckDialog *ui;

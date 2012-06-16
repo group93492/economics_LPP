@@ -16,6 +16,7 @@ class GraphDialog1 : public QWidget
 public:
     explicit GraphDialog1(QWidget *parent = 0);
     ~GraphDialog1();
+    void showHint();
     
 private:
     Ui::GraphDialog1 *ui;

@@ -16,6 +16,11 @@ GraphDialog1::~GraphDialog1()
     delete ui;
 }
 
+void GraphDialog1::showHint()
+{
+
+}
+
 void GraphDialog1::setCondition(double **array, quint8 rows)
 {
     m_array = array;

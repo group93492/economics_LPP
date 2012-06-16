@@ -23,7 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_textEdit->setMinimumWidth(250);
     m_textEdit->setMaximumWidth(250);
     //menu
-    ui->menu->addAction(QString::fromLocal8Bit("Режим преподавателя"));
+    ui->menu->addAction(QString::fromLocal8Bit("Правильный ответ"), this, SLOT(showHint()));
     ui->menu->addSeparator();
     ui->menu->addAction(QString::fromLocal8Bit("О программе"), aboutDialog, SLOT(show()));
     ui->menu->addAction(QString::fromLocal8Bit("О Qt"), qApp, SLOT(aboutQt()));
@@ -112,5 +112,42 @@ void MainWindow::on_toolButton_clicked()
         this->resize(this->width() - m_textEdit->width(), this->height());
         ui->additionalLayout->removeWidget(m_textEdit);
         m_textEdit->hide();
+    }
+}
+
+void MainWindow::showHint()
+{
+    switch(ui->stackedWidget->currentIndex())
+    {
+        case 2:
+        {
+            SolvedSystemDialog *dialog = dynamic_cast<SolvedSystemDialog*>(ui->stackedWidget->currentWidget());
+            dialog->showHint();
+            break;
+        }
+        case 4:
+        {
+            GraphDialog1 *dialog = dynamic_cast<GraphDialog1*>(ui->stackedWidget->currentWidget());
+            dialog->showHint();
+            break;
+        }
+        case 5:
+        {
+            GraphDialog2 *dialog = dynamic_cast<GraphDialog2*>(ui->stackedWidget->currentWidget());
+            dialog->showHint();
+            break;
+        }
+        case 6:
+        {
+            MinMaxIntercectCheckDialog *dialog = dynamic_cast<MinMaxIntercectCheckDialog*>(ui->stackedWidget->currentWidget());
+            dialog->showHint();
+            break;
+        }
+        default:
+        {
+            QMessageBox::information(this, QString::fromLocal8Bit("Уведомление"),
+                                    QString::fromLocal8Bit("На этом этапе нет правильных ответов!"), QMessageBox::Ok);
+            break;
+        }
     }
 }
