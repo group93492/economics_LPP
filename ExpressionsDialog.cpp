@@ -250,11 +250,11 @@ void ExpressionsDialog::on_nextButton_clicked()
     {
         QString str;
         if(flag)
-            str = QString::fromLocal8Bit("Эту систему можно решить!");
+            str = QString::fromLocal8Bit("ГќГІГі Г±ГЁГ±ГІГҐГ¬Гі Г¬Г®Г¦Г­Г® Г°ГҐГёГЁГІГј!");
         else
-            str = QString::fromLocal8Bit("Эту систему нельзя решить");
+            str = QString::fromLocal8Bit("ГќГІГі Г±ГЁГ±ГІГҐГ¬Гі Г­ГҐГ«ГјГ§Гї Г°ГҐГёГЁГІГј");
         emit userError();
-        if(QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"), str, QMessageBox::Ok) == QMessageBox::Ok)
+        if(QMessageBox::information(this, QString::fromLocal8Bit("ГЋГёГЁГЎГЄГЁ!"), str, QMessageBox::Ok) == QMessageBox::Ok)
             return;
     }
 }

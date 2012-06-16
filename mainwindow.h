@@ -10,6 +10,7 @@
 #include "GraphDialog1.h"
 #include "GraphDialog2.h"
 #include "minmaxintercectcheckdialog.h"
+#include "AboutDialog.h"
 
 namespace Ui {
 class MainWindow;

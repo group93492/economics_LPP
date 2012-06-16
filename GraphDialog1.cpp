@@ -29,8 +29,8 @@ void GraphDialog1::on_nextButton_clicked()
     if(!m_drawDialog->check())
     {
         emit userError();
-        QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"),
-                                    QString::fromLocal8Bit("Не верно выбрана область!"),
+        QMessageBox::information(this, QString::fromLocal8Bit("РћС€РёР±РєРё!"),
+                                    QString::fromLocal8Bit("РќРµ РІРµСЂРЅРѕ РІС‹Р±СЂР°РЅР° РѕР±Р»Р°СЃС‚СЊ!"),
                                     QMessageBox::Ok);
     }
     else

@@ -17,11 +17,11 @@ FinishDialog::~FinishDialog()
 void FinishDialog::addUserError()
 {
     m_error++;
-    ui->infLabel->setText(QString::fromLocal8Bit("Îøèáîê ñäåëàíî: ") + QString::number(m_error));
+    ui->infLabel->setText(QString::fromLocal8Bit("ÃŽÃ¸Ã¨Ã¡Ã®Ãª Ã±Ã¤Ã¥Ã«Ã Ã­Ã®: ") + QString::number(m_error));
 }
 
 void FinishDialog::reset()
 {
     m_error = 0;
-    ui->infLabel->setText(QString::fromLocal8Bit("Îøèáîê ñäåëàíî: ") + QString::number(m_error));
+    ui->infLabel->setText(QString::fromLocal8Bit("ÃŽÃ¸Ã¨Ã¡Ã®Ãª Ã±Ã¤Ã¥Ã«Ã Ã­Ã®: ") + QString::number(m_error));
 }

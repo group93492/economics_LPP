@@ -37,8 +37,8 @@ void GraphDialog2::replyResult(QPointF min, QPointF max)
 void GraphDialog2::on_nextButton_clicked()
 {
     if(!m_drawDialog->check())
-        QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"),
-                                    QString::fromLocal8Bit("Не верно выбран минимум или максимум функции Z!"),
+        QMessageBox::information(this, QString::fromLocal8Bit("РћС€РёР±РєРё!"),
+                                    QString::fromLocal8Bit("РќРµ РІРµСЂРЅРѕ РІС‹Р±СЂР°РЅ РјРёРЅРёРјСѓРј РёР»Рё РјР°РєСЃРёРјСѓРј С„СѓРЅРєС†РёРё Z!"),
                                     QMessageBox::Ok);
     else
         emit next();
