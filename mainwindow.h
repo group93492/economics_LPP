@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTextEdit>
 #include "ConditionDialog.h"
 #include "ExpressionsDialog.h"
 #include "SolvedSystemDialog.h"
@@ -26,11 +27,13 @@ public:
     
 private:
     Ui::MainWindow *ui;
+    QTextEdit *m_textEdit;
 
 private slots:
     void nextWidget();
     void previousWidget();
     void on_resetButton_clicked();
+    void on_toolButton_clicked();
 };
 
 #endif // MAINWINDOW_H

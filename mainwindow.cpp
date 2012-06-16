@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -16,7 +17,11 @@ MainWindow::MainWindow(QWidget *parent) :
     MinMaxIntercectCheckDialog *gdialog = new MinMaxIntercectCheckDialog();
     FinishDialog *zdialog = new FinishDialog();
     //
-    AboutDialog *aboutDialog = new AboutDialog;
+    AboutDialog *aboutDialog = new AboutDialog();
+    m_textEdit = new QTextEdit();
+    m_textEdit->hide();
+    m_textEdit->setMinimumWidth(250);
+    m_textEdit->setMaximumWidth(250);
     //menu
     ui->menu->addAction(QString::fromLocal8Bit("Режим преподавателя"));
     ui->menu->addSeparator();
@@ -88,4 +93,23 @@ void MainWindow::previousWidget()
 void MainWindow::on_resetButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
+}
+
+void MainWindow::on_toolButton_clicked()
+{
+    if(ui->toolButton->arrowType() == Qt::RightArrow)
+    {
+        ui->toolButton->setArrowType(Qt::LeftArrow);
+        this->resize(this->width() + m_textEdit->width(), this->height());
+        ui->additionalLayout->addWidget(m_textEdit);
+        m_textEdit->show();
+    }
+    else
+    {
+        this->setMinimumWidth(0);
+        ui->toolButton->setArrowType(Qt::RightArrow);
+        this->resize(this->width() - m_textEdit->width(), this->height());
+        ui->additionalLayout->removeWidget(m_textEdit);
+        m_textEdit->hide();
+    }
 }
