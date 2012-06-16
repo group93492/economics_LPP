@@ -10,6 +10,7 @@ GraphDialog2::GraphDialog2(QWidget *parent) :
     ui->paintLayout->insertWidget(1, m_drawDialog);
     connect(m_drawDialog, SIGNAL(userAnswerFalse()), SLOT(replyUserError()));
     connect(m_drawDialog, SIGNAL(result(QPointF,QPointF)), this, SLOT(replyResult(QPointF,QPointF)));
+//    ui->scaleSpinBox->setFocus();
 }
 
 GraphDialog2::~GraphDialog2()
@@ -19,6 +20,7 @@ GraphDialog2::~GraphDialog2()
 
 void GraphDialog2::setCondition(double **array, quint8 rows)
 {
+    ui->scaleSpinBox->setValue(1);
     m_drawDialog->drawTheProblem(array, rows);
 }
 
@@ -35,8 +37,8 @@ void GraphDialog2::replyResult(QPointF min, QPointF max)
 void GraphDialog2::on_nextButton_clicked()
 {
     if(!m_drawDialog->check())
-        QMessageBox::information(this, QString::fromLocal8Bit("ÐžÑˆÐ¸Ð±ÐºÐ¸!"),
-                                    QString::fromLocal8Bit("ÐÐµÐ²ÐµÑ€Ð½Ð¾ Ð²Ñ‹Ð±Ñ€Ð°Ð½ Ð¼Ð¸Ð½Ð¸Ð¼ÑƒÐ¼ Ð¸Ð»Ð¸ Ð¼Ð°ÐºÑÐ¸Ð¼ÑƒÐ¼!"),
+        QMessageBox::information(this, QString::fromLocal8Bit("Îøèáêè!"),
+                                    QString::fromLocal8Bit("Íå âåðíî âûáðàí ìèíèìóì èëè ìàêñèìóì ôóíêöèè Z!"),
                                     QMessageBox::Ok);
     else
         emit next();
@@ -47,7 +49,7 @@ void GraphDialog2::on_backButton_clicked()
     emit back();
 }
 
-void GraphDialog2::on_skaleSpinBox_valueChanged(double arg1)
+void GraphDialog2::on_scaleSpinBox_valueChanged(double arg1)
 {
     m_drawDialog->setScale(qreal(arg1));
 }

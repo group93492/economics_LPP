@@ -7,6 +7,7 @@ ExpressionsDialog::ExpressionsDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     m_doubleValidator = new QDoubleValidator();
+    m_doubleValidator->setDecimals(2);//2 digits after separator
 }
 
 ExpressionsDialog::~ExpressionsDialog()
@@ -147,12 +148,13 @@ bool ExpressionsDialog::Check(double **a, quint8 m, quint8 n)
 {
     bool flag1 = false;
     for(quint8 i = 0; i < m; i++)
-        if(a[0][0] != 0)
+        if(a[i][0] != 0)
             flag1 = true;
     bool flag2 = false;
     for(quint8 i = 0; i < m; i++)
-        if(a[0][1] != 0)
+        if(a[i][1] != 0)
             flag2 = true;
+    //
     if((n - Rank(a, m, n)) <= 2 && flag1 && flag2)
         return true;
     return false;
@@ -248,11 +250,11 @@ void ExpressionsDialog::on_nextButton_clicked()
     {
         QString str;
         if(flag)
-            str = QString::fromLocal8Bit("Ð­Ñ‚Ñƒ ÑÐ¸ÑÑ‚ÐµÐ¼Ñƒ Ð¼Ð¾Ð¶Ð½Ð¾ Ñ€ÐµÑˆÐ¸Ñ‚ÑŒ!");
+            str = QString::fromLocal8Bit("Ýòó ñèñòåìó ìîæíî ðåøèòü!");
         else
-            str = QString::fromLocal8Bit("Ð­Ñ‚Ñƒ ÑÐ¸ÑÑ‚ÐµÐ¼Ñƒ Ð½ÐµÐ»ÑŒÐ·Ñ Ñ€ÐµÑˆÐ¸Ñ‚ÑŒ");
+            str = QString::fromLocal8Bit("Ýòó ñèñòåìó íåëüçÿ ðåøèòü");
         emit userError();
-        if(QMessageBox::information(this, QString::fromLocal8Bit("ÐžÑˆÐ¸Ð±ÐºÐ°!"), str, QMessageBox::Ok) == QMessageBox::Ok)
+        if(QMessageBox::information(this, QString::fromLocal8Bit("Îøèáêè!"), str, QMessageBox::Ok) == QMessageBox::Ok)
             return;
     }
 }

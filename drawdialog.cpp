@@ -66,7 +66,7 @@ void DrawDialog::paintEvent(QPaintEvent *e)
     painter.translate(m_size.width(), m_size.height());
     painter.setRenderHint(QPainter::Antialiasing);
     //coordinate plain painting and set ordinary coordinate plain except of toQtY()
-    painter.setPen(Qt::red);//oY
+    painter.setPen(Qt::green);//oY
     painter.drawLine(QPoint(0, toQtY(-m_size.height())), QPoint(0, toQtY(m_size.height())));//axis
     painter.drawLine(QPoint(0, toQtY(m_size.height())), QPoint(-3, toQtY(m_size.height() - 5)));//arrow
     painter.drawLine(QPoint(0, toQtY(m_size.height())), QPoint(3, toQtY(m_size.height() - 5)));//arrow

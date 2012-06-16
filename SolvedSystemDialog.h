@@ -21,6 +21,7 @@ class SolvedSystemDialog : public QWidget
 public:
     explicit SolvedSystemDialog(QWidget *parent = 0);
     ~SolvedSystemDialog();
+    static double _round(double n);
 
 private:
     Ui::SolvedSystemDialog *ui;
@@ -35,7 +36,6 @@ private:
     void allocateMemory();
     void placeWidgets();
     void check();
-    double _round(double n);
 
 public slots:
     void setCondition(double *genExprArray, double** varArray, double *constArray, quint8 row, quint8 col);

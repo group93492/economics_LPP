@@ -17,11 +17,11 @@ FinishDialog::~FinishDialog()
 void FinishDialog::addUserError()
 {
     m_error++;
-    ui->infLabel->setText(QString::fromLocal8Bit("РћС€РёР±РѕРє СЃРґРµР»Р°РЅРѕ: ") + QString::number(m_error));
+    ui->infLabel->setText(QString::fromLocal8Bit("Ошибок сделано: ") + QString::number(m_error));
 }
 
 void FinishDialog::reset()
 {
     m_error = 0;
-    ui->infLabel->setText(QString::fromLocal8Bit("РћС€РёР±РѕРє СЃРґРµР»Р°РЅРѕ: ") + QString::number(m_error));
+    ui->infLabel->setText(QString::fromLocal8Bit("Ошибок сделано: ") + QString::number(m_error));
 }

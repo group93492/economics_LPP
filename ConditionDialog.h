@@ -21,6 +21,7 @@ private:
 signals:
     void next();
     void result(int var, int expr);
+
 private slots:
     void on_nextButton_clicked();
 };

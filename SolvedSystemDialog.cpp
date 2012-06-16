@@ -26,8 +26,8 @@ void SolvedSystemDialog::setCondition(double *genExprArray, double **varArray, d
             m_solvedArray[i][j] = _round(m_solvedArray[i][j]);
     if(!m_solvedArray)
     {
-        QMessageBox::information(this, QString::fromLocal8Bit("РћС€РёР±РєРё!"),
-                                 QString::fromLocal8Bit("Р­С‚Сѓ Р·Р°РґР°С‡Сѓ РЅРµР»СЊР·СЏ СЂРµС€РёС‚СЊ!"),
+        QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"),
+                                 QString::fromLocal8Bit("Эту систему нельзя решить!"),
                                     QMessageBox::Ok);
         emit back();
         return;
@@ -120,15 +120,15 @@ void SolvedSystemDialog::check()
         if(m_wArray.value(m_row)->value(i)->text().toDouble() != m_solvedArray[m_row][i])
         {
             if(i != 2)
-                result += QString::fromLocal8Bit("РћС€РёР±РєР° РІ %1, РїСЂР°РІРёР»СЊРЅРѕ: %2%3%4")
-                        .arg(QString::fromLocal8Bit("С„СѓРЅРєС†РёРё"))
+                result += QString::fromLocal8Bit("Ошибка в %1, правильно: %2%3%4")
+                        .arg(QString::fromLocal8Bit("функции"))
                         .arg(QString::number(m_solvedArray[m_row][i]))
                         .arg("X")
                         .arg("<span style=\" vertical-align:sub;\">" + QString::number(i + 1)+ "</span><br />");
             else
-                result += QString::fromLocal8Bit("РћС€РёР±РєР° РІ %1, РїСЂР°РІРёР»СЊРЅРѕ: %2%3%4")
-                        .arg(QString::fromLocal8Bit("С„СѓРЅРєС†РёРё"))
-                        .arg(QString::fromLocal8Bit("СЃРІРѕР±РѕРґРЅС‹Р№ С‡Р»РµРЅ = "))
+                result += QString::fromLocal8Bit("Ошибка в %1, правильно: %2%3%4")
+                        .arg(QString::fromLocal8Bit("функции"))
+                        .arg(QString::fromLocal8Bit("свободный член = "))
                         .arg(QString::number(m_solvedArray[m_row][i]))
                         .arg("<br />");
             emit userError();
@@ -139,15 +139,15 @@ void SolvedSystemDialog::check()
             if(m_wArray.value(i)->value(j)->text().toDouble() != m_solvedArray[i][j])
             {
                 if(j != 2)
-                    result += QString::fromLocal8Bit("РћС€РёР±РєР° РІ %1, РїСЂР°РІРёР»СЊРЅРѕ: %2%3%4 \n")
-                            .arg(QString::fromLocal8Bit("СѓСЂР°РІРЅРµРЅРёРё ") + QString::number(i + 1))
+                    result += QString::fromLocal8Bit("Ошибка в %1, правильно: %2%3%4 \n")
+                            .arg(QString::fromLocal8Bit("уравнении ") + QString::number(i + 1))
                             .arg(QString::number(m_solvedArray[i][j]))
                             .arg("X")
                             .arg("<span style=\" vertical-align:sub;\">" + QString::number(j + 1)+ "</span><br />");
                 else
-                    result += QString::fromLocal8Bit("РћС€РёР±РєР° РІ %1, РїСЂР°РІРёР»СЊРЅРѕ: %2%3%4 \n")
-                            .arg(QString::fromLocal8Bit("СѓСЂР°РІРЅРµРЅРёРё ") + QString::number(i + 1))
-                            .arg(QString::fromLocal8Bit("СЃРІРѕР±РѕРґРЅС‹Р№ С‡Р»РµРЅ = "))
+                    result += QString::fromLocal8Bit("Ошибка в %1,правильно: %2%3%4 \n")
+                            .arg(QString::fromLocal8Bit("уравнении ") + QString::number(i + 1))
+                            .arg(QString::fromLocal8Bit("свободный член = "))
                             .arg(QString::number(m_solvedArray[i][j]))
                             .arg("<br />");
                 emit userError();
@@ -155,7 +155,7 @@ void SolvedSystemDialog::check()
         }
     if(result.isNull())
         return;
-    if(QMessageBox::information(this, QString::fromLocal8Bit("РћС€РёР±РєРё!"), result, QMessageBox::Ok) == QMessageBox::Ok)
+    if(QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"), result, QMessageBox::Ok) == QMessageBox::Ok)
         return;
 }
 

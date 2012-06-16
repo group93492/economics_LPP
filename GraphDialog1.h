@@ -35,7 +35,7 @@ signals:
 private slots:
     void on_nextButton_clicked();
     void on_backButton_clicked();
-    void on_skaleSpinBox_valueChanged(double arg1);
+    void on_scaleSpinBox_valueChanged(double arg1);
 };
 
 #endif // GRAPHDIALOG1_H

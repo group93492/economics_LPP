@@ -17,8 +17,8 @@ public:
     explicit MinMaxIntercectCheckDialog(QWidget *parent = 0);
     ~MinMaxIntercectCheckDialog();
     QDoubleValidator *m_validator;
-    QPoint m_correctMinPoint;
-    QPoint m_correctMaxPoint;
+    QPointF m_correctMinPoint;
+    QPointF m_correctMaxPoint;
     void check();
     
 private:
