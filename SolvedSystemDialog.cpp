@@ -115,44 +115,45 @@ void SolvedSystemDialog::placeWidgets()
 
 bool SolvedSystemDialog::check()
 {
-    QString result;
-    for(quint8 i = 0; i < 3; i++)
-        if(m_wArray.value(m_row)->value(i)->text().toDouble() != m_solvedArray[m_row][i])
-        {
-            if(i != 2)
-                result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
-                        .arg(QString::fromLocal8Bit("функции"))
-                        .arg("X")
-                        .arg("<span style=\" vertical-align:sub;\">" + QString::number(i + 1)+ "</span><br />");
-            else
-                result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
-                        .arg(QString::fromLocal8Bit("функции"))
-                        .arg(QString::fromLocal8Bit("свободном члене"))
-                        .arg("<br />");
-            emit userError();
-        }
-    for(quint8 i = 0; i < m_row; i++)
-        for(quint8 j = 0; j < 3; j++)
-        {
-            if(m_wArray.value(i)->value(j)->text().toDouble() != m_solvedArray[i][j])
-            {
-                if(j != 2)
-                    result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
-                            .arg(QString::fromLocal8Bit("уравнении ") + QString::number(i + 1))
-                            .arg("X")
-                            .arg("<span style=\" vertical-align:sub;\">" + QString::number(j + 1)+ "</span><br />");
-                else
-                    result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
-                            .arg(QString::fromLocal8Bit("уравнении ") + QString::number(i + 1))
-                            .arg(QString::fromLocal8Bit("свободном члене"))
-                            .arg("<br />");
-                emit userError();
-            }
-        }
-    if(result.isNull())
-        return true;
-    QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"), result, QMessageBox::Ok);
-    return false;
+//    QString result;
+//    for(quint8 i = 0; i < 3; i++)
+//        if(m_wArray.value(m_row)->value(i)->text().toDouble() != m_solvedArray[m_row][i])
+//        {
+//            if(i != 2)
+//                result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
+//                        .arg(QString::fromLocal8Bit("функции"))
+//                        .arg("X")
+//                        .arg("<span style=\" vertical-align:sub;\">" + QString::number(i + 1)+ "</span><br />");
+//            else
+//                result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
+//                        .arg(QString::fromLocal8Bit("функции"))
+//                        .arg(QString::fromLocal8Bit("свободном члене"))
+//                        .arg("<br />");
+//            emit userError();
+//        }
+//    for(quint8 i = 0; i < m_row; i++)
+//        for(quint8 j = 0; j < 3; j++)
+//        {
+//            if(m_wArray.value(i)->value(j)->text().toDouble() != m_solvedArray[i][j])
+//            {
+//                if(j != 2)
+//                    result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
+//                            .arg(QString::fromLocal8Bit("уравнении ") + QString::number(i + 1))
+//                            .arg("X")
+//                            .arg("<span style=\" vertical-align:sub;\">" + QString::number(j + 1)+ "</span><br />");
+//                else
+//                    result += QString::fromLocal8Bit("Ошибка в %1 в %2%3")
+//                            .arg(QString::fromLocal8Bit("уравнении ") + QString::number(i + 1))
+//                            .arg(QString::fromLocal8Bit("свободном члене"))
+//                            .arg("<br />");
+//                emit userError();
+//            }
+//        }
+//    if(result.isNull())
+//        return true;
+//    QMessageBox::information(this, QString::fromLocal8Bit("Ошибки!"), result, QMessageBox::Ok);
+//    return false;
+    return true;
 }
 
 double SolvedSystemDialog::_round(double n)

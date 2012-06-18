@@ -3,6 +3,9 @@
 #include <QStaticText>
 #include <QLineF>
 #include <qmath.h>
+#include <vector>
+#include <QDebug>
+#include "SolvedSystemDialog.h"
 
 MinMaxDrawDialog::MinMaxDrawDialog(const QSize size, QWidget *parent) :
     QWidget(parent),
@@ -302,7 +305,7 @@ QLinkedList<QPair<QPointF, QPointF> > MinMaxDrawDialog::findSolutionPolygon(QLin
                 isNeedToAdd = false;
                 break;
             }
-        if(isNeedToAdd)
+        if(isNeedToAdd && !result.contains((*itrPoint)))
             result << *itrPoint;
     }
     return result;
@@ -342,19 +345,52 @@ void MinMaxDrawDialog::resetAllChanges()
     foreach(GraphicElement *itr, m_whatToDrawList)
         itr->~GraphicElement();
     m_whatToDrawList.clear();
+//    m_solutionPoints.clear();
     m_scale = 1.0;
     m_drawMinMax = false;
 }
 
 void MinMaxDrawDialog::drawTheProblem(double **array, quint8 rowsCount)
 {
+    qreal
     resetAllChanges();
     for(quint8 currentRow = 0; currentRow < rowsCount - 1; ++currentRow)
-    {
         drawLine(array[currentRow][0], array[currentRow][1], array[currentRow][2]);
-    }
     Zfunction = DrawLine(array[rowsCount - 1][0], array[rowsCount - 1][1], array[rowsCount - 1][2]);
-    m_solutionPoints = findSolutionPolygon(&m_whatToDrawList);
+
+    QLinkedList<QPair<QPointF, QPointF> > solutionPoints = findSolutionPolygon(&m_whatToDrawList);
+    for(QLinkedList<QPair<QPointF, QPointF> >::iterator itr = solutionPoints.begin();
+        itr != solutionPoints.end(); ++itr)
+        qDebug() << (*itr);
+    std::vector<std::pair<double, double> > solutionStdVector1;
+    for(QLinkedList<QPair<QPointF, QPointF> >::iterator itr = solutionPoints.begin();
+        itr != solutionPoints.end(); ++itr)
+        solutionStdVector1.push_back(std::make_pair((*itr).second.x(), (*itr).second.y()));
+    for(quint8 itr1 = 0; itr1 < rowsCount; itr1++)
+            qDebug() << array[itr1][0] << array[itr1][1] << array[itr1][2];
+    qDebug() << "std1 size" << solutionStdVector1.size();
+    for(std::vector<std::pair<double, double> >::iterator itrVector = solutionStdVector1.begin();
+        itrVector != solutionStdVector1.end();
+        ++itrVector)
+        qDebug() << (*itrVector).first << (*itrVector).second;
+    std::vector<std::pair<double, double> > solutionStdVector = ordering(solutionStdVector1, array, rowsCount);
+    qDebug() << "std size " << solutionStdVector.size();
+    for(std::vector<std::pair<double, double> >::iterator itrVector = solutionStdVector.begin();
+        itrVector != solutionStdVector.end();
+        ++itrVector)
+    {
+//        QLinkedList<QPair<QPointF, QPointF> >::iterator itrQVector = solutionPoints.begin();
+//        while((*itrQVector).second.x() != (*itrVector).first &&
+//              (*itrQVector).second.y() != (*itrVector).second)
+//            ++itrQVector;
+//        m_solutionPoints << (*itrQVector);
+//        solutionPoints.erase(itrQVector);
+        qDebug() << (*itrVector).first << (*itrVector).second;
+    }
+    for(QLinkedList<QPair<QPointF, QPointF> >::iterator itr = m_solutionPoints.begin();
+        itr != m_solutionPoints.end();
+        ++itr)
+        qDebug() << (*itr);
     findMin();
     findMax();
     nextMin();
@@ -362,6 +398,138 @@ void MinMaxDrawDialog::drawTheProblem(double **array, quint8 rowsCount)
     m_drawMinMax = true;
     update();
     m_resetAllChanges = false;
+}
+
+std::vector<std::pair<double, double> > MinMaxDrawDialog::ordering(std::vector<std::pair<double, double> > points, double **oldKoef, int n)
+{
+//    qDebug() << "points: ";
+//    for(std::vector<std::pair<double, double> >::iterator itrVector = points.begin();
+//        itrVector != points.end();
+//        ++itrVector)
+//        qDebug() << (*itrVector).first << (*itrVector).second;
+//    n += 2;
+//    double **koef = new double *[n];
+//    for (int i = 0; i < n; i++)
+//        koef[i] = new double [3];
+//    for (int i = 0; i < n - 3; i++)
+//        for (int j = 0; j < 3; j++)
+//            koef[i][j] = oldKoef[i][j];
+//    koef[n - 3][0] = 1; koef[n - 3][1] = 0; koef[n - 3][2] = 0;
+//    koef[n - 2][0] = 0; koef[n - 2][1] = 1; koef[n - 2][2] = 0;
+//    koef[n - 1][0] = oldKoef[n - 3][0]; koef[n - 1][1] = oldKoef[n - 3][1]; koef[n - 1][2] = oldKoef[n - 3][2];
+
+//    int indexPoint = 1;
+//    int indexLine;
+
+//    for (int i = 0; i < n - 1; i++)
+//        if (!(koef[i][0] * points[0].first + koef[i][1] * points[0].second + koef[i][2]))
+//        {
+//            indexLine = i;
+//            break;
+//        }
+//    qDebug() << "koef array: ";
+//    for(int itr = 0; itr < n; itr++)
+//        qDebug() <<  koef[itr][0] << koef[itr][1] << koef[itr][2];
+//    while (indexPoint != points.size() - 1)
+//    {
+//        bool check = false;
+//        for (int i = indexPoint; i < points.size(); i++)
+//            if (!(koef[indexLine][0] * points[i].first + koef[indexLine][1] * points[i].second + koef[indexLine][2]))
+//            {
+//                std::pair<double, double> temp = points[indexPoint];
+//                points[indexPoint] = points[i];
+//                points[i] = temp;
+//                indexPoint++;
+//                check = true;
+//                break;
+//            }
+//        if (!check)
+//        {
+//            std::vector<std::pair<double, double> > re;
+//            qDebug() << points[indexPoint].first << points[indexPoint].second;
+//             qDebug() <<  koef[indexLine][0] << koef[indexLine][1] << koef[indexLine][2];
+//            return re;
+//        }
+//        for (int i = 0; i < n - 1; i++)
+//            if ((i != indexLine) && !(koef[i][0] * points[indexPoint - 1].first + koef[i][1] * points[indexPoint - 1].second + koef[i][2]))
+//            {
+//                indexLine = i;
+//                break;
+//            }
+//    }
+//    for (int i = 0; i < n; i++)
+//        delete [] koef[i];
+//    delete [] koef;
+
+//    return points;
+    n += 2;
+    double **koef = new double *[n];  //Создание нового массива с уравнениями координатных осей
+    for (int i = 0; i < n; i++)
+        koef[i] = new double [3];
+    for (int i = 0; i < n - 3; i++)
+        for (int j = 0; j < 3; j++)
+            koef[i][j] = oldKoef[i][j];
+    koef[n - 3][0] = 1; koef[n - 3][1] = 0; koef[n - 3][2] = 0;
+    koef[n - 2][0] = 0; koef[n - 2][1] = 1; koef[n - 2][2] = 0;
+    koef[n - 1][0] = oldKoef[n - 3][0]; koef[n - 1][1] = oldKoef[n - 3][1]; koef[n - 1][2] = oldKoef[n - 3][2];
+
+    int indexPoint = 1; //индекс следающая перемещаемой точки
+    int indexLine;  // индекс прямой на которой лежит перемещаемая точка
+
+    qDebug() << "koefs 1: ";
+    for (int i = 0; i < n - 1; i++)  //нахождение прямой на которой лежит первая точка
+    {
+        qDebug() << koef[i][0] * points[0].first + koef[i][1] * points[0].second + koef[i][2] <<
+                    (koef[i][0] * points[0].first + koef[i][1] * points[0].second + koef[i][2] == 0) <<
+                    SolvedSystemDialog::_round(koef[i][0] * points[0].first + koef[i][1] * points[0].second + koef[i][2]);
+        if (!SolvedSystemDialog::_round(koef[i][0] * points[0].first + koef[i][1] * points[0].second + koef[i][2]))
+        {
+            indexLine = i;
+            break;
+        }
+    }
+
+    while (indexPoint != points.size()) //пока следующая перемещаяемая точка не последняя
+    {
+        bool check = false;
+        qDebug() << "koef2 :";
+        for (int i = indexPoint; i < points.size(); i++)
+        {
+            qDebug() << koef[indexLine][0] * points[i].first + koef[indexLine][1] * points[i].second + koef[indexLine][2] <<
+                        (koef[indexLine][0] * points[i].first + koef[indexLine][1] * points[i].second + koef[indexLine][2] == 0) <<
+                        SolvedSystemDialog::_round(koef[indexLine][0] * points[i].first + koef[indexLine][1] * points[i].second + koef[indexLine][2]);
+            if (!SolvedSystemDialog::_round(koef[indexLine][0] * points[i].first + koef[indexLine][1] * points[i].second + koef[indexLine][2]))
+            {
+                std::pair<double, double> temp = points[indexPoint];
+                points[indexPoint] = points[i];
+                points[i] = temp;
+                indexPoint++;
+                check = true;
+                break;
+            }
+        }
+        if (!check)
+        {
+            std::vector<std::pair<double, double> > re;
+            return re;
+        }
+        qDebug() << "koef3 :";
+        for (int i = 0; i < n - 1; i++)
+        {
+            qDebug() << koef[i][0] * points[indexPoint - 1].first + koef[i][1] * points[indexPoint - 1].second + koef[i][2] <<
+                        (koef[i][0] * points[indexPoint - 1].first + koef[i][1] * points[indexPoint - 1].second + koef[i][2] == 0) <<
+                        SolvedSystemDialog::_round(koef[i][0] * points[indexPoint - 1].first + koef[i][1] * points[indexPoint - 1].second + koef[i][2]);
+            if ((i != indexLine) && !SolvedSystemDialog::_round(koef[i][0] * points[indexPoint - 1].first + koef[i][1] * points[indexPoint - 1].second + koef[i][2]))
+            {
+                indexLine = i;
+                break;
+            }
+        }
+    }
+    for (int i = 0; i < n; i++)
+        delete []koef[i];
+    delete []koef;
+    return points;
 }
 
 void MinMaxDrawDialog::nextMin()

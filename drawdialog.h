@@ -38,6 +38,7 @@ private:
     bool ifDotIsSolution(QPointF clickedDot);
     QPolygonF *findSolutionPolygon(QLinkedList<GraphicElement *> *drawList);
     void resetAllChanges();
+    static std::vector<std::pair<double, double> > Ordering(std::vector<std::pair<double, double> > points, double **oldKoef, int n);
 
 public:
     explicit DrawDialog(QWidget *parent = 0);
@@ -55,6 +56,7 @@ protected:
 public slots:
     void drawTheProblem(double **array, quint8 rowsCount);
     bool check();
+    void setCorrectAnswer();
 
 signals:
     void firstClick(); //emited after first click on widget

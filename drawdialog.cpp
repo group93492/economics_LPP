@@ -264,6 +264,11 @@ bool DrawDialog::check()
     return m_userAnswer;
 }
 
+void DrawDialog::setCorrectAnswer()
+{
+
+}
+
 qreal DrawDialog::toQtY(qreal Y)
 {
     return -Y;

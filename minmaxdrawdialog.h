@@ -43,6 +43,7 @@ private:
     QLinkedList<QPair<QPointF, QPointF> > findSolutionPolygon(QLinkedList<GraphicElement *> *drawList);
     void resetAllChanges();
     bool m_resetAllChanges;
+    static std::vector<std::pair<double, double> > ordering(std::vector<std::pair<double, double> > points, double **oldKoef, int n);
 
 public:
     explicit MinMaxDrawDialog(QWidget *parent = 0);
