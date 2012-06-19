@@ -18,12 +18,13 @@ MainWindow::MainWindow(QWidget *parent) :
     FinishDialog *zdialog = new FinishDialog();
     //
     AboutDialog *aboutDialog = new AboutDialog();
+    PasswordDialog *passDialog = new PasswordDialog();
     m_textEdit = new QTextEdit();
     m_textEdit->hide();
     m_textEdit->setMinimumWidth(250);
     m_textEdit->setMaximumWidth(250);
     //menu
-    ui->menu->addAction(QString::fromLocal8Bit("Правильный ответ"), this, SLOT(showHint()));
+    ui->menu->addAction(QString::fromLocal8Bit("Правильный ответ"), passDialog, SLOT(show()));
     ui->menu->addSeparator();
     ui->menu->addAction(QString::fromLocal8Bit("О программе"), aboutDialog, SLOT(show()));
     ui->menu->addAction(QString::fromLocal8Bit("О Qt"), qApp, SLOT(aboutQt()));
@@ -74,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(ui->resetButton, SIGNAL(clicked()), zdialog, SLOT(reset()));
     connect(ui->quitButton, SIGNAL(clicked()), qApp, SLOT(quit()));
+    connect(passDialog, SIGNAL(accept()), this, SLOT(showHint()));
 }
 
 MainWindow::~MainWindow()

@@ -23,7 +23,8 @@ SOURCES += main.cpp\
     GraphDialog2.cpp \
     GraphDialog1.cpp \
     minmaxintercectcheckdialog.cpp \
-    AboutDialog.cpp
+    AboutDialog.cpp \
+    PasswordDialog.cpp
 
 HEADERS  += mainwindow.h \
     ConditionDialog.h \
@@ -37,7 +38,8 @@ HEADERS  += mainwindow.h \
     GraphDialog2.h \
     GraphDialog1.h \
     minmaxintercectcheckdialog.h \
-    AboutDialog.h
+    AboutDialog.h \
+    PasswordDialog.h
 
 FORMS    += mainwindow.ui \
     ConditionDialog.ui \
@@ -50,4 +52,5 @@ FORMS    += mainwindow.ui \
     GraphDialog2.ui \
     GraphDialog1.ui \
     minmaxintercectcheckdialog.ui \
-    AboutDialog.ui
+    AboutDialog.ui \
+    PasswordDialog.ui
