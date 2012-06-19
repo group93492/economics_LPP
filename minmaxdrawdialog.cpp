@@ -389,6 +389,13 @@ void MinMaxDrawDialog::nextMax()
     update();
 }
 
+void MinMaxDrawDialog::setCorrectAnswer()
+{
+    m_minLineUserAnswer = m_minLineAnswer;
+    m_maxLineUserAnswer = m_maxLineAnswer;
+    update();
+}
+
 bool MinMaxDrawDialog::check()
 {
     bool flag = true;

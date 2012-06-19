@@ -61,6 +61,7 @@ public slots:
     void drawTheProblem(double **array, quint8 rowsCount);
     void nextMin();
     void nextMax();
+    void setCorrectAnswer();
 
 signals:
     void userAnswerFalse();

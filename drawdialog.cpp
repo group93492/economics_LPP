@@ -197,6 +197,88 @@ void DrawDialog::mousePressEvent(QMouseEvent *e)
     update();
 }
 
+void DrawDialog::setCorrectAnswer()
+{
+    qreal x = 0, y = 0;
+    QLinkedList<QPair<QPointF, QPointF> > solutionPoints = findSolutionPolygon(&m_whatToDrawList);
+    for(QLinkedList<QPair<QPointF, QPointF> >::iterator itr = solutionPoints.begin();
+        itr != solutionPoints.end();
+        ++itr)
+    {
+        x += (*itr).first.x();
+        y += (*itr).first.y();
+    }
+    x /= solutionPoints.size();
+    y /= solutionPoints.size();
+    m_userClickPoint.rx() = x;
+    m_userClickPoint.ry() = y;
+    m_firstClickOccured = true;
+    m_userAnswer = true;
+    update();
+}
+
+QLinkedList<QPair<QPointF, QPointF> > DrawDialog::findSolutionPolygon(QLinkedList<GraphicElement *> *drawList)
+{
+    Q_ASSERT(drawList->size() >= 2);
+    QLinkedList<DrawLine> allLines;
+    //oX and oY axes
+    allLines << DrawLine(1, 0, 0);
+    allLines << DrawLine(0, 1, 0);
+    //collect all lines
+    foreach(GraphicElement *itr, *drawList)
+    {
+        switch(itr->m_ElementType)
+        {
+        case GraphicElement::Line:
+            const DrawLine *Line = dynamic_cast<const DrawLine *>(itr);
+            if(Line->a == 0 && Line->b == 0)
+            {
+                drawList->removeOne(const_cast<GraphicElement *>(itr));
+                //такого не может быть
+            }
+            else
+                allLines << DrawLine(Line->a, Line->b, Line->c);
+            break;
+        }
+    }
+    QLinkedList<QPair<QPointF, QPointF> > pointList;//one is scaled point for drawing and another is original for checking
+    //collect all intersect points
+    for(QLinkedList<DrawLine>::const_iterator itr = allLines.begin(); itr != (allLines.end() - 1); ++itr)
+        for(QLinkedList<DrawLine>::const_iterator itr2 = itr + 1; itr2 != allLines.end(); ++itr2)
+        {
+            QPair<QPointF, QPointF> currentInterceptPoints;
+            if(getQLine(*itr).intersect(getQLine(*itr2), &currentInterceptPoints.first) != QLineF::NoIntersection &&
+                    getOrdinaryLine(*itr).intersect(getOrdinaryLine(*itr2), &currentInterceptPoints.second) != QLineF::NoIntersection)
+            {
+                    pointList << currentInterceptPoints;
+//                    qDebug() << currentInterceptPoints.first << " || " << currentInterceptPoints.second;
+            }
+        }
+    QLinkedList<QPair<QPointF, QPointF> > result;
+    //substitude all points to each equation and exclude point if equaction will NOT be >= 0
+    //pop out axes which we used early
+    allLines.removeFirst();
+    allLines.removeFirst();
+    for(QLinkedList<QPair<QPointF, QPointF> >::iterator itrPoint = pointList.begin(); itrPoint != pointList.end(); ++itrPoint)
+    {
+        bool isNeedToAdd = true;
+        foreach(const DrawLine Line, allLines)
+            if(qRound((Line.a * (*itrPoint).second.x() + Line.b * (*itrPoint).second.y() + Line.c) * 1000000) / 1000000 < 0 ||
+                    (*itrPoint).second.x() < 0 ||
+                    (*itrPoint).second.y() < 0)
+            {
+//                qDebug() << "break" << Line.a << Line.b << Line.c << " = " <<
+//                            (Line.a * qRound((*itrPoint).second.x() + Line.b * (*itrPoint).second.y() + Line.c) * 1000) / 1000 <<
+//                            " ||| " << (*itrPoint).first << " || " << (*itrPoint).second;
+                isNeedToAdd = false;
+                break;
+            }
+        if(isNeedToAdd && !result.contains((*itrPoint)))
+            result << *itrPoint;
+    }
+    return result;
+}
+
 QLineF DrawDialog::getQLine(DrawLine Line)
 {
     if(Line.a == 0 && Line.b == 0)
