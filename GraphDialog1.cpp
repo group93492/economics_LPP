@@ -18,7 +18,7 @@ GraphDialog1::~GraphDialog1()
 
 void GraphDialog1::showHint()
 {
-
+    m_drawDialog->setCorrectAnswer();
 }
 
 void GraphDialog1::setCondition(double **array, quint8 rows)

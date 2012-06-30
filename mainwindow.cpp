@@ -127,12 +127,12 @@ void MainWindow::showHint()
             dialog->showHint();
             break;
         }
-        case 4:
-        {
-            GraphDialog1 *dialog = dynamic_cast<GraphDialog1*>(ui->stackedWidget->currentWidget());
-            dialog->showHint();
-            break;
-        }
+//        case 4:
+//        {
+//            GraphDialog1 *dialog = dynamic_cast<GraphDialog1*>(ui->stackedWidget->currentWidget());
+//            dialog->showHint();
+//            break;
+//        }
         case 5:
         {
             GraphDialog2 *dialog = dynamic_cast<GraphDialog2*>(ui->stackedWidget->currentWidget());

@@ -20,7 +20,7 @@ GraphDialog2::~GraphDialog2()
 
 void GraphDialog2::showHint()
 {
-
+    m_drawDialog->setCorrectAnswer();
 }
 
 void GraphDialog2::setCondition(double **array, quint8 rows)
